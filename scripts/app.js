@@ -3,9 +3,9 @@
    Two responsibilities:
 
    1) Lock page scroll while the intro is animating, then release.
-      The intro layer rolls up at t=4.3s (see sections/intro.css),
-      so the document is unfrozen at t=5.4s — half a second of
-      buffer for the animation easing tail.
+      The intro layer rolls up at t=3.7s (see sections/intro.css),
+      so the document is unfrozen at t=4.8s — 100 ms past the end
+      of the 1 s roll-up animation.
 
    2) Toggle reveal classes on sections as they scroll into view.
       Each section's CSS gates its animations behind a `.revealed`
@@ -22,7 +22,7 @@
   document.documentElement.style.overflow = "hidden";
   setTimeout(function () {
     document.documentElement.style.overflow = "";
-  }, 5400);
+  }, 4800);
 
   // ---------- 2. Section reveals via IntersectionObserver ----------
   var io = new IntersectionObserver(function (entries) {

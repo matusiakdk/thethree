@@ -10,26 +10,38 @@
   position: fixed;
   inset: 0;
   z-index: 10;
+  /* overflow:hidden so the oversized <video> (min-width/min-height 100%)
+     stays contained within the splash and doesn't bleed onto the page. */
+  overflow: hidden;
   /* Sage backup behind the video. If the 16 MB intro video hasn't
      buffered yet (slow connection, Low Power Mode, Data Saver), the
      <video> renders empty/transparent and the page content shows
      through. The accent fill keeps the splash opaque and on-brand
      until the video catches up — and rolls up with the rest. */
   background: var(--accent);
-  animation: roll-up 1s cubic-bezier(0.76, 0, 0.24, 1) 4.3s forwards;
+  animation: roll-up 1s cubic-bezier(0.76, 0, 0.24, 1) 3.7s forwards;
 }
 
 @keyframes roll-up {
   to { transform: translateY(-100%); }
 }
 
-/* Note: scoped to <video> globally — only the intro uses <video> currently */
+/* Note: scoped to <video> globally — only the intro uses <video> currently.
+   iOS WebKit has a long-standing object-fit bug on <video> where the element
+   honors its intrinsic aspect ratio even with width/height 100%, leaving
+   letterbox bands of the .intro background showing top/bottom. The centered
+   min-width/min-height trick sidesteps it: the video is forced to fill BOTH
+   dimensions, scaling up so one axis overflows, and the overflow is cropped
+   by .intro's overflow:hidden. */
 video {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
   display: block;
 }
 
