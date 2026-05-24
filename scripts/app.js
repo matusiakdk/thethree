@@ -73,6 +73,10 @@
   var prevArrow = document.querySelector(".cards-arrow--prev");
   var nextArrow = document.querySelector(".cards-arrow--next");
   if (cardsEl && prevArrow && nextArrow) {
+    // Safety net: even with scroll-snap-align:start, some browsers
+    // may restore scroll position from history on reload. Force the
+    // carousel to land on Aisha (first card) every time.
+    cardsEl.scrollLeft = 0;
     var stepSize = function () {
       var firstCard = cardsEl.querySelector(".card");
       if (!firstCard) return 0;
