@@ -195,3 +195,10 @@
   color: var(--muted);
   max-width: 30em;
 }
+
+/* The leading question sits on its own line so the sage call-to-action
+   ("Open your own session") on the next line reads as the answer. */
+.how-extra__q {
+  display: block;
+  margin-bottom: 0.5em;
+}
