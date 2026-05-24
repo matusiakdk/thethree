@@ -29,7 +29,10 @@
      conveyed in the headline and the dedicated Who/Why sections; on a
      narrow screen this label fights the headline for top space. */
   .kicker { display: none; }
-  .tagline { font-size: 5vw; margin-top: 4vw; }
+  /* H2 (.tagline) was 5vw — too close to H1 (9.5vw) on mobile, the two
+     read as the same weight and the hierarchy flattened. 4vw opens a real
+     gap so the eye gets H1 (large) → tagline (mid) → sub (small). */
+  .tagline { font-size: 4vw; margin-top: 4vw; }
   .sub { font-size: 3.7vw; max-width: 92%; margin-top: 5vw; }
   /* Hero's bottom-right "Different industries..." block was the diagonal
      companion to the headline on desktop. On mobile the diagonal layout
