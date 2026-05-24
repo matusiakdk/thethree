@@ -29,8 +29,10 @@ body {
   scroll-margin-top: 8vh;
 }
 
-/* Inline emphasis used inside body copy (e.g. `<span class="key">`) */
+/* Inline emphasis used inside body copy.
+   .key brightens muted text to ink (cream); .accent paints it sage. */
 .key { color: var(--ink); }
+.accent { color: var(--accent); }
 
 /* ---------- Shared animation keyframes ----------
    Used by multiple sections. Defined once here so the section
