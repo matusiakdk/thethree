@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy &mdash; The Three</title>
+
+  <!--
+    Subset of font preloads — only the families used by this page.
+    Headings use Gordita, body copy uses Neue Montreal.
+  -->
+  <link rel="preload" href="assets/fonts/gordita-light.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/gordita.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/neue-montreal.woff2" as="font" type="font/woff2" crossorigin />
+
+  <link rel="stylesheet" href="styles/tokens.css" />
+  <link rel="stylesheet" href="styles/base.css" />
+  <link rel="stylesheet" href="styles/privacy.css" />
+</head>
+<body class="privacy-body">
+
+  <!-- Persistent back link — top-left, always visible while scrolling. -->
+  <a class="privacy__back" href="/">&larr; Back</a>
+
+  <main class="privacy">
+    <header class="privacy__head">
+      <h1 class="privacy__title">Privacy Policy</h1>
+      <p class="privacy__updated">Last updated: 24 May 2026</p>
+      <!-- TODO before launch: replace date with actual publication day. -->
+    </header>
+
+    <section class="privacy__section">
+      <h2 class="privacy__h2"><span class="privacy__num">1.</span> Who we are</h2>
+      <p>The Three (&ldquo;we&rdquo;, &ldquo;us&rdquo;, &ldquo;our&rdquo;) operates this website and waitlist. The waitlist is run by Dominika Matusiak, based in London, United Kingdom. For any questions about this policy or your data, contact us at <a href="mailto:hello@thethree.com">hello@thethree.com</a>.</p>
+    </section>
+
+    <section class="privacy__section">
+      <h2 class="privacy__h2"><span class="privacy__num">2.</span> What this policy covers</h2>
+      <p>This policy explains what personal data we collect through our waitlist website at thethree.club, why we collect it, how we use it, and what rights you have. It applies only to the waitlist, not to any future product or service.</p>
+    </section>
+
+    <section class="privacy__section">
+      <h2 class="privacy__h2"><span class="privacy__num">3.</span> What data we collect</h2>
+      <p>When you join the waitlist, we collect:</p>
+      <ul>
+        <li>Your email address</li>
+        <li>Optionally, if you complete the follow-up form: your first name, the stage of your business, your industry, your country, and how you heard about us</li>
+      </ul>
+      <p>We do not use advertising or tracking cookies, and we do not track your activity across other websites.</p>
+      <!-- TODO before launch: confirm with tech owner that nothing else is stored beyond form fields + timestamp. -->
+    </section>
+
+    <section class="privacy__section">
+      <h2 class="privacy__h2"><span class="privacy__num">4.</span> Why we collect it and our legal basis</h2>
+      <p>We use your data to:</p>
+      <ul>
+        <li>Contact you when The Three opens, and send you updates about the launch</li>
+        <li>Understand who is interested, so we can plan how and where to launch</li>
+      </ul>
+      <p>We process this data on the basis of your consent, which you give when you submit the form. You can withdraw that consent at any time (see section 8).</p>
+      <!-- TODO before launch: lawyer to confirm legal basis under UK GDPR, EU GDPR and UAE law. -->
+    </section>
+
+    <section class="privacy__section">
+      <h2 class="privacy__h2"><span class="privacy__num">5.</span> Where your data is stored</h2>
+      <p>Your data is stored securely with Supabase, our database provider, on servers located in London, United Kingdom. Access is limited to the people running The Three. We do not sell your data, and we do not share it with third parties for their own marketing.</p>
+    </section>
+
+    <section class="privacy__section">
+      <h2 class="privacy__h2"><span class="privacy__num">6.</span> International transfers and applicable law</h2>
+      <p>We are based in the United Kingdom and market The Three primarily in the United Arab Emirates, so we collect data from people in the UK, the UAE, the European Union and elsewhere. Data collected is stored in the United Kingdom.</p>
+      <!-- TODO before launch: lawyer to draft cross-border transfer language (UAE/EU to UK) and name applicable legal regimes. -->
+    </section>
+
+    <section class="privacy__section">
+      <h2 class="privacy__h2"><span class="privacy__num">7.</span> How long we keep it</h2>
+      <p>We keep your data only as long as needed to launch The Three and contact you about it. If The Three does not launch, or if you ask us to remove your data, we will delete it.</p>
+      <!-- TODO before launch: lawyer to confirm a specific maximum retention period. -->
+    </section>
+
+    <section class="privacy__section">
+      <h2 class="privacy__h2"><span class="privacy__num">8.</span> Your rights</h2>
+      <p>You can ask us at any time to:</p>
+      <ul>
+        <li>See what data we hold about you</li>
+        <li>Correct it if it is wrong</li>
+        <li>Delete it entirely</li>
+        <li>Stop contacting you, or withdraw your consent</li>
+      </ul>
+      <p>To do any of these, email <a href="mailto:hello@thethree.com">hello@thethree.com</a> and we will action it.</p>
+      <!-- TODO before launch: lawyer to add right-to-complain wording + name the supervisory authority. -->
+    </section>
+
+    <section class="privacy__section">
+      <h2 class="privacy__h2"><span class="privacy__num">9.</span> If The Three becomes a product</h2>
+      <p>If The Three launches as a paid product, we will publish a fuller privacy policy at that point. We will not move your waitlist data into the product without letting you know first.</p>
+    </section>
+
+    <section class="privacy__section">
+      <h2 class="privacy__h2"><span class="privacy__num">10.</span> Children</h2>
+      <p>The Three is intended for adults running or building businesses. We do not knowingly collect data from anyone under 18.</p>
+    </section>
+
+    <section class="privacy__section">
+      <h2 class="privacy__h2"><span class="privacy__num">11.</span> Changes to this policy</h2>
+      <p>If we change this policy, we will update the date at the top.</p>
+    </section>
+
+    <section class="privacy__section">
+      <h2 class="privacy__h2"><span class="privacy__num">12.</span> Contact</h2>
+      <p>Questions about your data or this policy: <a href="mailto:hello@thethree.com">hello@thethree.com</a></p>
+    </section>
+
+    <footer class="privacy__foot">
+      <a class="privacy__back-bottom" href="/">&larr; Back to The Three</a>
+    </footer>
+  </main>
+</body>
+</html>

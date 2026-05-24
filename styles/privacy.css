@@ -1,0 +1,196 @@
+/* ============================================================
+   privacy.css
+   Privacy Policy page. Inherits tokens (colors, fonts) and base
+   (reset, body). Layout-specific rules only — no animations,
+   no chrome from the home page (no nav, no logo). One full-width
+   column with a fixed Back link top-left.
+   ============================================================ */
+
+.privacy-body {
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+/* ----- Back link ----- */
+/* Fixed so it stays reachable while the user scrolls through the
+   ~12 sections. Sage-on-cream subtlety matches the kicker styling
+   on the home page rather than competing with the title. */
+.privacy__back {
+  position: fixed;
+  top: 3.4vh;
+  left: 6vw;
+  z-index: 5;
+  font-family: "Neue Montreal", sans-serif;
+  font-size: 0.95vw;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+.privacy__back:hover { color: var(--ink); }
+
+/* ----- Main column ----- */
+.privacy {
+  max-width: 38em;
+  margin: 0 auto;
+  padding: 14vh 6vw 12vh;
+}
+
+.privacy__head {
+  margin-bottom: 6vh;
+}
+
+.privacy__title {
+  margin: 0 0 1.2vh;
+  font-family: "Gordita", sans-serif;
+  font-weight: 300;
+  font-size: 3.6vw;
+  letter-spacing: 0.004em;
+  text-transform: uppercase;
+  line-height: 1.04;
+}
+
+.privacy__updated {
+  margin: 0;
+  font-family: "Neue Montreal", sans-serif;
+  font-size: 0.9vw;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+}
+
+/* ----- Sections ----- */
+.privacy__section {
+  margin: 0 0 4vh;
+}
+
+.privacy__h2 {
+  margin: 0 0 1.4vh;
+  font-family: "Gordita", sans-serif;
+  font-weight: 300;
+  font-size: 1.55vw;
+  letter-spacing: 0.004em;
+  text-transform: uppercase;
+  color: var(--ink);
+  /* Use baseline alignment so number + heading text sit on the
+     same line; ensure the wrap still looks tidy on long headings. */
+  display: flex;
+  align-items: baseline;
+  gap: 0.6em;
+}
+
+.privacy__num {
+  /* Sage number tag — the "one hand-drawn gesture per section"
+     convention is generous here: every numbered heading owns it. */
+  color: var(--accent);
+  font-family: "Neue Montreal", sans-serif;
+  font-weight: 400;
+  font-size: 0.85em;
+  letter-spacing: 0.05em;
+  /* Don't shrink when the heading wraps. */
+  flex-shrink: 0;
+}
+
+.privacy__section p,
+.privacy__section li {
+  font-family: "Neue Montreal", sans-serif;
+  font-weight: 400;
+  font-size: 1.05vw;
+  line-height: 1.65;
+  color: var(--ink);
+}
+
+.privacy__section p {
+  margin: 0 0 1.6vh;
+}
+
+.privacy__section ul {
+  margin: 0 0 1.6vh;
+  padding-left: 1.4em;
+}
+
+.privacy__section li {
+  margin-bottom: 0.7vh;
+}
+
+.privacy__section li::marker {
+  color: var(--muted);
+}
+
+/* Inline links — cream text with a sage underline. Hover dims. */
+.privacy__section a,
+.privacy__foot a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent);
+  padding-bottom: 0.05em;
+  transition: opacity 0.25s ease;
+}
+.privacy__section a:hover,
+.privacy__foot a:hover {
+  opacity: 0.7;
+}
+
+/* ----- Footer (secondary back link at bottom of long page) ----- */
+.privacy__foot {
+  margin-top: 8vh;
+  padding-top: 4vh;
+  border-top: 1px solid rgba(243, 237, 230, 0.12);
+}
+
+.privacy__back-bottom {
+  font-family: "Neue Montreal", sans-serif;
+  font-size: 0.95vw;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+  text-decoration: none;
+  border-bottom: none;
+  transition: color 0.25s ease;
+}
+.privacy__back-bottom:hover { color: var(--ink); }
+
+/* ============================================================
+   Mobile (max-width: 760px)
+   ============================================================ */
+@media (max-width: 760px) {
+  .privacy__back {
+    font-size: 3.4vw;
+    top: 3vh;
+    left: 5vw;
+  }
+
+  .privacy {
+    max-width: 100%;
+    padding: 12vh 6vw 10vh;
+  }
+
+  .privacy__title {
+    font-size: 9vw;
+  }
+
+  .privacy__updated {
+    font-size: 3vw;
+  }
+
+  .privacy__h2 {
+    font-size: 5vw;
+    gap: 0.4em;
+  }
+
+  .privacy__section p,
+  .privacy__section li {
+    font-size: 4.2vw;
+    line-height: 1.6;
+  }
+
+  .privacy__section {
+    margin-bottom: 5vh;
+  }
+
+  .privacy__back-bottom {
+    font-size: 3.4vw;
+  }
+}

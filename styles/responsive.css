@@ -132,24 +132,43 @@
   .cards {
     flex-direction: row;
     align-items: flex-start;
+    /* Override the desktop `justify-content: center`. On a flex
+       container that's also overflow-x:auto, centering overflowing
+       content makes the browser place the row centered in the
+       scrollport — which means the initial scroll position lands
+       on the MIDDLE card (Stefan), with Aisha clipped off the left
+       and Anna clipped off the right. JS-side scrollLeft=0 then
+       gets clamped because there's nothing "before" the centered
+       start. flex-start lays the cards left-to-right starting at
+       the padding edge, so scrollLeft=0 = Aisha at the gutter. */
+    justify-content: flex-start;
     gap: 4vw;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-    /* scroll-padding on BOTH sides — start padding makes Aisha land
-       6vw from the viewport edge on initial paint, end padding gives
-       Anna the same 6vw gutter when she snaps to the right edge.
-       Without scroll-padding-inline-end, Anna's end-aligned snap
-       target would overshoot max scrollLeft and the carousel would
-       not navigate to her cleanly. */
-    scroll-padding-inline: 6vw;
+    /* scroll-padding + matching padding on BOTH sides. The two must
+       move together: scroll-padding-inline defines where snap-aligned
+       cards LAND in the scrollport, and padding-inline is what sets
+       cards' natural offset inside the scroller. Mismatch causes the
+       snap target to clamp to scrollLeft=0 and the first card to
+       jump back to the gutter.
+       22vw (was 6vw) shifts Aisha away from the viewport edge so
+       only ~14vw of Stefan peeks past the right side on landing — a
+       subtle "there's more →" cue instead of the previous half-of-
+       Stefan-already-showing look. Anna's end-aligned snap mirrors
+       the same gutter on the right when she's the active card. */
+    scroll-padding-inline: 22vw;
     scrollbar-width: none;
     margin-inline: -6vw;
-    padding: 1vh 6vw;
+    padding: 1vh 22vw;
   }
   .cards::-webkit-scrollbar { display: none; }
   /* Card sizing only — snap alignment lives in session.css so the
-     first/last/middle distinctions are kept in one place. */
-  .card { width: 78vw; flex: 0 0 auto; }
+     first/last/middle distinctions are kept in one place. Dropped
+     from 78vw → 60vw so the 9:16 photo (which scales with width)
+     is short enough that the name / role / "this week" text below
+     it lands inside the visible area when the section first
+     scrolls into view on portrait phones. */
+  .card { width: 60vw; flex: 0 0 auto; }
 }
 
 /* Carousel arrows: only meaningful when the .cards row is in scrollable
