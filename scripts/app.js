@@ -90,21 +90,31 @@
     };
 
     // Compute the exact scrollLeft that would put the target card at
-    // its CSS-defined snap position. Reading the live computed style
-    // means card 1 (start), card N (end), and middle cards (center)
-    // each resolve to their own anchor.
+    // its CSS-defined snap position. card.offsetLeft is measured from
+    // the nearest positioned ancestor (.cards-rail in our markup), NOT
+    // from the scroll container (.cards) — and because .cards has
+    // margin-inline:-6vw, the two are offset by 6vw. Using offsetLeft
+    // directly produced snap targets that were 6vw short of the actual
+    // CSS snap points, so scrollTo would scroll close-but-not-correct
+    // and the restored mandatory-snap would yank back to the original
+    // card. getBoundingClientRect + scrollLeft is offsetParent-blind
+    // and always gives the card's position inside the scrollable area.
     var snapTargetFor = function (index) {
       var card = cardsArr[index];
       if (!card) return 0;
       var cs = getComputedStyle(cardsEl);
-      var padStart = parseFloat(cs.scrollPaddingInlineStart) || 0;
-      var padEnd = parseFloat(cs.scrollPaddingInlineEnd) || 0;
+      var padStart = parseFloat(cs.scrollPaddingInlineStart) || parseFloat(cs.paddingLeft) || 0;
+      var padEnd = parseFloat(cs.scrollPaddingInlineEnd) || parseFloat(cs.paddingRight) || 0;
       var clientW = cardsEl.clientWidth;
-      if (index === 0) return card.offsetLeft - padStart;
+      var containerRect = cardsEl.getBoundingClientRect();
+      var cardRect = card.getBoundingClientRect();
+      var cardLeftInScroll = cardRect.left - containerRect.left + cardsEl.scrollLeft;
+      var cardWidth = cardRect.width;
+      if (index === 0) return cardLeftInScroll - padStart;
       if (index === lastIndex) {
-        return card.offsetLeft + card.offsetWidth - (clientW - padEnd);
+        return cardLeftInScroll + cardWidth - (clientW - padEnd);
       }
-      return card.offsetLeft - (clientW - card.offsetWidth) / 2;
+      return cardLeftInScroll - (clientW - cardWidth) / 2;
     };
 
     var goTo = function (index) {
