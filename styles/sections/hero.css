@@ -114,16 +114,17 @@
 
 .mask {
   display: inline-block;
-  /* The wipe-up reveal needs to hide the text BELOW the box (the inner
-     <span> starts at translateY(110%) and slides up to 0). overflow:hidden
-     did that but also clipped the TOPS of uppercase glyphs — both the
-     first line in the mask and, when "YOUR PRIVATE BOARD" wraps on mobile,
-     every wrapped line inside it. Padding alone can't fix wrapped-line
-     clipping because padding only buffers the first line.
-     clip-path inset(-100% 0 0 0) keeps the bottom clipped (so the
-     wipe-up still works) while leaving the top entirely unclipped. */
-  clip-path: inset(-100% 0 0 0);
-  padding-top: 0.12em;
+  overflow: hidden;
+  /* overflow:hidden is needed for the wipe-up reveal (inner <span>
+     starts at translateY(110%) — i.e. shoved 1.1× its own height
+     BELOW the mask box — and slides up to 0). It clips both top AND
+     bottom of the box, so the only way to keep Gordita Display's
+     uppercase glyphs from being shaved off is to make padding-top
+     larger than the font's intrinsic overshoot. 0.5em is well above
+     any plausible overshoot for a display weight. clip-path with a
+     negative inset *should* clip only the bottom, but iOS WebKit
+     clamps negative insets to 0, so it gives no headroom either. */
+  padding-top: 0.5em;
   padding-bottom: 0.06em;
 }
 
