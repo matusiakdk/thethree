@@ -114,11 +114,16 @@
 
 .mask {
   display: inline-block;
-  overflow: hidden;
-  /* overflow:hidden is what makes the wipe-up animation work, but it also
-     clips the tops of the uppercase glyphs if padding-top is too tight.
-     0.25em gives Gordita's caps enough headroom on mobile (9.5vw font). */
-  padding-top: 0.25em;
+  /* The wipe-up reveal needs to hide the text BELOW the box (the inner
+     <span> starts at translateY(110%) and slides up to 0). overflow:hidden
+     did that but also clipped the TOPS of uppercase glyphs — both the
+     first line in the mask and, when "YOUR PRIVATE BOARD" wraps on mobile,
+     every wrapped line inside it. Padding alone can't fix wrapped-line
+     clipping because padding only buffers the first line.
+     clip-path inset(-100% 0 0 0) keeps the bottom clipped (so the
+     wipe-up still works) while leaving the top entirely unclipped. */
+  clip-path: inset(-100% 0 0 0);
+  padding-top: 0.12em;
   padding-bottom: 0.06em;
 }
 
