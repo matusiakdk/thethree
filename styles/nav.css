@@ -46,3 +46,22 @@
 
 /* `.nav-short` is the mobile label; hidden on desktop, toggled on in responsive.css */
 .nav-short { display: none; }
+
+/* Top bar — a solid strip the height of the nav, in the page bg color,
+   sitting BEHIND nav text (z-index 4 vs nav 5) and BELOW the intro
+   overlay (z-index 10). Without this, content scrolled past the
+   viewport top bleeds through the (transparent) nav and the nav text
+   becomes unreadable. Fades in with nav after intro completes. */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 9vh;
+  background: var(--bg);
+  z-index: 4;
+  pointer-events: none;
+  opacity: 0;
+  animation: rise-in 0.7s ease 5s forwards;
+}

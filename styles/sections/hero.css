@@ -115,6 +115,7 @@
 .mask {
   display: inline-block;
   overflow: hidden;
+  padding-top: 0.12em;
   padding-bottom: 0.06em;
 }
 

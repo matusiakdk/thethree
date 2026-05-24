@@ -24,22 +24,29 @@
   .nav-short { display: inline; }
 
   /* --- hero (screen 1) --- */
-  .kicker { font-size: 2.6vw; margin-bottom: 1.4vh; }
+  .screen--1 { padding-top: 12vh; }
+  /* Hide "Cross-industry · Dubai" kicker on mobile — context already
+     conveyed in the headline and the dedicated Who/Why sections; on a
+     narrow screen this label fights the headline for top space. */
+  .kicker { display: none; }
   .tagline { font-size: 5vw; margin-top: 4vw; }
   .sub { font-size: 3.7vw; max-width: 92%; margin-top: 5vw; }
-  .hero-statement {
-    position: static;
-    text-align: left;
-    max-width: 100%;
-    font-size: 5vw;
-    margin: 5vw 0 0;
-  }
+  /* Hero's bottom-right "Different industries..." block was the diagonal
+     companion to the headline on desktop. On mobile the diagonal layout
+     collapses into a vertical stack and the block becomes a redundant
+     echo of the tagline + body paragraph below it. Hide on small screens. */
+  .hero-statement { display: none; }
 
   /* --- waitlist --- */
   .waitlist {
     align-items: stretch;
+    /* Skip the JS-controlled fade-in on mobile — the form sits below
+       the fold anyway, so the user reaches it by scrolling, not by
+       waiting. The 10.4s desktop timer feels broken on mobile. */
+    opacity: 1;
+    transition: none;
   }
-  .waitlist__label { font-size: 3vw; }
+  .waitlist__label { font-size: 3.5vw; }
   .waitlist__form { width: 100%; max-width: none; }
   .waitlist__input { font-size: 3.7vw; }
   .waitlist__btn { font-size: 3.7vw; padding: 1.05em 5vw; }
