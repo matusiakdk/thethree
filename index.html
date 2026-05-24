@@ -19,6 +19,14 @@
   <link rel="preload" href="assets/fonts/role-serif.woff2" as="font" type="font/woff2" crossorigin />
 
   <!--
+    Intro video preload — the <video> element doesn't start fetching
+    until the body is parsed, which can leave the splash blank on
+    slow connections. Hinting it here lets the browser start the
+    download in parallel with the CSS/fonts.
+  -->
+  <link rel="preload" href="assets/video/the.mp4" as="video" type="video/mp4" />
+
+  <!--
     Stylesheets are loaded in cascade order. Do not reshuffle:
       tokens   → variables + @font-face (everything depends on it)
       base     → reset, html/body, .screen, shared keyframes
