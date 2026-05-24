@@ -121,8 +121,25 @@
   .screen--2 { padding: 12vh 6vw; }
   .s2-title { font-size: 6.6vw; }
   .s2-sub { font-size: 3.6vw; }
-  .cards { flex-direction: column; align-items: center; gap: 8vh; }
-  .card { width: 70vw; flex: none; }
+  /* Horizontal swipeable carousel on mobile instead of a tall vertical
+     stack (three 9:16 photos stacked was ~3 viewports of scroll). Cards
+     are narrower than the viewport so the next card "peeks" past the
+     right edge — the universal swipe cue. Negative margin-inline cancels
+     the section's 6vw side padding so the scroll travels edge-to-edge;
+     the equivalent padding-inline keeps the first/last card visually
+     6vw from the screen edge. */
+  .cards {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 4vw;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    margin-inline: -6vw;
+    padding: 1vh 6vw;
+  }
+  .cards::-webkit-scrollbar { display: none; }
+  .card { width: 78vw; flex: 0 0 auto; scroll-snap-align: center; }
   .card__name { font-size: 4.4vw; }
   .card__role { font-size: 3.4vw; }
   .card__week-label { font-size: 2.8vw; }
