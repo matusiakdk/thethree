@@ -33,6 +33,16 @@
   <meta name="twitter:image" content="https://thethree-six.vercel.app/assets/images/og-image.png" />
 
   <!--
+    Favicon set. Browsers auto-request /favicon.ico (no link tag needed,
+    but explicit is clearer); PNG sizes get a link tag each for modern
+    browsers; apple-touch-icon for iOS home-screen bookmarks.
+  -->
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png" />
+
+  <!--
     Font preloads. Order doesn't matter (all crossorigin, parallel),
     but list the ones used above the fold first so they're queued
     earliest by the browser.
