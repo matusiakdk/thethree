@@ -72,11 +72,11 @@ video {
 .match {
   font-family: "Halimum", cursive;
   font-size: 7vw;
-  /* Halimum is a handwriting font with tall ascenders + low descenders;
-     line-height 1 was clipping the tops/bottoms of strokes on some
-     mobile renderers. 1.4 gives the glyph metrics room to breathe. */
-  line-height: 1.4;
-  padding: 0.1em 0;
+  /* Halimum is a handwriting font with very tall ascenders (h, t, M loops);
+     mobile renderers clip the tops of strokes if the line-box is too tight.
+     line-height 2 + padding-top 0.4em keeps the ascenders fully visible. */
+  line-height: 2;
+  padding: 0.4em 0 0.1em;
   color: #fff;
   opacity: 0;
   transform: translateY(10.5vw) rotate(-4deg);
