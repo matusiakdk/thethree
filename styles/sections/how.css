@@ -148,10 +148,15 @@
 
 .step-circle {
   position: absolute;
-  left: -7%;
-  top: -52%;
-  width: 118%;
-  height: 204%;
+  /* Geometry tuned so the oval has clear breathing room around the
+     "return the favor" text AND doesn't reach up into the previous
+     line ("Bring your question,") when the phrase wraps onto its
+     own line on mobile. -15/130 horizontally = 15% gutter each side;
+     -20/140 vertically = 20% above/below, well inside the line gap. */
+  left: -15%;
+  top: -20%;
+  width: 130%;
+  height: 140%;
   overflow: visible;
   pointer-events: none;
   transform: rotate(-1.8deg);
