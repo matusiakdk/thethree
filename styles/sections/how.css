@@ -196,9 +196,16 @@
   max-width: 30em;
 }
 
-/* The leading question sits on its own line so the sage call-to-action
-   ("Open your own session") on the next line reads as the answer. */
+/* The leading question is styled as a mini-label — same uppercase /
+   tracked / muted treatment as .waitlist__label in the hero — so the
+   sage call-to-action below reads as the action that answers it.
+   Pattern mirrors the [LABEL] → [form/action] block in the hero. */
 .how-extra__q {
   display: block;
-  margin-bottom: 0.5em;
+  margin-bottom: 1.4em;
+  font-family: "Neue Montreal", sans-serif;
+  font-size: 0.86vw;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--muted);
 }

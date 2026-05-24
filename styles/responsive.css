@@ -80,6 +80,7 @@
   .step__desc { font-size: 3.4vw; }
   .step--offset { gap: 4vw; }
   .how-extra { font-size: 3.4vw; margin-left: 0; }
+  .how-extra__q { font-size: 3.5vw; }
 
   /* --- who + why (shared container collapse) --- */
   .screen--who, .screen--why {
