@@ -144,11 +144,44 @@
     prevArrow.addEventListener("click", function () { goTo(activeIndex - 1); });
     nextArrow.addEventListener("click", function () { goTo(activeIndex + 1); });
 
+    // Whether .cards is currently in horizontal-carousel mode. On desktop
+    // (>760px) the row is `display:flex; justify-content:center;` with no
+    // overflow — all 3 cards are simultaneously "visible" inside the
+    // container, so the IO below would report all of them as active and
+    // wedge activeIndex at the last one iterated (card 2 / Anna). When
+    // the user then narrows their window below 760px, the carousel
+    // takes over with scrollLeft=0 (Aisha visible) but activeIndex still
+    // says 2 — so PREV shows as available, clicking PREV runs goTo(1)
+    // and the view jumps to Stefan instead of staying on Aisha. Gating
+    // setActive on real scrollability is the single source of truth.
+    var isCarousel = function () {
+      return cardsEl.scrollWidth > cardsEl.clientWidth;
+    };
+
     var setActive = function (idx) {
+      if (!isCarousel()) return;
       if (idx !== activeIndex) {
         activeIndex = idx;
         syncArrows();
       }
+    };
+
+    // Pick the card whose center is closest to the scrollport center.
+    // Shared by the scroll listener (during a swipe / arrow-driven
+    // smooth scroll) and the resize listener (when the user crosses
+    // the 760px breakpoint and the carousel turns on/off).
+    var closestToCenter = function () {
+      var rect = cardsEl.getBoundingClientRect();
+      var portCenter = (rect.left + rect.right) / 2;
+      var best = 0;
+      var bestDist = Infinity;
+      cardsArr.forEach(function (card, i) {
+        var r = card.getBoundingClientRect();
+        var c = (r.left + r.right) / 2;
+        var d = Math.abs(c - portCenter);
+        if (d < bestDist) { bestDist = d; best = i; }
+      });
+      return best;
     };
 
     // IntersectionObserver — fires when a card crosses ~55% visibility.
@@ -171,22 +204,30 @@
       if (scrollRAF) return;
       scrollRAF = requestAnimationFrame(function () {
         scrollRAF = null;
-        var rect = cardsEl.getBoundingClientRect();
-        var portCenter = (rect.left + rect.right) / 2;
-        var best = 0;
-        var bestDist = Infinity;
-        cardsArr.forEach(function (card, i) {
-          var r = card.getBoundingClientRect();
-          var c = (r.left + r.right) / 2;
-          var d = Math.abs(c - portCenter);
-          if (d < bestDist) { bestDist = d; best = i; }
-        });
-        setActive(best);
+        setActive(closestToCenter());
       });
     }, { passive: true });
 
+    // Resize listener — when the user crosses the 760px breakpoint
+    // (e.g. dragging the browser window narrower on desktop), the
+    // .cards row flips between the desktop centered-flex layout and
+    // the scrollable carousel. Re-derive activeIndex from the actual
+    // scroll position so PREV/NEXT show the correct affordances for
+    // what the user is currently looking at.
+    window.addEventListener("resize", function () {
+      if (!isCarousel()) return;
+      var best = closestToCenter();
+      if (best !== activeIndex) {
+        activeIndex = best;
+        syncArrows();
+      }
+    });
+
     // Initial state: card 1 active, arrows synced. Reset scrollLeft in
-    // case the browser restored a non-zero position from history.
+    // case the browser restored a non-zero position from history. Bypass
+    // setActive's carousel-mode gate so this runs whether or not the
+    // carousel is currently active — when the user later narrows the
+    // viewport, activeIndex starts from a known zero.
     cardsEl.scrollLeft = 0;
     activeIndex = 0;
     syncArrows();
