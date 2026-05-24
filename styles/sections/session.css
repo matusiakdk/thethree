@@ -39,12 +39,60 @@
 }
 
 /* ---------- Cards row ---------- */
+/* .cards-rail wraps .cards + the arrow buttons so the arrows can be
+   absolutely positioned over the rail's left/right edges. On desktop
+   the cards fit in a single row, so the rail just acts as a positioning
+   context — no visual effect of its own. */
+.cards-rail {
+  position: relative;
+  width: 100%;
+}
+
 .cards {
   display: flex;
   justify-content: center;
   align-items: flex-start;
   gap: 3vw;
 }
+
+/* Carousel arrows — visible only when the .cards row is in scrollable
+   carousel mode AND the device has a mouse (hover: hover). Touch
+   carousels rely on the peek+swipe affordance instead. See
+   styles/responsive.css for the visibility gate. */
+.cards-arrow {
+  display: none;  /* gated on per media query */
+  position: absolute;
+  top: 32%;
+  transform: translateY(-50%);
+  z-index: 5;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
+  background: rgba(34, 23, 18, 0.85);
+  border: 1px solid rgba(156, 170, 134, 0.55);
+  color: var(--accent);
+  font-family: inherit;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  place-items: center;
+  transition: background 200ms ease, color 200ms ease, border-color 200ms ease, opacity 200ms ease;
+}
+
+.cards-arrow:hover {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+}
+
+.cards-arrow:disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
+}
+
+.cards-arrow--prev { left: 2vw; }
+.cards-arrow--next { right: 2vw; }
 
 .card {
   flex: 0 0 auto;

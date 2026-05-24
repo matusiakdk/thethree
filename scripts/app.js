@@ -62,4 +62,36 @@
     window.addEventListener("touchmove", revealWaitlist, { once: true, passive: true });
     window.addEventListener("scroll", revealWaitlist, { once: true, passive: true });
   }, 6500);
+
+  // ---------- 4. Session-cards carousel arrows ----------
+  // The .cards-arrow buttons exist in the DOM but are only displayed
+  // when the carousel is active and the device has a mouse (see the
+  // media query in styles/responsive.css). When visible they scroll
+  // the .cards row by exactly one card + gap each click, with the
+  // disabled state updated whenever scroll position changes.
+  var cardsEl = document.querySelector(".cards");
+  var prevArrow = document.querySelector(".cards-arrow--prev");
+  var nextArrow = document.querySelector(".cards-arrow--next");
+  if (cardsEl && prevArrow && nextArrow) {
+    var stepSize = function () {
+      var firstCard = cardsEl.querySelector(".card");
+      if (!firstCard) return 0;
+      var gap = parseFloat(getComputedStyle(cardsEl).gap) || 0;
+      return firstCard.offsetWidth + gap;
+    };
+    prevArrow.addEventListener("click", function () {
+      cardsEl.scrollBy({ left: -stepSize(), behavior: "smooth" });
+    });
+    nextArrow.addEventListener("click", function () {
+      cardsEl.scrollBy({ left: stepSize(), behavior: "smooth" });
+    });
+    var updateArrowState = function () {
+      var max = cardsEl.scrollWidth - cardsEl.clientWidth - 1;
+      prevArrow.disabled = cardsEl.scrollLeft <= 1;
+      nextArrow.disabled = cardsEl.scrollLeft >= max;
+    };
+    cardsEl.addEventListener("scroll", updateArrowState, { passive: true });
+    window.addEventListener("resize", updateArrowState);
+    updateArrowState();
+  }
 })();

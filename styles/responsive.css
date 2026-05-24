@@ -140,6 +140,14 @@
   }
   .cards::-webkit-scrollbar { display: none; }
   .card { width: 78vw; flex: 0 0 auto; scroll-snap-align: center; }
+}
+
+/* Carousel arrows: only meaningful when the .cards row is in scrollable
+   mode (mobile breakpoint) AND the user has a mouse — touch users get
+   the peek+swipe affordance and don't need buttons. Outside this gate
+   the arrows stay display:none from session.css. */
+@media (max-width: 760px) and (hover: hover) {
+  .cards-arrow { display: grid; }
   .card__name { font-size: 4.4vw; }
   .card__role { font-size: 3.4vw; }
   .card__week-label { font-size: 2.8vw; }
