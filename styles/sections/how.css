@@ -1,0 +1,186 @@
+/* ============================================================
+   sections/how.css
+   "How it works" — left column heading, right column has 3
+   numbered steps connected by a hand-drawn vertical line.
+   Reveal animations are gated by `.how-steps.revealed`, added
+   by IntersectionObserver in scripts/app.js.
+
+   Shared cross-section selectors that live here:
+     .sec-head, .sec-title, .sec-sub, .sec-note
+   They're declared once and reused by the who/why sections.
+   ============================================================ */
+
+.screen--how {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 8vh 6vw;
+  border-top: 1px solid rgba(243, 237, 230, 0.09);
+}
+
+.how-main {
+  display: flex;
+  align-items: center;
+  gap: 6vw;
+}
+
+/* ---------- Shared section heading block ---------- */
+/* Used by: .screen--how, .screen--who, .screen--why */
+.sec-head {
+  flex: 0 0 34%;
+}
+
+/* Per-section vertical anchor overrides */
+.screen--how .sec-head { margin-top: 16vh; }
+.screen--who .sec-head { margin-top: 5vh; }
+
+.sec-title {
+  margin: 0;
+  font-family: "Gordita", sans-serif;
+  font-weight: 300;
+  font-size: 3.6vw;
+  line-height: 1.04;
+  letter-spacing: 0.008em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.sec-sub {
+  margin: 2.4vh 0 0;
+  font-family: "Gordita", sans-serif;
+  font-weight: 400;
+  font-size: 1.4vw;
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+.sec-note {
+  margin: 3vh 0 0;
+  font-family: "Neue Montreal", sans-serif;
+  font-size: 1vw;
+  line-height: 1.55;
+  color: var(--muted);
+  max-width: 22em;
+}
+
+/* ---------- Steps column ---------- */
+.how-steps {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4.6vh;
+  padding-left: 3.2vw;
+}
+
+/* Hand-drawn vertical line linking the three step numbers */
+.how-line {
+  position: absolute;
+  left: 0;
+  top: 2.6vh;
+  width: 2.6vw;
+  height: 82%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.how-line path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.how-steps.revealed .how-line path {
+  animation: draw 1.8s cubic-bezier(0.45, 0, 0.55, 1) 0.15s forwards;
+}
+
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.6vw;
+  opacity: 0;
+  transform: translateY(40px);
+  transition:
+    opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.how-steps.revealed .step { opacity: 1; transform: none; }
+.how-steps.revealed .step:nth-child(3) { transition-delay: 0.18s; }
+.how-steps.revealed .step:nth-child(4) { transition-delay: 0.36s; }
+
+/* Middle step is indented slightly for a hand-laid feel */
+.step--offset { gap: 4.6vw; }
+
+.step__num {
+  flex: 0 0 auto;
+  font-family: "Halimum", cursive;
+  font-size: 3vw;
+  line-height: 0.9;
+  color: var(--accent);
+}
+
+.step__body { flex: 1; }
+
+.step__title {
+  margin: 0 0 0.9vh;
+  font-family: "Gordita", sans-serif;
+  font-weight: 400;
+  font-size: 1.55vw;
+  line-height: 1.25;
+  color: var(--ink);
+}
+
+/* Inline circled phrase inside step 3 — "return the favor" */
+.step__circ {
+  position: relative;
+  display: inline-block;
+}
+
+.step-circle {
+  position: absolute;
+  left: -7%;
+  top: -52%;
+  width: 118%;
+  height: 204%;
+  overflow: visible;
+  pointer-events: none;
+  transform: rotate(-1.8deg);
+}
+
+.step-circle path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.how-steps.revealed .step-circle path {
+  animation: draw 0.72s cubic-bezier(0.65, 0, 0.35, 1) 1.1s forwards;
+}
+
+.step__desc {
+  margin: 0;
+  font-family: "Neue Montreal", sans-serif;
+  font-size: 1.06vw;
+  line-height: 1.5;
+  color: var(--muted);
+  max-width: 32em;
+}
+
+/* Footer note under the steps block */
+.how-extra {
+  margin: 6vh 0 0 40%;
+  padding-top: 3.4vh;
+  border-top: 1px solid rgba(243, 237, 230, 0.13);
+  font-family: "Neue Montreal", sans-serif;
+  font-size: 0.96vw;
+  line-height: 1.5;
+  color: var(--muted);
+  max-width: 30em;
+}

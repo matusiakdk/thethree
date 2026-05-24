@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>the three</title>
+
+  <!--
+    Font preloads. Order doesn't matter (all crossorigin, parallel),
+    but list the ones used above the fold first so they're queued
+    earliest by the browser.
+  -->
+  <link rel="preload" href="assets/fonts/halimum.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/cubao-wide.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/gordita.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/gordita-light.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/neue-montreal.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/newsreader-italic.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/role-serif.woff2" as="font" type="font/woff2" crossorigin />
+
+  <!--
+    Stylesheets are loaded in cascade order. Do not reshuffle:
+      tokens   → variables + @font-face (everything depends on it)
+      base     → reset, html/body, .screen, shared keyframes
+      nav      → top nav + logo
+      waitlist → email capture (used by hero AND cta)
+      modal    → post-signup enrichment modal (triggered by waitlist)
+      sections → one file per <section>, in document order
+      responsive → @media (max-width: 760px), MUST be last
+  -->
+  <link rel="stylesheet" href="styles/tokens.css" />
+  <link rel="stylesheet" href="styles/base.css" />
+  <link rel="stylesheet" href="styles/nav.css" />
+  <link rel="stylesheet" href="styles/waitlist.css" />
+  <link rel="stylesheet" href="styles/modal.css" />
+  <link rel="stylesheet" href="styles/sections/intro.css" />
+  <link rel="stylesheet" href="styles/sections/hero.css" />
+  <link rel="stylesheet" href="styles/sections/how.css" />
+  <link rel="stylesheet" href="styles/sections/session.css" />
+  <link rel="stylesheet" href="styles/sections/who.css" />
+  <link rel="stylesheet" href="styles/sections/why.css" />
+  <link rel="stylesheet" href="styles/sections/cta.css" />
+  <link rel="stylesheet" href="styles/responsive.css" />
+</head>
+<body>
+  <div class="logo">The Three</div>
+
+  <nav class="nav">
+    <a href="#how"><span class="nav-full">How it works</span><span class="nav-short">How</span></a>
+    <a href="#who"><span class="nav-full">Who it's for</span><span class="nav-short">Who</span></a>
+    <a href="#why"><span class="nav-full">Why The Three</span><span class="nav-short">Why</span></a>
+  </nav>
+
+  <main>
+    <!-- ========================================================
+         Screen 1 — hero
+         Styles: styles/sections/hero.css + styles/waitlist.css
+         ======================================================== -->
+    <section class="screen screen--1">
+      <div class="content">
+        <span class="kicker">Cross-industry &middot; Dubai</span>
+        <h1 class="headline">
+          <span class="line line--1"><span class="mask"><span>Your private board</span></span></span>
+          <span class="line line--2">
+            <span class="mask"><span>of</span></span>
+            <span class="place">
+              <span class="place__word">three</span>
+              <svg class="circle" viewBox="0 0 100 52" preserveAspectRatio="none">
+                <path pathLength="1" d="M 7,31 C 5,14 33,6 55,6 C 81,6 97,13 94,28 C 91,42 64,48 40,46 C 16,44 4,36 9,21 C 11,12 15,9 24,6.5" />
+              </svg>
+            </span>
+          </span>
+        </h1>
+        <p class="hero-statement">Different industries, the same early-stage problems. For founders who left the safe path to <span class="ul">build something.<svg class="underline" viewBox="0 0 220 24" preserveAspectRatio="none"><path pathLength="1" d="M 6,16 C 54,9 108,20 158,12 C 188,7 207,14 215,8" /></svg></span></p>
+        <p class="tagline">For founders in the hard early years: every two weeks we put you in a room with two others &mdash; one hour, honest feedback, no audience.</p>
+        <p class="sub">Cross-industry by design &mdash; beauty to SaaS, restaurants to real estate. You bring the hard question &mdash; which campaign to run, when to make your first hire, whether the product is ready. You get <span class="key">unfiltered feedback</span> from people in the same trenches. Then you do the same for them.</p>
+        <div class="waitlist">
+          <span class="waitlist__label">Join the waitlist</span>
+          <form class="waitlist__form" onsubmit="return false">
+            <input class="waitlist__input" type="email" placeholder="Your email" />
+            <button class="waitlist__btn" type="button">Join</button>
+          </form>
+          <p class="form-feedback" role="status" aria-live="polite" hidden></p>
+          <p class="waitlist__note"><strong class="waitlist__count">53 of 100 founding spots left</strong> &mdash; lock in founding pricing, for as long as you stay.</p>
+          <p class="waitlist__legal">By joining, you agree to receive launch updates. No spam, no sharing. <a href="#">Privacy</a></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         How it works
+         Styles: styles/sections/how.css
+         ======================================================== -->
+    <section id="how" class="screen screen--how">
+      <div class="how-main">
+        <div class="sec-head">
+          <h2 class="sec-title">How it works</h2>
+          <p class="sec-sub">Three founders. One hour. Every two weeks.</p>
+          <p class="sec-note">Nothing to learn. Nothing to chase. You&rsquo;re in &mdash; until you pause.</p>
+        </div>
+        <div class="how-steps">
+          <svg class="how-line" viewBox="0 0 40 400" preserveAspectRatio="none">
+            <path pathLength="1" d="M 21,7 C 12,72 29,145 19,218 C 12,270 26,330 20,388 C 23,394 28,392 32,386" />
+          </svg>
+          <div class="step">
+            <span class="step__num">01</span>
+            <div class="step__body">
+              <h3 class="step__title">Tell us what you're building.</h3>
+              <p class="step__desc">A short profile: your industry, your stage, when you're free, and what you want to talk through right now. <span class="key">Two minutes, once.</span></p>
+            </div>
+          </div>
+          <div class="step step--offset">
+            <span class="step__num">02</span>
+            <div class="step__body">
+              <h3 class="step__title">We put you in a room of three.</h3>
+              <p class="step__desc">Every two weeks we match you with two other founders &mdash; same stage, different industries. It just lands in your calendar. Busy week? <span class="key">Pause anytime, in one tap.</span></p>
+            </div>
+          </div>
+          <div class="step">
+            <span class="step__num">03</span>
+            <div class="step__body">
+              <h3 class="step__title">Bring your question, <span class="step__circ">return the favor<svg class="step-circle" viewBox="0 0 100 52" preserveAspectRatio="none"><path pathLength="1" d="M 9,32 C 4,13 30,4 56,4 C 86,4 100,13 100,28 C 100,44 86,50 56,50 C 30,50 5,45 8,30 C 10,20 13,9 26,5" /></svg></span>.</h3>
+              <p class="step__desc">One focused hour, split evenly. Everyone brings something real. You get the truth on yours &mdash; then you do the same for theirs.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="how-extra">Want to go deeper? Open your own session on a specific question &mdash; other founders at your stage can join.</p>
+    </section>
+
+    <!-- ========================================================
+         What a session looks like (screen 2)
+         Styles: styles/sections/session.css
+         ======================================================== -->
+    <section class="screen screen--2">
+      <div class="s2-head">
+        <h2 class="s2-title">What a session looks like</h2>
+        <p class="s2-sub">Three founders. Different industries. One hour.</p>
+      </div>
+      <div class="cards">
+        <figure class="card">
+          <div class="card__photo"><img src="assets/images/card-aisha.jpg" alt="Aisha" /></div>
+          <figcaption class="card__text">
+            <span class="card__name">Aisha</span>
+            <span class="card__role">Marketing expert, launching her own agency</span>
+            <span class="card__week">
+              <span class="card__week-label">This week</span>
+              <span class="card__q">&ldquo;How do I price retainer vs. project work?&rdquo;</span>
+            </span>
+          </figcaption>
+        </figure>
+        <figure class="card">
+          <div class="card__photo"><img src="assets/images/card-stefan.jpg" alt="Stefan" /></div>
+          <figcaption class="card__text">
+            <span class="card__name">Stefan</span>
+            <span class="card__role">SaaS founder, pre-product-market-fit</span>
+            <span class="card__week">
+              <span class="card__week-label">This week</span>
+              <span class="card__q">&ldquo;Should I niche down or stay broad?&rdquo;</span>
+            </span>
+          </figcaption>
+        </figure>
+        <figure class="card">
+          <div class="card__photo"><img src="assets/images/card-anna.jpg" alt="Anna" /></div>
+          <figcaption class="card__text">
+            <span class="card__name">Anna</span>
+            <span class="card__role">Florist scaling to a second location</span>
+            <span class="card__week">
+              <span class="card__week-label">This week</span>
+              <span class="card__q">&ldquo;When do I hire my first manager?&rdquo;</span>
+            </span>
+          </figcaption>
+        </figure>
+      </div>
+      <p class="s2-close">They don&rsquo;t share an industry. They share the experience of building. <span class="key">That&rsquo;s the point.</span></p>
+    </section>
+
+    <!-- ========================================================
+         Who it's for
+         Styles: styles/sections/who.css
+         ======================================================== -->
+    <section id="who" class="screen screen--who">
+      <div class="who-top">
+        <div class="sec-head">
+          <h2 class="sec-title">Who it's for</h2>
+          <p class="sec-sub">This only works if everyone in the room is actually building.</p>
+          <p class="sec-note">Every session is rated for fit &mdash; and it shapes who you meet next.</p>
+        </div>
+        <div class="who-lists">
+          <div class="who-list who-list--for">
+            <span class="who-list__label">The Three is for</span>
+            <ul class="who-list__items">
+              <li><svg class="check" viewBox="0 0 24 22"><path d="M 2 11.5 C 3 13.5 6 15.5 9 18 C 12 15 16.5 9 22 3.5" /></svg>Early-stage founders &mdash; past the idea or deep in it, not yet scaling</li>
+              <li><svg class="check" viewBox="0 0 24 22"><path d="M 2 11.5 C 3 13.5 6 15.5 9 18 C 12 15 16.5 9 22 3.5" /></svg>In it seriously &mdash; full-time, or building toward it</li>
+              <li><svg class="check" viewBox="0 0 24 22"><path d="M 2 11.5 C 3 13.5 6 15.5 9 18 C 12 15 16.5 9 22 3.5" /></svg>Doing the work week to week, not just thinking about it</li>
+              <li><svg class="check" viewBox="0 0 24 22"><path d="M 2 11.5 C 3 13.5 6 15.5 9 18 C 12 15 16.5 9 22 3.5" /></svg>Here for the truth, not reassurance</li>
+            </ul>
+          </div>
+          <div class="who-list who-list--not">
+            <span class="who-list__label">The Three is not for</span>
+            <ul class="who-list__items">
+              <li><span class="x-mark">&times;</span>Coaches and mentors-for-hire</li>
+              <li><span class="x-mark">&times;</span>Anyone prospecting for sales leads</li>
+              <li><span class="x-mark">&times;</span>MLM, crypto schemes, get-rich-quick</li>
+              <li><span class="x-mark">&times;</span>Anyone here to talk about building, not do it</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="who-bottom">
+        <p class="who-bound">The room works because everyone&rsquo;s roughly in the same place &mdash; from first idea to first hires and early growth. Past that &mdash; scaling an established team, raising your Series A and beyond &mdash; you&rsquo;re out of the early years this is built for.</p>
+        <p class="who-close">Saw yourself on the left? You&rsquo;ll <span class="ul">fit right in.<svg class="underline" viewBox="0 0 220 24" preserveAspectRatio="none"><path pathLength="1" d="M 6,16 C 54,9 108,20 158,12 C 188,7 207,14 215,8" /></svg></span></p>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         Why The Three
+         Styles: styles/sections/why.css
+         ======================================================== -->
+    <section id="why" class="screen screen--why">
+      <div class="sec-head">
+        <h2 class="sec-title">Why The Three</h2>
+        <p class="sec-sub">You&rsquo;ve tried the alternatives. Here&rsquo;s the difference.</p>
+      </div>
+      <div class="why-blocks">
+        <div class="why-block">
+          <span class="why-block__vs">vs LinkedIn</span>
+          <p class="why-block__alt">Performing success for an audience.</p>
+          <p class="why-block__us"><svg class="why-arrow" viewBox="0 0 26 20"><path pathLength="1" d="M 1 12.5 C 6 11 14 14 22 11.5 M 16 6 L 22 11.5 L 17 17.5" /></svg>The Three: honest feedback, in private.</p>
+        </div>
+        <div class="why-block">
+          <span class="why-block__vs">vs mastermind groups</span>
+          <p class="why-block__alt">&pound;8,000 a year, and mostly post-success founders.</p>
+          <p class="why-block__us"><svg class="why-arrow" viewBox="0 0 26 20"><path pathLength="1" d="M 1 12.5 C 6 11 14 14 22 11.5 M 16 6 L 22 11.5 L 17 17.5" /></svg>The Three: founding price from &pound;20 a month, founders building right now.</p>
+        </div>
+        <div class="why-block">
+          <span class="why-block__vs">vs coaches &amp; mentors</span>
+          <p class="why-block__alt">One person&rsquo;s advice. &pound;200 an hour. Often outdated.</p>
+          <p class="why-block__us"><svg class="why-arrow" viewBox="0 0 26 20"><path pathLength="1" d="M 1 12.5 C 6 11 14 14 22 11.5 M 16 6 L 22 11.5 L 17 17.5" /></svg>The Three: two peers in the same trenches as you.</p>
+        </div>
+      </div>
+      <p class="why-close">Same problems. A tenth of the price. People who actually get it.</p>
+    </section>
+
+    <!-- ========================================================
+         Closing CTA + footer
+         Styles: styles/sections/cta.css + styles/waitlist.css
+         ======================================================== -->
+    <section id="join" class="screen screen--cta">
+      <div class="cta">
+        <h2 class="cta-title">The <span class="ul">first 100<svg class="cta-line" viewBox="0 0 220 24" preserveAspectRatio="none"><path pathLength="1" d="M 6,16 C 54,9 108,20 158,12 C 188,7 207,14 215,8" /></svg></span> set the tone.</h2>
+        <p class="cta-sub">Founding members lock in the lowest price The Three will ever offer &mdash; and help shape what it becomes.</p>
+        <form class="cta-form" onsubmit="return false">
+          <input class="waitlist__input" type="email" placeholder="Your email" />
+          <button class="waitlist__btn" type="button">Join</button>
+        </form>
+        <p class="form-feedback" role="status" aria-live="polite" hidden></p>
+        <p class="cta-count">53 of 100 founding spots left.</p>
+      </div>
+      <footer class="site-footer">
+        <a href="mailto:hello@thethree.com" class="footer-link">hello@thethree.com</a>
+        <span class="footer-dot">&middot;</span>
+        <span>&copy; The Three 2025</span>
+        <span class="footer-dot">&middot;</span>
+        <a href="#" class="footer-link">Privacy</a>
+      </footer>
+    </section>
+  </main>
+
+  <!--
+    Intro overlay. Lives at the bottom of <body> so it paints on top
+    until its CSS-driven roll-up animation completes at t=5.3s.
+    See styles/sections/intro.css + scripts/app.js for the timeline.
+  -->
+  <div class="intro">
+    <video src="assets/video/the.mp4" autoplay muted loop playsinline></video>
+    <div class="title">
+      <span class="word word--the">The</span>
+      <span class="word word--three">Three</span>
+      <div class="match-wrap"><span class="match">match</span></div>
+    </div>
+  </div>
+
+  <!--
+    Post-signup enrichment modal. Hidden by default; opened by
+    scripts/modal.js when the user submits a valid email on either
+    waitlist form. The country <select> is populated by JS so the
+    long ISO list lives in scripts/modal.js, not the markup.
+  -->
+  <div class="modal" id="signup-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
+    <div class="modal__overlay" data-modal-close></div>
+    <div class="modal__panel" role="document">
+      <button class="modal__close" type="button" aria-label="Close" data-modal-close>&times;</button>
+
+      <header class="modal__head">
+        <h2 class="modal__title" id="modal-title">You&rsquo;re on the list.</h2>
+        <p class="modal__subtitle">Three quick things &mdash; so we can match you well when The Three opens.</p>
+      </header>
+
+      <form class="modal__form" novalidate>
+        <!-- First name -->
+        <div class="field">
+          <label class="field__label" for="modal-name">Your first name</label>
+          <input class="field__input" id="modal-name" type="text" name="firstName" placeholder="Your first name" autocomplete="given-name" />
+        </div>
+
+        <!-- Stage (cards, single-select) — bold heading + always-visible muted description -->
+        <div class="field">
+          <span class="field__label">Where are you right now?</span>
+          <div class="choices" role="radiogroup" aria-label="Stage">
+            <button type="button" class="choice" data-name="stage" data-value="early" role="radio" aria-checked="false">
+              <span class="choice__title">Early days</span>
+              <span class="choice__desc">Still setting it up &mdash; testing the idea, first clients, not fully launched yet</span>
+            </button>
+            <button type="button" class="choice" data-name="stage" data-value="running" role="radio" aria-checked="false">
+              <span class="choice__title">Up and running</span>
+              <span class="choice__desc">Open and operating &mdash; paying customers, finding your rhythm</span>
+            </button>
+            <button type="button" class="choice" data-name="stage" data-value="growing" role="radio" aria-checked="false">
+              <span class="choice__title">Growing</span>
+              <span class="choice__desc">It works &mdash; now you&rsquo;re scaling up, hiring, or opening up more</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Industry (custom dropdown — see styles/modal.css .combobox + scripts/modal.js setupCombobox) -->
+        <div class="field">
+          <span class="field__label" id="modal-industry-label">What are you building in?</span>
+          <div class="combobox" data-name="industry">
+            <button type="button" class="combobox__trigger"
+                    aria-haspopup="listbox" aria-expanded="false"
+                    aria-labelledby="modal-industry-label">
+              <span class="combobox__value is-placeholder" data-placeholder="Select industry">Select industry</span>
+              <span class="combobox__chevron" aria-hidden="true"></span>
+            </button>
+            <ul class="combobox__list" role="listbox" aria-labelledby="modal-industry-label" hidden>
+              <li class="combobox__option" role="option" id="industry-opt-beauty"       data-value="beauty">Beauty &amp; wellness</li>
+              <li class="combobox__option" role="option" id="industry-opt-food"         data-value="food">Food &amp; hospitality</li>
+              <li class="combobox__option" role="option" id="industry-opt-retail"       data-value="retail">Retail &amp; e-commerce</li>
+              <li class="combobox__option" role="option" id="industry-opt-saas"         data-value="saas">SaaS &amp; software</li>
+              <li class="combobox__option" role="option" id="industry-opt-realestate"   data-value="realestate">Real estate</li>
+              <li class="combobox__option" role="option" id="industry-opt-creative"     data-value="creative">Creative &amp; media</li>
+              <li class="combobox__option" role="option" id="industry-opt-professional" data-value="professional">Professional services</li>
+              <li class="combobox__option" role="option" id="industry-opt-health"       data-value="health">Health</li>
+              <li class="combobox__option" role="option" id="industry-opt-education"    data-value="education">Education</li>
+              <li class="combobox__option" role="option" id="industry-opt-other"        data-value="other">Other</li>
+            </ul>
+            <input type="hidden" name="industry" />
+          </div>
+        </div>
+
+        <!-- Country (custom dropdown, UAE default — options populated by scripts/modal.js) -->
+        <div class="field">
+          <span class="field__label" id="modal-country-label">Where are you based?</span>
+          <div class="combobox" data-name="country">
+            <button type="button" class="combobox__trigger"
+                    aria-haspopup="listbox" aria-expanded="false"
+                    aria-labelledby="modal-country-label">
+              <span class="combobox__value" data-placeholder="Select country">United Arab Emirates</span>
+              <span class="combobox__chevron" aria-hidden="true"></span>
+            </button>
+            <ul class="combobox__list" role="listbox" aria-labelledby="modal-country-label" hidden></ul>
+            <input type="hidden" name="country" value="United Arab Emirates" />
+          </div>
+        </div>
+
+        <!-- Source (pills, single-select, optional) -->
+        <div class="field">
+          <span class="field__label">How did you find us? <span class="field__optional">(optional)</span></span>
+          <div class="pills" role="radiogroup" aria-label="Source">
+            <button type="button" class="pill" data-name="source" data-value="social"    role="radio" aria-checked="false">Social media</button>
+            <button type="button" class="pill" data-name="source" data-value="friend"    role="radio" aria-checked="false">A friend</button>
+            <button type="button" class="pill" data-name="source" data-value="search"    role="radio" aria-checked="false">Search</button>
+            <button type="button" class="pill" data-name="source" data-value="community" role="radio" aria-checked="false">Community</button>
+            <button type="button" class="pill" data-name="source" data-value="other"     role="radio" aria-checked="false">Other</button>
+          </div>
+        </div>
+
+        <div class="modal__actions">
+          <button type="submit" class="modal__submit">Done</button>
+          <button type="button" class="modal__skip" data-modal-close>Skip for now</button>
+        </div>
+      </form>
+
+      <!-- Success state — shown for 3.5s after Done, then auto-closes.
+           Skip and X close immediately without this view. -->
+      <div class="modal__success" hidden>
+        <svg class="modal__success-check" viewBox="0 0 64 64" aria-hidden="true">
+          <path pathLength="1" d="M 12 33 C 17 36 23 41 28 49 C 34 38 42 28 54 16" />
+        </svg>
+        <h3 class="modal__success-title">You&rsquo;re all set.</h3>
+        <p class="modal__success-sub">We&rsquo;ll email you the moment The Three opens.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="scripts/app.js"></script>
+  <script src="scripts/modal.js"></script>
+</body>
+</html>

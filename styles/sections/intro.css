@@ -1,0 +1,87 @@
+/* ============================================================
+   sections/intro.css
+   Fullscreen video + "THE THREE / match" title shown on load.
+   At t=4.3s the entire layer rolls up (see @keyframes roll-up)
+   and is gone. All timings are tightly coupled to scripts/app.js
+   which unlocks scroll at t=5.4s — do not change in isolation.
+   ============================================================ */
+
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  animation: roll-up 1s cubic-bezier(0.76, 0, 0.24, 1) 4.3s forwards;
+}
+
+@keyframes roll-up {
+  to { transform: translateY(-100%); }
+}
+
+/* Note: scoped to <video> globally — only the intro uses <video> currently */
+video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.title {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25em;
+  font-family: "Cubao Wide", sans-serif;
+  font-size: 13vw;
+  line-height: 1;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  pointer-events: none;
+}
+
+.word { display: block; }
+
+.word--the {
+  transform: translateX(-100vw);
+  animation: enter-left 1.2s cubic-bezier(0.22, 1, 0.36, 1) 1s forwards;
+}
+
+.word--three {
+  transform: translateX(100vw);
+  animation: enter-right 1.2s cubic-bezier(0.22, 1, 0.36, 1) 1s forwards;
+}
+
+@keyframes enter-left  { to { transform: translateX(0); } }
+@keyframes enter-right { to { transform: translateX(0); } }
+
+/* "match" — handwritten word that floats up between THE and THREE */
+.match-wrap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.match {
+  font-family: "Halimum", cursive;
+  font-size: 7vw;
+  line-height: 1;
+  color: #fff;
+  opacity: 0;
+  transform: translateY(10.5vw) rotate(-4deg);
+  animation: match-in 0.9s ease 2.5s forwards;
+}
+
+@keyframes match-in {
+  to {
+    opacity: 1;
+    transform: translateY(9.5vw) rotate(-4deg);
+  }
+}

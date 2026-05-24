@@ -1,0 +1,48 @@
+/* ============================================================
+   nav.css
+   Fixed top-of-page chrome: left-side anchor nav and the
+   right-side "The Three" logo. Both fade in after the intro
+   roll-up completes (animation-delay: 5s, matches app.js).
+   ============================================================ */
+
+.logo {
+  position: fixed;
+  top: 3.4vh;
+  right: 6vw;
+  z-index: 5;
+  font-family: "Cubao Wide", sans-serif;
+  font-size: 1.65vw;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink);
+  opacity: 0;
+  transform: translateY(-14px);
+  animation: rise-in 0.7s ease 5s forwards;
+}
+
+.nav {
+  position: fixed;
+  top: 3.6vh;
+  left: 6vw;
+  z-index: 5;
+  display: flex;
+  gap: 2.4vw;
+  font-family: "Neue Montreal", sans-serif;
+  font-size: 0.86vw;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(-12px);
+  animation: rise-in 0.7s ease 5s forwards;
+}
+
+.nav a {
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.nav a:hover { color: var(--ink); }
+
+/* `.nav-short` is the mobile label; hidden on desktop, toggled on in responsive.css */
+.nav-short { display: none; }

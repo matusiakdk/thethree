@@ -1,0 +1,129 @@
+/* ============================================================
+   waitlist.css
+   The email capture form. Used in two places:
+   - hero (full block: label + form + count + legal)
+   - cta closing section (re-uses .waitlist__input + .waitlist__btn
+     under .cta-form; see sections/cta.css for that wrapper)
+   The block-level `.waitlist` only renders inside .screen--1.
+   ============================================================ */
+
+.waitlist {
+  margin-top: 5vh;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  opacity: 0;
+  transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Hero reveals the waitlist via a class toggled in app.js — */
+/* either on first scroll intent or after the intro timer.   */
+.screen--1.wl-revealed .waitlist {
+  opacity: 1;
+}
+
+.waitlist__label {
+  font-family: "Neue Montreal", sans-serif;
+  font-size: 0.86vw;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  margin-bottom: 1.3vh;
+}
+
+.waitlist__form {
+  display: flex;
+  width: 30vw;
+  max-width: 470px;
+}
+
+.waitlist__input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: 1px solid rgba(243, 237, 230, 0.32);
+  border-right: none;
+  color: var(--ink);
+  font-family: "Neue Montreal", sans-serif;
+  font-size: 1.02vw;
+  padding: 1.05em 1.2em;
+}
+
+.waitlist__input::placeholder { color: var(--muted); }
+
+.waitlist__input:focus {
+  outline: none;
+  border-color: rgba(243, 237, 230, 0.6);
+}
+
+.waitlist__btn {
+  flex: none;
+  background: var(--ink);
+  color: var(--bg);
+  border: 1px solid var(--ink);
+  font-family: "Gordita", sans-serif;
+  font-size: 1.02vw;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 1.05em 2.2vw;
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.waitlist__btn:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.waitlist__note {
+  margin: 1.5vh 0 0;
+  font-family: "Neue Montreal", sans-serif;
+  font-size: 0.96vw;
+  letter-spacing: 0.01em;
+  color: var(--accent);
+}
+
+.waitlist__count {
+  font-weight: 400;
+  color: var(--ink);
+}
+
+/* Small legal/privacy line under the form */
+.waitlist__legal {
+  margin: 0.9vh 0 0;
+  font-family: "Neue Montreal", sans-serif;
+  font-size: 0.78vw;
+  letter-spacing: 0.01em;
+  color: rgba(243, 237, 230, 0.38);
+  line-height: 1.5;
+}
+
+.waitlist__legal a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  transition: color 200ms ease;
+}
+
+.waitlist__legal a:hover { color: rgba(243, 237, 230, 0.7); }
+
+/* ---------- Inline form feedback ----------
+   Used by both the hero waitlist form AND the closing cta form to show
+   transient messages: empty email, invalid format, or "you're already
+   on the list" when the user has signed up before (localStorage flag).
+   Hidden by default via [hidden] attribute; revealed by scripts/modal.js
+   which clears it on the next keystroke. */
+
+.form-feedback {
+  margin: 1.4vh 0 0;
+  font-family: "Neue Montreal", sans-serif;
+  font-size: 0.96vw;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+}
+
+.form-feedback[data-state="success"] {
+  color: var(--accent);
+}

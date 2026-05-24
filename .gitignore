@@ -1,0 +1,23 @@
+# macOS metadata
+.DS_Store
+**/.DS_Store
+
+# Local backups — never ship to production
+backups/
+
+# Work-in-progress media in repo root (large PNG/MP4 exports from
+# design iteration, not referenced by index.html). Keep production
+# assets in assets/.
+/*.png
+/*.mp4
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*~
+
+# Env files (defensive — we don't use them but just in case)
+.env
+.env.local
+.env.*.local

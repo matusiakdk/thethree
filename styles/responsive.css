@@ -1,0 +1,163 @@
+/* ============================================================
+   responsive.css
+   All mobile overrides live here, under a single @media block
+   (max-width: 760px). Loaded LAST so its rules win the cascade.
+
+   Organized in the same order as the desktop CSS files:
+     1. base (typography & layout primitives)
+     2. nav + logo
+     3. hero / waitlist
+     4. how
+     5. who + why
+     6. cta
+     7. session (screen 2)
+   ============================================================ */
+
+@media (max-width: 760px) {
+  /* --- typography primitives --- */
+  .headline { font-size: 9.5vw; }
+
+  /* --- nav + logo --- */
+  .logo { font-size: 3.6vw; }
+  .nav { font-size: 3vw; gap: 5.5vw; top: 3vh; }
+  .nav-full { display: none; }
+  .nav-short { display: inline; }
+
+  /* --- hero (screen 1) --- */
+  .kicker { font-size: 2.6vw; margin-bottom: 1.4vh; }
+  .tagline { font-size: 5vw; margin-top: 4vw; }
+  .sub { font-size: 3.7vw; max-width: 92%; margin-top: 5vw; }
+  .hero-statement {
+    position: static;
+    text-align: left;
+    max-width: 100%;
+    font-size: 5vw;
+    margin: 5vw 0 0;
+  }
+
+  /* --- waitlist --- */
+  .waitlist {
+    align-items: stretch;
+  }
+  .waitlist__label { font-size: 3vw; }
+  .waitlist__form { width: 100%; max-width: none; }
+  .waitlist__input { font-size: 3.7vw; }
+  .waitlist__btn { font-size: 3.7vw; padding: 1.05em 5vw; }
+  .waitlist__note { font-size: 3.4vw; }
+  .waitlist__legal { font-size: 2.9vw; }
+  .form-feedback { font-size: 3.4vw; }
+
+  /* --- how it works --- */
+  .screen--how { padding: 12vh 6vw; }
+  .how-main { flex-direction: column; align-items: flex-start; gap: 5vh; }
+  .sec-head { flex: none; }
+  .sec-title { font-size: 8.5vw; }
+  .sec-sub { font-size: 4.2vw; }
+  .sec-note { font-size: 3.5vw; max-width: 90%; }
+  .how-line { width: 9vw; }
+  .step__num { font-size: 9vw; }
+  .step__title { font-size: 4.8vw; }
+  .step__desc { font-size: 3.7vw; }
+  .step--offset { gap: 4vw; }
+  .how-extra { font-size: 3.4vw; margin-left: 0; }
+
+  /* --- who + why (shared container collapse) --- */
+  .screen--who, .screen--why {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5vh;
+    padding: 12vh 6vw;
+  }
+  .who-top { flex-direction: column; align-items: flex-start; gap: 5vh; }
+  .who-lists { flex-direction: column; gap: 5vh; }
+  .who-list__label { font-size: 3vw; }
+  .who-list--for li { font-size: 4vw; }
+  .who-list--not li { font-size: 3.4vw; }
+  .who-bottom { margin-left: 0; }
+  .who-bound { font-size: 3.4vw; max-width: 100%; }
+  .who-close { font-size: 4.6vw; }
+  .screen--why .sec-head { margin-bottom: 4vh; }
+  .why-blocks { flex-direction: column; gap: 6vh; }
+  .why-block__vs { font-size: 4.6vw; }
+  .why-block__alt { font-size: 3.7vw; }
+  .why-block__us { font-size: 4.1vw; }
+  .why-close { font-size: 4vw; }
+
+  /* --- cta + footer --- */
+  .screen--cta { padding: 12vh 6vw 8vh; }
+  .cta-title { font-size: 8vw; }
+  .cta-sub { font-size: 3.7vw; max-width: 92%; }
+  .cta-form { width: 100%; max-width: none; }
+  .cta-count { font-size: 3.4vw; }
+  .site-footer {
+    font-size: 3vw;
+    gap: 3vw;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+  }
+
+  /* --- session / screen 2 --- */
+  .screen--2 { padding: 12vh 6vw; }
+  .s2-title { font-size: 6.6vw; }
+  .s2-sub { font-size: 3.6vw; }
+  .cards { flex-direction: column; align-items: center; gap: 8vh; }
+  .card { width: 70vw; flex: none; }
+  .card__name { font-size: 4.4vw; }
+  .card__role { font-size: 3.4vw; }
+  .card__week-label { font-size: 2.8vw; }
+  .card__q { font-size: 3.7vw; }
+  .s2-close { font-size: 3.8vw; }
+
+  /* --- modal ---
+     Tested against 380×667. Vertical spacing is compressed so the five
+     fields + actions fit within ~1.2 viewport heights (a short scroll,
+     never an endless one). Touch targets ≥ 44px for X, pills, Skip. */
+  .modal { padding: 3vh 3.5vw; }
+  .modal__panel { padding: 4.4vh 6vw; max-width: 100%; }
+  .modal__close {
+    font-size: 5.5vw;
+    top: 1vh;
+    right: 2.5vw;
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .modal__head { margin-bottom: 3vh; }
+  .modal__title { font-size: 7vw; }
+  .modal__subtitle { font-size: 3.7vw; margin-top: 1.4vh; }
+  .field { margin-bottom: 2.4vh; }
+  .field__label { font-size: 2.9vw; margin-bottom: 1vh; }
+  .field__input { font-size: 3.8vw; padding: 0.9em 1.1em; }
+  .pills { gap: 2vw; }
+  .pill {
+    font-size: 3.6vw;
+    padding: 1.05em 1.2em; /* ~44px tap height at this font size */
+  }
+  /* Stage cards — stack vertically so each gets full width for its
+     description; 3 cards side-by-side don't fit on a 380px viewport. */
+  .choices { flex-direction: column; gap: 1.6vh; }
+  .choice { padding: 2vh 4vw; }
+  .choice__title { font-size: 4.4vw; margin-bottom: 0.6vh; }
+  .choice__desc { font-size: 3.4vw; line-height: 1.45; }
+  /* Combobox — trigger matches the input style; listbox panel
+     gets a viewport-friendly max-height so it never escapes the
+     visible area on a short phone. */
+  .combobox__trigger { font-size: 3.8vw; padding: 0.9em 3em 0.9em 1.1em; }
+  .combobox__list { font-size: 3.8vw; max-height: 40vh; }
+  .combobox__option { padding: 1em 1.2em; /* ~44px tap height */ }
+  .combobox__option--separator { padding: 0.5em 1.2em; }
+  .modal__actions { margin-top: 3.4vh; gap: 1.4vh; }
+  .modal__submit { font-size: 3.7vw; padding: 1.15em 5vw; }
+  .modal__skip {
+    font-size: 3.4vw;
+    padding: 0.9em 1.4em;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+  /* Success state — checkmark sized for mobile, copy in line with title */
+  .modal__success { padding: 3vh 0 2vh; }
+  .modal__success-check { width: 14vw; height: 14vw; margin-bottom: 2.4vh; }
+  .modal__success-title { font-size: 6.4vw; }
+  .modal__success-sub { font-size: 3.6vw; }
+}

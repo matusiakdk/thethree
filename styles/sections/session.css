@@ -1,0 +1,132 @@
+/* ============================================================
+   sections/session.css
+   "What a session looks like" — screen 2. Three founder cards
+   (photo + name + role + this-week question) in a centered row.
+   Reveal animations are gated by `.cards.revealed`, added by
+   IntersectionObserver in scripts/app.js.
+   ============================================================ */
+
+.screen--2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6vh 6vw;
+  border-top: 1px solid rgba(243, 237, 230, 0.09);
+}
+
+/* ---------- Section heading (centered, narrower than .sec-head) ---------- */
+.s2-head {
+  text-align: center;
+  margin-bottom: 4.2vh;
+}
+
+.s2-title {
+  margin: 0;
+  font-family: "Gordita", sans-serif;
+  font-weight: 300;
+  font-size: 2.7vw;
+  letter-spacing: 0.012em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.s2-sub {
+  margin: 1.4vh 0 0;
+  font-family: "Neue Montreal", sans-serif;
+  font-size: 1.16vw;
+  color: var(--muted);
+}
+
+/* ---------- Cards row ---------- */
+.cards {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 3vw;
+}
+
+.card {
+  flex: 0 0 auto;
+  width: 23vh;
+  margin: 0;
+  opacity: 0;
+  transform: translateY(52px);
+  transition:
+    opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cards.revealed .card { opacity: 1; transform: none; }
+.cards.revealed .card:nth-child(2) { transition-delay: 0.13s; }
+.cards.revealed .card:nth-child(3) { transition-delay: 0.26s; }
+
+.card__photo {
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  overflow: hidden;
+  background: #2c211b;
+}
+
+.card__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.card__text {
+  margin-top: 1.6vh;
+  text-align: center;
+}
+
+.card__name {
+  display: block;
+  font-family: "Gordita", sans-serif;
+  font-size: 1.05vw;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: 0.55em;
+}
+
+.card__role {
+  display: block;
+  font-family: "Neue Montreal", sans-serif;
+  font-size: 0.92vw;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+.card__week {
+  display: block;
+  margin-top: 1.5vh;
+}
+
+.card__week-label {
+  display: block;
+  font-family: "Neue Montreal", sans-serif;
+  font-size: 0.72vw;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.5em;
+}
+
+.card__q {
+  display: block;
+  font-family: "Neue Montreal", sans-serif;
+  font-size: 0.98vw;
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+.s2-close {
+  margin: 4.2vh 0 0;
+  max-width: 44em;
+  text-align: center;
+  font-family: "Neue Montreal", sans-serif;
+  font-size: 1.16vw;
+  line-height: 1.5;
+  color: var(--muted);
+}

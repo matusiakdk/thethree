@@ -1,0 +1,118 @@
+/* ============================================================
+   sections/why.css
+   "Why The Three" — centered heading + 3 comparison blocks
+   ("vs LinkedIn", "vs mastermind groups", "vs coaches & mentors").
+   Each block: muted alt-line, then our-line marked with a
+   hand-drawn green arrow. Closing line below.
+   Reveal animations are gated by `.screen--why.revealed`,
+   added by IntersectionObserver in scripts/app.js.
+   ============================================================ */
+
+.screen--why {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10vh 6vw;
+  border-top: 1px solid rgba(243, 237, 230, 0.09);
+}
+
+/* Why heading sits centered + narrower than other .sec-head uses */
+.screen--why .sec-head {
+  flex: none;
+  text-align: center;
+  margin: 0 auto 7vh;
+  max-width: 46em;
+}
+
+.why-blocks {
+  display: flex;
+  gap: 4vw;
+  align-items: stretch;
+}
+
+.why-block {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  transform: translateY(40px);
+  transition:
+    opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.screen--why.revealed .why-block { opacity: 1; transform: none; }
+.screen--why.revealed .why-block:nth-child(2) { transition-delay: 0.14s; }
+.screen--why.revealed .why-block:nth-child(3) { transition-delay: 0.28s; }
+
+.why-block__vs {
+  display: block;
+  font-family: "Gordita", sans-serif;
+  font-weight: 400;
+  font-size: 1.3vw;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+  margin-bottom: 1.8vh;
+}
+
+.why-block__alt {
+  margin: 0 0 2.2vh;
+  font-family: "Neue Montreal", sans-serif;
+  font-size: 1vw;
+  line-height: 1.5;
+  color: rgba(161, 148, 138, 0.6);
+}
+
+.why-block__us {
+  margin: 0;
+  font-family: "Neue Montreal", sans-serif;
+  font-size: 1.2vw;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+/* Hand-drawn arrow that points to each our-line. Each block's arrow */
+/* draws on a staggered delay once the section reveals.              */
+.why-arrow {
+  display: inline-block;
+  width: 1.4em;
+  height: 1em;
+  vertical-align: -0.1em;
+  margin-right: 0.35em;
+  overflow: visible;
+}
+
+.why-arrow path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.screen--why.revealed .why-arrow path {
+  animation: draw 0.6s cubic-bezier(0.65, 0, 0.35, 1) 0.55s forwards;
+}
+
+.screen--why.revealed .why-block:nth-child(2) .why-arrow path { animation-delay: 0.69s; }
+.screen--why.revealed .why-block:nth-child(3) .why-arrow path { animation-delay: 0.83s; }
+
+.why-close {
+  margin: 7vh auto 0;
+  max-width: 36em;
+  text-align: center;
+  font-family: "Neue Montreal", sans-serif;
+  font-size: 1.4vw;
+  line-height: 1.45;
+  color: var(--ink);
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: 0.6s;
+}
+
+.screen--why.revealed .why-close { opacity: 1; transform: none; }

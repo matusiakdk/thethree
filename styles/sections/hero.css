@@ -1,0 +1,182 @@
+/* ============================================================
+   sections/hero.css
+   Screen 1 — the landing screen after the intro rolls up.
+   Layout: left-aligned headline + tagline + waitlist, with a
+   bottom-right hero statement. Animation timings are absolute
+   (delays from page load) and chained with the intro:
+     - 5.05s : kicker
+     - 5.15s : "Your private board"  (line 1)
+     - 5.30s : "of"                   (line 2 first mask)
+     - 5.45s : reserved
+     - 5.7s  : italic "three"
+     - 6.05s : hand-drawn circle around "three"
+     - 6.9s  : tagline
+     - 7.5s  : sub
+     - 7.7s  : hero-statement
+     - 8.5s  : underline under "build something"
+   The waitlist block is faded in by a JS class (.wl-revealed),
+   see styles/waitlist.css for the .screen--1.wl-revealed rule.
+   ============================================================ */
+
+.screen--1 {
+  display: flex;
+  align-items: center;
+  padding: 6vh 6vw;
+}
+
+.hero-statement {
+  position: absolute;
+  right: 6vw;
+  bottom: 5vh;
+  max-width: 13em;
+  margin: 0;
+  text-align: right;
+  font-family: "Gordita", sans-serif;
+  font-weight: 300;
+  font-size: 3.3vw;
+  line-height: 1.16;
+  letter-spacing: 0.004em;
+  color: var(--ink);
+  opacity: 0;
+  transform: translateY(18px);
+  animation: rise-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 7.7s forwards;
+}
+
+.hero-statement .ul {
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/* Hand-drawn underline — shared shape used by hero, who-close, and cta */
+.underline {
+  position: absolute;
+  left: -1%;
+  bottom: -0.2em;
+  width: 102%;
+  height: 0.3em;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.underline path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw 0.72s cubic-bezier(0.65, 0, 0.35, 1) 8.5s forwards;
+}
+
+.kicker {
+  display: block;
+  font-family: "Neue Montreal", sans-serif;
+  font-size: 0.95vw;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--muted);
+  margin-bottom: 2vh;
+  opacity: 0;
+  transform: translateY(14px);
+  animation: rise-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) 5.05s forwards;
+}
+
+.tagline {
+  margin: 3vh 0 0;
+  max-width: 30em;
+  font-family: "Role Serif", "Newsreader", serif;
+  font-weight: 400;
+  font-size: 1.6vw;
+  line-height: 1.46;
+  letter-spacing: 0;
+  color: var(--ink);
+  opacity: 0;
+  transform: translateY(16px);
+  animation: rise-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) 6.9s forwards;
+}
+
+.headline {
+  margin: 0;
+  font-family: "Gordita", sans-serif;
+  font-weight: 300;
+  font-size: 6vw;
+  line-height: 1.04;
+  letter-spacing: 0.004em;
+  text-transform: uppercase;
+}
+
+/* Each headline row is a flex baseline so the masked wipe and italic place sit aligned */
+.line {
+  display: flex;
+  align-items: baseline;
+}
+
+.mask {
+  display: inline-block;
+  overflow: hidden;
+  padding-bottom: 0.06em;
+}
+
+.mask > span {
+  display: inline-block;
+  transform: translateY(110%);
+}
+
+.line--1 .mask > span { animation: wipe-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) 5.15s forwards; }
+.line--2 .mask > span { animation: wipe-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) 5.30s forwards; }
+.line--3 .mask > span { animation: wipe-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) 5.45s forwards; }
+
+/* "three" — italic serif word in the headline, with a circle drawn around it */
+.place {
+  position: relative;
+  display: inline-block;
+  margin-left: 0.92em;
+}
+
+.place__word {
+  display: inline-block;
+  font-family: "Newsreader", serif;
+  font-style: italic;
+  font-weight: 420;
+  text-transform: none;
+  font-size: 1em;
+  letter-spacing: 0;
+  opacity: 0;
+  transform: translateY(0.22em);
+  animation: rise-in 0.75s cubic-bezier(0.22, 1, 0.36, 1) 5.7s forwards;
+}
+
+.circle {
+  position: absolute;
+  left: -22%;
+  top: -35%;
+  width: 145%;
+  height: 172%;
+  overflow: visible;
+  pointer-events: none;
+  transform: rotate(-2.5deg);
+}
+
+.circle path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw 0.72s cubic-bezier(0.65, 0, 0.35, 1) 6.05s forwards;
+}
+
+.sub {
+  margin: 2.4vh 0 0;
+  max-width: 40em;
+  font-family: "Neue Montreal", sans-serif;
+  font-weight: 400;
+  font-size: 1.05vw;
+  line-height: 1.62;
+  color: var(--muted);
+  opacity: 0;
+  transform: translateY(16px);
+  animation: rise-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) 7.5s forwards;
+}

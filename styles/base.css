@@ -1,0 +1,49 @@
+/* ============================================================
+   base.css
+   Reset, root element, body, .screen container, and the shared
+   `draw` / `rise-in` / `wipe-up` keyframes used across sections.
+   ============================================================ */
+
+* { box-sizing: border-box; }
+
+html {
+  background: var(--bg);
+  scrollbar-gutter: stable;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  overflow-x: hidden;
+}
+
+/* Every full-height section uses this container */
+.screen {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--ink);
+  scroll-margin-top: 8vh;
+}
+
+/* Inline emphasis used inside body copy (e.g. `<span class="key">`) */
+.key { color: var(--ink); }
+
+/* ---------- Shared animation keyframes ----------
+   Used by multiple sections. Defined once here so the section
+   files only own their selectors, not the timing primitives. */
+
+@keyframes rise-in {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes wipe-up {
+  to { transform: translateY(0); }
+}
+
+@keyframes draw {
+  to { stroke-dashoffset: 0; }
+}

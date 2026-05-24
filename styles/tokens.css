@@ -1,0 +1,51 @@
+/* ============================================================
+   tokens.css
+   Design tokens (colors) + @font-face declarations.
+   Loaded first — everything else depends on these.
+   ============================================================ */
+
+@font-face {
+  font-family: "Cubao Wide";
+  src: url("../assets/fonts/cubao-wide.woff2") format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: "Halimum";
+  src: url("../assets/fonts/halimum.woff2") format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: "Gordita";
+  src: url("../assets/fonts/gordita.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Gordita";
+  src: url("../assets/fonts/gordita-light.woff2") format("woff2");
+  font-weight: 300;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Newsreader";
+  src: url("../assets/fonts/newsreader-italic.woff2") format("woff2");
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Neue Montreal";
+  src: url("../assets/fonts/neue-montreal.woff2") format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: "Role Serif";
+  src: url("../assets/fonts/role-serif.woff2") format("woff2");
+  font-display: swap;
+}
+
+:root {
+  --bg: #221712;       /* page background — warm dark brown */
+  --ink: #f3ede6;      /* primary text — cream */
+  --muted: #a1948a;    /* secondary text */
+  --accent: #9caa86;   /* sage — used for every hand-drawn gesture */
+}
