@@ -1,7 +1,7 @@
 /* ============================================================
    base.css
    Reset, root element, body, .screen container, and the shared
-   `draw` / `rise-in` / `wipe-up` keyframes used across sections.
+   `draw` / `rise-in` keyframes used across sections.
    ============================================================ */
 
 * { box-sizing: border-box; }
@@ -19,14 +19,18 @@ body {
   overflow-x: hidden;
 }
 
-/* Every full-height section uses this container */
+/* Every full-height section uses this container.
+   scroll-margin-top clears the fixed nav bar (body::before is 9vh)
+   so anchor jumps from the nav don't land with the section title
+   tucked under the bar. A hair over 9vh gives a touch of breathing
+   room between the bar and the top of the section content. */
 .screen {
   position: relative;
   width: 100%;
   min-height: 100vh;
   background: var(--bg);
   color: var(--ink);
-  scroll-margin-top: 8vh;
+  scroll-margin-top: 10vh;
 }
 
 /* Inline emphasis used inside body copy.
@@ -40,10 +44,6 @@ body {
 
 @keyframes rise-in {
   to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes wipe-up {
-  to { transform: translateY(0); }
 }
 
 @keyframes draw {

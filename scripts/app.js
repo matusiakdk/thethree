@@ -25,11 +25,16 @@
   }, 4800);
 
   // ---------- 2. Section reveals via IntersectionObserver ----------
-  var io = new IntersectionObserver(function (entries) {
+  // Named `revealIO` (not `io`) to avoid clashing with the carousel
+  // IntersectionObserver further down. Both used to be `var io` in
+  // the same IIFE scope — the second declaration silently rebound the
+  // name, so this callback's io.unobserve() targeted the wrong observer
+  // and the section observer never released its entries.
+  var revealIO = new IntersectionObserver(function (entries) {
     entries.forEach(function (e) {
       if (e.isIntersecting) {
         e.target.classList.add("revealed");
-        io.unobserve(e.target);
+        revealIO.unobserve(e.target);
       }
     });
   }, { threshold: 0.2 });
@@ -44,7 +49,7 @@
     ".screen--cta"   // closing cta — whole section
   ].forEach(function (sel) {
     var el = document.querySelector(sel);
-    if (el) io.observe(el);
+    if (el) revealIO.observe(el);
   });
 
   // ---------- 3. Hero waitlist reveal ----------
@@ -147,7 +152,7 @@
     };
 
     // IntersectionObserver — fires when a card crosses ~55% visibility.
-    var io = new IntersectionObserver(function (entries) {
+    var cardsIO = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.intersectionRatio > 0.55) {
           var idx = cardsArr.indexOf(entry.target);
@@ -155,7 +160,7 @@
         }
       });
     }, { root: cardsEl, threshold: [0.55, 0.8] });
-    cardsArr.forEach(function (card) { io.observe(card); });
+    cardsArr.forEach(function (card) { cardsIO.observe(card); });
 
     // Belt-and-suspenders scroll listener: in iOS WebKit the IO root=
     // scrollable-element path can miss intermediate states during fast

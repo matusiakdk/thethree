@@ -84,11 +84,6 @@
   color: var(--accent);
 }
 
-.waitlist__count {
-  font-weight: 400;
-  color: var(--ink);
-}
-
 /* Small legal/privacy line under the form */
 .waitlist__legal {
   margin: 0.9vh 0 0;

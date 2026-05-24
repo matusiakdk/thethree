@@ -1,9 +1,10 @@
 /* ============================================================
    sections/intro.css
    Fullscreen video + "THE THREE / match" title shown on load.
-   At t=4.3s the entire layer rolls up (see @keyframes roll-up)
-   and is gone. All timings are tightly coupled to scripts/app.js
-   which unlocks scroll at t=5.4s — do not change in isolation.
+   At t=3.7s the entire layer starts rolling up (see @keyframes
+   roll-up; 1s duration, so it's gone by t=4.7s). Tightly coupled
+   to scripts/app.js which unlocks page scroll at t=4.8s — 100 ms
+   after the roll-up animation ends. Do not change in isolation.
    ============================================================ */
 
 .intro {
