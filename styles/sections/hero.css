@@ -115,7 +115,10 @@
 .mask {
   display: inline-block;
   overflow: hidden;
-  padding-top: 0.12em;
+  /* overflow:hidden is what makes the wipe-up animation work, but it also
+     clips the tops of the uppercase glyphs if padding-top is too tight.
+     0.25em gives Gordita's caps enough headroom on mobile (9.5vw font). */
+  padding-top: 0.25em;
   padding-bottom: 0.06em;
 }
 
