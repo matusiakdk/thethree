@@ -14,7 +14,13 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 8vh 6vw;
+  /* Drop the 100vh inherited from .screen — the section was forcing
+     a full viewport even when the content didn't need it, and the
+     justify-content:center pushed everything into a tall vertically
+     -padded slab with big empty bands top and bottom. With min-height
+     removed the section sizes naturally to content + padding. */
+  min-height: 0;
+  padding: 5vh 6vw;
   border-top: 1px solid rgba(243, 237, 230, 0.09);
 }
 
@@ -31,7 +37,7 @@
 }
 
 /* Per-section vertical anchor overrides */
-.screen--how .sec-head { margin-top: 16vh; }
+.screen--how .sec-head { margin-top: 4vh; }
 .screen--who .sec-head { margin-top: 5vh; }
 
 .sec-title {

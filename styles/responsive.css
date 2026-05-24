@@ -58,13 +58,23 @@
   .form-feedback { font-size: 3.4vw; }
 
   /* --- how it works --- */
-  .screen--how { padding: 12vh 6vw; }
+  .screen--how { padding: 6vh 6vw; }
+  /* Kill the desktop sec-head offset on mobile — there it just stacks
+     16vh (now 4vh) of empty space above the title, pushing "HOW IT
+     WORKS" way down the section. */
+  .screen--how .sec-head { margin-top: 0; }
   .how-main { flex-direction: column; align-items: flex-start; gap: 5vh; }
   .sec-head { flex: none; }
   .sec-title { font-size: 8.5vw; }
   .sec-sub { font-size: 4.2vw; }
   .sec-note { font-size: 3.5vw; max-width: 90%; }
-  .how-line { width: 9vw; }
+  /* Numbers were colliding with the vertical line: the line is
+     position:absolute left:0 width:9vw, while .how-steps was inheriting
+     the desktop padding-left:3.2vw — so the line drew through the 01/02/
+     03 numerals. Narrowed the line a touch and pushed the step content
+     out to 11vw so there's a clear gutter between line and digits. */
+  .how-line { width: 7vw; }
+  .how-steps { padding-left: 11vw; }
   .step__num { font-size: 9vw; }
   .step__title { font-size: 4.8vw; }
   .step__desc { font-size: 3.7vw; }
