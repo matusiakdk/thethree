@@ -64,38 +64,82 @@
   }, 6500);
 
   // ---------- 4. Session-cards carousel arrows ----------
-  // The .cards-arrow buttons exist in the DOM but are only displayed
-  // when the carousel is active and the device has a mouse (see the
-  // media query in styles/responsive.css). When visible they scroll
-  // the .cards row by exactly one card + gap each click, with the
-  // disabled state updated whenever scroll position changes.
+  // Two responsibilities:
+  //   a) Track which card is "active" (most centered in the scroll
+  //      container) so we can disable the arrow that has nowhere to
+  //      point. CSS hides disabled arrows entirely — see session.css
+  //      .cards-arrow:disabled { display: none } — so the user only
+  //      sees the affordance when it's actionable.
+  //   b) On arrow click, scrollTo the *exact* snap target for the
+  //      target card. Earlier we used scrollBy(stepSize), but that
+  //      hits the max-scrollLeft ceiling before reaching card 3's
+  //      end-aligned snap, so navigation to the last card broke.
+  //      Computing the snap target from offsetLeft + alignment gives
+  //      a deterministic destination on every click.
   var cardsEl = document.querySelector(".cards");
   var prevArrow = document.querySelector(".cards-arrow--prev");
   var nextArrow = document.querySelector(".cards-arrow--next");
   if (cardsEl && prevArrow && nextArrow) {
-    // Safety net: even with scroll-snap-align:start, some browsers
-    // may restore scroll position from history on reload. Force the
-    // carousel to land on Aisha (first card) every time.
+    var cardsArr = Array.prototype.slice.call(cardsEl.querySelectorAll(".card"));
+    var lastIndex = cardsArr.length - 1;
+    var activeIndex = 0;
+
+    var syncArrows = function () {
+      prevArrow.disabled = activeIndex <= 0;
+      nextArrow.disabled = activeIndex >= lastIndex;
+    };
+
+    // Compute the exact scrollLeft that would put the target card at
+    // its CSS-defined snap position. Reading the live computed style
+    // means card 1 (start), card N (end), and middle cards (center)
+    // each resolve to their own anchor.
+    var snapTargetFor = function (index) {
+      var card = cardsArr[index];
+      if (!card) return 0;
+      var cs = getComputedStyle(cardsEl);
+      var padStart = parseFloat(cs.scrollPaddingInlineStart) || 0;
+      var padEnd = parseFloat(cs.scrollPaddingInlineEnd) || 0;
+      var clientW = cardsEl.clientWidth;
+      if (index === 0) return card.offsetLeft - padStart;
+      if (index === lastIndex) {
+        return card.offsetLeft + card.offsetWidth - (clientW - padEnd);
+      }
+      return card.offsetLeft - (clientW - card.offsetWidth) / 2;
+    };
+
+    var goTo = function (index) {
+      if (index < 0) index = 0;
+      else if (index > lastIndex) index = lastIndex;
+      cardsEl.scrollTo({ left: snapTargetFor(index), behavior: "smooth" });
+      // Optimistic update — the scroll observer below will reconfirm.
+      activeIndex = index;
+      syncArrows();
+    };
+
+    prevArrow.addEventListener("click", function () { goTo(activeIndex - 1); });
+    nextArrow.addEventListener("click", function () { goTo(activeIndex + 1); });
+
+    // IntersectionObserver tracks which card is the most-visible one
+    // (covers swipe, trackpad scroll, and arrow clicks alike). Root is
+    // the .cards scroll container so we get accurate per-card visibility
+    // even when scroll happens inside an offscreen container.
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.intersectionRatio > 0.55) {
+          var idx = cardsArr.indexOf(entry.target);
+          if (idx !== -1 && idx !== activeIndex) {
+            activeIndex = idx;
+            syncArrows();
+          }
+        }
+      });
+    }, { root: cardsEl, threshold: [0.55, 0.8] });
+    cardsArr.forEach(function (card) { io.observe(card); });
+
+    // Initial state: card 1 active, arrows synced. Reset scrollLeft in
+    // case the browser restored a non-zero position from history.
     cardsEl.scrollLeft = 0;
-    var stepSize = function () {
-      var firstCard = cardsEl.querySelector(".card");
-      if (!firstCard) return 0;
-      var gap = parseFloat(getComputedStyle(cardsEl).gap) || 0;
-      return firstCard.offsetWidth + gap;
-    };
-    prevArrow.addEventListener("click", function () {
-      cardsEl.scrollBy({ left: -stepSize(), behavior: "smooth" });
-    });
-    nextArrow.addEventListener("click", function () {
-      cardsEl.scrollBy({ left: stepSize(), behavior: "smooth" });
-    });
-    var updateArrowState = function () {
-      var max = cardsEl.scrollWidth - cardsEl.clientWidth - 1;
-      prevArrow.disabled = cardsEl.scrollLeft <= 1;
-      nextArrow.disabled = cardsEl.scrollLeft >= max;
-    };
-    cardsEl.addEventListener("scroll", updateArrowState, { passive: true });
-    window.addEventListener("resize", updateArrowState);
-    updateArrowState();
+    activeIndex = 0;
+    syncArrows();
   }
 })();

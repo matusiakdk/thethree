@@ -86,10 +86,10 @@
   border-color: var(--accent);
 }
 
-.cards-arrow:disabled {
-  opacity: 0.25;
-  cursor: not-allowed;
-}
+/* Hide rather than disable: a visible-but-greyed-out button at the
+   edge of the carousel is more noise than signal — when there's
+   nowhere to go in that direction, the arrow disappears entirely. */
+.cards-arrow:disabled { display: none; }
 
 .cards-arrow--prev { left: 2vw; }
 .cards-arrow--next { right: 2vw; }
@@ -103,7 +103,17 @@
   transition:
     opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
     transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  /* Per-card snap alignment — only relevant when .cards is in
+     carousel mode (mobile), no-op on desktop. center is the default
+     for middle cards; first/last cards override below so they reach
+     the visible edges cleanly with the scroll-padding gutter intact.
+     With every card snapping the same way, card 3's snap target
+     would have exceeded max scrollLeft and broken the "go right"
+     navigation past card 2. */
+  scroll-snap-align: center;
 }
+.cards .card:first-child { scroll-snap-align: start; }
+.cards .card:last-child { scroll-snap-align: end; }
 
 .cards.revealed .card { opacity: 1; transform: none; }
 .cards.revealed .card:nth-child(2) { transition-delay: 0.13s; }

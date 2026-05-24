@@ -134,22 +134,21 @@
     gap: 4vw;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-    /* scroll-padding tells snap where the "logical start" of the
-       scrollport is — without it, scroll-snap-align:start would put
-       Aisha's card at viewport x=0 (under the section padding) on
-       reaching the first snap. 6vw matches .cards padding-inline so
-       the first card sits 6vw off the screen edge, same as it would
-       on desktop. */
-    scroll-padding-inline-start: 6vw;
+    /* scroll-padding on BOTH sides — start padding makes Aisha land
+       6vw from the viewport edge on initial paint, end padding gives
+       Anna the same 6vw gutter when she snaps to the right edge.
+       Without scroll-padding-inline-end, Anna's end-aligned snap
+       target would overshoot max scrollLeft and the carousel would
+       not navigate to her cleanly. */
+    scroll-padding-inline: 6vw;
     scrollbar-width: none;
     margin-inline: -6vw;
     padding: 1vh 6vw;
   }
   .cards::-webkit-scrollbar { display: none; }
-  /* scroll-snap-align: start (not center) — center has no valid snap
-     point for card 1 (it can't physically be centered without negative
-     scroll), so the browser was landing on card 2 on first paint. */
-  .card { width: 78vw; flex: 0 0 auto; scroll-snap-align: start; }
+  /* Card sizing only — snap alignment lives in session.css so the
+     first/last/middle distinctions are kept in one place. */
+  .card { width: 78vw; flex: 0 0 auto; }
 }
 
 /* Carousel arrows: only meaningful when the .cards row is in scrollable
