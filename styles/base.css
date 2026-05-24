@@ -45,5 +45,11 @@ body {
 }
 
 @keyframes draw {
-  to { stroke-dashoffset: 0; }
+  /* opacity:1 in both keyframes is a no-op for paths that don't set
+     opacity:0 initially. For paths that DO (e.g. .circle), it lets
+     them stay invisible until the draw animation kicks in — avoiding
+     the small "ghost dot" stroke-linecap:round leaves at the path's
+     start point before the line is drawn. */
+  from { opacity: 1; }
+  to { stroke-dashoffset: 0; opacity: 1; }
 }

@@ -172,6 +172,11 @@
   stroke-linecap: round;
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
+  /* opacity:0 hides the small sage dot stroke-linecap:round leaves
+     at the path's start point before the draw animation runs. The
+     shared draw keyframe sets opacity to 1, so the circle pops in
+     on the same beat the line starts being drawn. */
+  opacity: 0;
   animation: draw 0.72s cubic-bezier(0.65, 0, 0.35, 1) 6.05s forwards;
 }
 
