@@ -46,7 +46,7 @@
   margin: 0 0 1.2vh;
   font-family: "Gordita", sans-serif;
   font-weight: 300;
-  font-size: 3.6vw;
+  font-size: 2.6vw;
   letter-spacing: 0.004em;
   text-transform: uppercase;
   line-height: 1.04;
@@ -69,9 +69,9 @@
 .privacy__h2 {
   margin: 0 0 1.4vh;
   font-family: "Gordita", sans-serif;
-  font-weight: 300;
-  font-size: 1.55vw;
-  letter-spacing: 0.004em;
+  font-weight: 400;
+  font-size: 1.15vw;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--ink);
   /* Use baseline alignment so number + heading text sit on the
@@ -97,9 +97,12 @@
 .privacy__section li {
   font-family: "Neue Montreal", sans-serif;
   font-weight: 400;
-  font-size: 1.05vw;
-  line-height: 1.65;
-  color: var(--ink);
+  font-size: 0.95vw;
+  line-height: 1.7;
+  /* Muted (warm gray-cream) rather than full --ink (bright cream)
+     so the page reads as a document, not a headline. Reserves the
+     full-ink emphasis for the title + section headings only. */
+  color: var(--muted);
 }
 
 .privacy__section p {
@@ -157,40 +160,43 @@
    ============================================================ */
 @media (max-width: 760px) {
   .privacy__back {
-    font-size: 3.4vw;
+    font-size: 3vw;
     top: 3vh;
     left: 5vw;
   }
 
   .privacy {
     max-width: 100%;
-    padding: 12vh 6vw 10vh;
+    padding: 11vh 7vw 9vh;
   }
 
   .privacy__title {
-    font-size: 9vw;
+    /* 6vw is the comfortable mobile size — visible but not screaming.
+       The home hero headline goes to 9.5vw because it's THE headline;
+       this is a document title and shouldn't compete. */
+    font-size: 6vw;
   }
 
   .privacy__updated {
-    font-size: 3vw;
+    font-size: 2.6vw;
   }
 
   .privacy__h2 {
-    font-size: 5vw;
+    font-size: 3.4vw;
     gap: 0.4em;
   }
 
   .privacy__section p,
   .privacy__section li {
-    font-size: 4.2vw;
-    line-height: 1.6;
+    font-size: 3.6vw;
+    line-height: 1.7;
   }
 
   .privacy__section {
-    margin-bottom: 5vh;
+    margin-bottom: 4.5vh;
   }
 
   .privacy__back-bottom {
-    font-size: 3.4vw;
+    font-size: 3vw;
   }
 }
