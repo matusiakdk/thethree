@@ -10,6 +10,12 @@
   position: fixed;
   inset: 0;
   z-index: 10;
+  /* Sage backup behind the video. If the 16 MB intro video hasn't
+     buffered yet (slow connection, Low Power Mode, Data Saver), the
+     <video> renders empty/transparent and the page content shows
+     through. The accent fill keeps the splash opaque and on-brand
+     until the video catches up — and rolls up with the rest. */
+  background: var(--accent);
   animation: roll-up 1s cubic-bezier(0.76, 0, 0.24, 1) 4.3s forwards;
 }
 
