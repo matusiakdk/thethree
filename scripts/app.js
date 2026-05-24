@@ -110,31 +110,65 @@
     var goTo = function (index) {
       if (index < 0) index = 0;
       else if (index > lastIndex) index = lastIndex;
+      if (index === activeIndex) return;
+      // Mandatory scroll-snap will yank the smooth scrollTo back to the
+      // current snap point mid-animation on iOS WebKit. Temporarily
+      // relax to "none" so the programmatic scroll lands on the new
+      // snap target, then restore mandatory so swipes still snap.
+      cardsEl.style.scrollSnapType = "none";
       cardsEl.scrollTo({ left: snapTargetFor(index), behavior: "smooth" });
-      // Optimistic update — the scroll observer below will reconfirm.
-      activeIndex = index;
-      syncArrows();
+      window.clearTimeout(goTo._snapRestore);
+      goTo._snapRestore = window.setTimeout(function () {
+        cardsEl.style.scrollSnapType = "";
+      }, 700);
+      // No optimistic activeIndex change — the observers below are the
+      // single source of truth so the arrows can't lie about state if
+      // the scroll fails to land.
     };
 
     prevArrow.addEventListener("click", function () { goTo(activeIndex - 1); });
     nextArrow.addEventListener("click", function () { goTo(activeIndex + 1); });
 
-    // IntersectionObserver tracks which card is the most-visible one
-    // (covers swipe, trackpad scroll, and arrow clicks alike). Root is
-    // the .cards scroll container so we get accurate per-card visibility
-    // even when scroll happens inside an offscreen container.
+    var setActive = function (idx) {
+      if (idx !== activeIndex) {
+        activeIndex = idx;
+        syncArrows();
+      }
+    };
+
+    // IntersectionObserver — fires when a card crosses ~55% visibility.
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.intersectionRatio > 0.55) {
           var idx = cardsArr.indexOf(entry.target);
-          if (idx !== -1 && idx !== activeIndex) {
-            activeIndex = idx;
-            syncArrows();
-          }
+          if (idx !== -1) setActive(idx);
         }
       });
     }, { root: cardsEl, threshold: [0.55, 0.8] });
     cardsArr.forEach(function (card) { io.observe(card); });
+
+    // Belt-and-suspenders scroll listener: in iOS WebKit the IO root=
+    // scrollable-element path can miss intermediate states during fast
+    // scroll. Finding the card whose center is closest to the scrollport
+    // center is robust to that.
+    var scrollRAF = null;
+    cardsEl.addEventListener("scroll", function () {
+      if (scrollRAF) return;
+      scrollRAF = requestAnimationFrame(function () {
+        scrollRAF = null;
+        var rect = cardsEl.getBoundingClientRect();
+        var portCenter = (rect.left + rect.right) / 2;
+        var best = 0;
+        var bestDist = Infinity;
+        cardsArr.forEach(function (card, i) {
+          var r = card.getBoundingClientRect();
+          var c = (r.left + r.right) / 2;
+          var d = Math.abs(c - portCenter);
+          if (d < bestDist) { bestDist = d; best = i; }
+        });
+        setActive(best);
+      });
+    }, { passive: true });
 
     // Initial state: card 1 active, arrows synced. Reset scrollLeft in
     // case the browser restored a non-zero position from history.
