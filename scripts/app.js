@@ -18,11 +18,21 @@
    ============================================================ */
 
 (function () {
+  // Respect OS-level "Reduce motion" setting. When on, we skip the
+  // intro splash entirely (the .intro element is display:none via the
+  // matching CSS media query). With nothing covering the page, the
+  // scroll lock and timer-based reveals would only get in the way —
+  // so bypass them and put the page in its "after-intro" state on load.
+  var reduceMotion = window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
   // ---------- 1. Intro scroll lock ----------
-  document.documentElement.style.overflow = "hidden";
-  setTimeout(function () {
-    document.documentElement.style.overflow = "";
-  }, 4800);
+  if (!reduceMotion) {
+    document.documentElement.style.overflow = "hidden";
+    setTimeout(function () {
+      document.documentElement.style.overflow = "";
+    }, 4800);
+  }
 
   // ---------- 2. Section reveals via IntersectionObserver ----------
   // Named `revealIO` (not `io`) to avoid clashing with the carousel
@@ -61,12 +71,17 @@
     wlRevealed = true;
     screen1.classList.add("wl-revealed");
   }
-  setTimeout(revealWaitlist, 10400);
-  setTimeout(function () {
-    window.addEventListener("wheel", revealWaitlist, { once: true, passive: true });
-    window.addEventListener("touchmove", revealWaitlist, { once: true, passive: true });
-    window.addEventListener("scroll", revealWaitlist, { once: true, passive: true });
-  }, 6500);
+  if (reduceMotion) {
+    // No intro animation to wait on — make the waitlist visible right away.
+    revealWaitlist();
+  } else {
+    setTimeout(revealWaitlist, 10400);
+    setTimeout(function () {
+      window.addEventListener("wheel", revealWaitlist, { once: true, passive: true });
+      window.addEventListener("touchmove", revealWaitlist, { once: true, passive: true });
+      window.addEventListener("scroll", revealWaitlist, { once: true, passive: true });
+    }, 6500);
+  }
 
   // ---------- 4. Session-cards carousel arrows ----------
   // Two responsibilities:

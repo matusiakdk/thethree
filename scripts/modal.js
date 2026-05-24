@@ -393,21 +393,87 @@
     }
   });
 
-  // ---------- Pills (single-select within each group) ----------
+  // ---------- Pills / choices (single-select within each group) ----------
 
   // Generalized single-select: a `.pills` group (round chips) and a
-  // `.choices` group (cards with heading + description) share the
-  // same selection semantics. New single-select groups can be added by
-  // wrapping items in either container — no JS change needed.
+  // `.choices` group (cards with heading + description) share the same
+  // selection semantics. Implements the WAI-ARIA radiogroup pattern:
+  //   - Click any item → selects it.
+  //   - Arrow keys (Up/Down/Left/Right) move focus AND selection
+  //     ("selection follows focus" — the most common pattern, and
+  //     what screen-reader users expect from a radiogroup).
+  //   - Home / End jump to first / last.
+  //   - Roving tabindex: only the active item is tabbable, so Tab
+  //     enters and exits the group without cycling through every
+  //     pill (which would be a UX cliff with 5+ options).
+
   modal.querySelectorAll(".pills, .choices").forEach(function (group) {
-    group.addEventListener("click", function (e) {
-      var item = e.target.closest(".pill, .choice");
-      if (!item || !group.contains(item)) return;
-      group.querySelectorAll(".pill, .choice").forEach(function (el) {
+    var items = Array.prototype.slice.call(
+      group.querySelectorAll(".pill, .choice")
+    );
+    if (!items.length) return;
+
+    // Initial roving tabindex: first item enters the tab order.
+    items.forEach(function (el, i) {
+      if (!el.hasAttribute("tabindex")) {
+        el.setAttribute("tabindex", i === 0 ? "0" : "-1");
+      }
+    });
+
+    function selectItem(item, opts) {
+      opts = opts || {};
+      items.forEach(function (el) {
         var isSelected = el === item;
         el.classList.toggle("is-selected", isSelected);
         el.setAttribute("aria-checked", isSelected ? "true" : "false");
+        el.setAttribute("tabindex", isSelected ? "0" : "-1");
       });
+      if (opts.focus !== false) item.focus();
+    }
+
+    group.addEventListener("click", function (e) {
+      var item = e.target.closest(".pill, .choice");
+      if (!item || !group.contains(item)) return;
+      // Don't yank focus on a mouse click — keyboard users get focus,
+      // mouse users keep their existing focus position.
+      selectItem(item, { focus: false });
+    });
+
+    group.addEventListener("keydown", function (e) {
+      var current = document.activeElement;
+      var idx = items.indexOf(current);
+      if (idx === -1) return;
+
+      var nextIdx = null;
+      switch (e.key) {
+        case "ArrowRight":
+        case "ArrowDown":
+          nextIdx = (idx + 1) % items.length;
+          break;
+        case "ArrowLeft":
+        case "ArrowUp":
+          nextIdx = (idx - 1 + items.length) % items.length;
+          break;
+        case "Home":
+          nextIdx = 0;
+          break;
+        case "End":
+          nextIdx = items.length - 1;
+          break;
+        case " ":
+        case "Enter":
+          // Space / Enter on a button would already fire click, but
+          // explicitly handling here makes the contract clear and
+          // prevents page-scroll on Space.
+          e.preventDefault();
+          selectItem(current);
+          return;
+        default:
+          return;
+      }
+
+      e.preventDefault();
+      selectItem(items[nextIdx]);
     });
   });
 

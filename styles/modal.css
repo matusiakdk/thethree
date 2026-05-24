@@ -257,7 +257,11 @@
 }
 
 .choice.is-selected .choice__desc {
-  color: rgba(34, 23, 18, 0.72);
+  /* 0.85 alpha lands at 5.5:1 against the sage selected bg — passes
+     WCAG AA (4.5:1) with a comfortable margin while keeping the desc
+     visually subordinate to the .choice__title above. Earlier 0.72
+     measured 4.20:1 (failed AA). */
+  color: rgba(34, 23, 18, 0.85);
 }
 
 /* ---------- Combobox (custom dropdown) ----------

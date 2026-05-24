@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -88,6 +88,12 @@
   <link rel="stylesheet" href="styles/responsive.css" />
 </head>
 <body>
+  <!-- Skip link — invisible until Tab-focused, then jumps the keyboard
+       user past the fixed nav straight into <main>. WCAG 2.4.1 (Bypass
+       Blocks) and a small but real quality-of-life win for screen-reader
+       and keyboard-only users on a page with a sticky top nav. -->
+  <a href="#main" class="skip-link">Skip to main content</a>
+
   <div class="logo">The Three</div>
 
   <nav class="nav">
@@ -96,7 +102,7 @@
     <a href="#why"><span class="nav-full">Why The Three</span><span class="nav-short">Why</span></a>
   </nav>
 
-  <main>
+  <main id="main" tabindex="-1">
     <!-- ========================================================
          Screen 1 — hero
          Styles: styles/sections/hero.css + styles/waitlist.css
@@ -110,19 +116,19 @@
             <span class="mask"><span>of</span></span>
             <span class="place">
               <span class="place__word">three</span>
-              <svg class="circle" viewBox="0 0 100 52" preserveAspectRatio="none">
+              <svg class="circle" viewBox="0 0 100 52" preserveAspectRatio="none" aria-hidden="true" focusable="false">
                 <path pathLength="1" d="M 7,31 C 5,14 33,6 55,6 C 81,6 97,13 94,28 C 91,42 64,48 40,46 C 16,44 4,36 9,21 C 11,12 15,9 24,6.5" />
               </svg>
             </span>
           </span>
         </h1>
-        <p class="hero-statement">Different industries, the same early-stage problems. For founders who left the safe path to <span class="ul">build something.<svg class="underline" viewBox="0 0 220 24" preserveAspectRatio="none"><path pathLength="1" d="M 6,16 C 54,9 108,20 158,12 C 188,7 207,14 215,8" /></svg></span></p>
+        <p class="hero-statement">Different industries, the same early-stage problems. For founders who left the safe path to <span class="ul">build something.<svg class="underline" viewBox="0 0 220 24" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path pathLength="1" d="M 6,16 C 54,9 108,20 158,12 C 188,7 207,14 215,8" /></svg></span></p>
         <p class="tagline">For founders in the hard early years: every two weeks we put you in a room with two others &mdash; one hour, honest feedback, no audience.</p>
         <p class="sub">You bring the hard question &mdash; which campaign to run, when to make your first hire, whether the product is ready. You get <span class="key">unfiltered feedback</span> from people in the same trenches. Then you do the same for them.</p>
         <div class="waitlist">
-          <span class="waitlist__label">Join the waitlist</span>
+          <label class="waitlist__label" for="hero-email">Join the waitlist</label>
           <form class="waitlist__form" onsubmit="return false">
-            <input class="waitlist__input" type="email" placeholder="Your email" />
+            <input class="waitlist__input" id="hero-email" name="email" type="email" placeholder="Your email" autocomplete="email" aria-required="true" />
             <button class="waitlist__btn" type="button">Join</button>
           </form>
           <p class="form-feedback" role="status" aria-live="polite" hidden></p>
@@ -144,7 +150,7 @@
           <p class="sec-note">Nothing to learn. Nothing to chase. You&rsquo;re in &mdash; until you pause.</p>
         </div>
         <div class="how-steps">
-          <svg class="how-line" viewBox="0 0 40 400" preserveAspectRatio="none">
+          <svg class="how-line" viewBox="0 0 40 400" preserveAspectRatio="none" aria-hidden="true" focusable="false">
             <path pathLength="1" d="M 21,7 C 12,72 29,145 19,218 C 12,270 26,330 20,388 C 23,394 28,392 32,386" />
           </svg>
           <div class="step">
@@ -164,7 +170,7 @@
           <div class="step">
             <span class="step__num">03</span>
             <div class="step__body">
-              <h3 class="step__title">Bring your question, <span class="step__circ">return the favor<svg class="step-circle" viewBox="0 0 100 52" preserveAspectRatio="none"><path pathLength="1" d="M 9,32 C 4,13 30,4 56,4 C 86,4 100,13 100,28 C 100,44 86,50 56,50 C 30,50 5,45 8,30 C 10,20 13,9 26,5" /></svg></span>.</h3>
+              <h3 class="step__title">Bring your question, <span class="step__circ">return the favor<svg class="step-circle" viewBox="0 0 100 52" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path pathLength="1" d="M 9,32 C 4,13 30,4 56,4 C 86,4 100,13 100,28 C 100,44 86,50 56,50 C 30,50 5,45 8,30 C 10,20 13,9 26,5" /></svg></span>.</h3>
               <p class="step__desc">One focused hour, split evenly. Everyone brings something real. You get the truth on yours &mdash; then you do the same for theirs.</p>
             </div>
           </div>
@@ -186,7 +192,7 @@
         <button class="cards-arrow cards-arrow--prev" type="button" aria-label="Previous founder">&lsaquo;</button>
         <div class="cards">
         <figure class="card">
-          <div class="card__photo"><img src="assets/images/card-aisha.jpg" alt="Aisha" /></div>
+          <div class="card__photo"><img src="assets/images/card-aisha.jpg" alt="" /></div>
           <figcaption class="card__text">
             <span class="card__name">Aisha</span>
             <span class="card__role">Marketing expert, launching her own agency</span>
@@ -197,7 +203,7 @@
           </figcaption>
         </figure>
         <figure class="card">
-          <div class="card__photo"><img src="assets/images/card-stefan.jpg" alt="Stefan" /></div>
+          <div class="card__photo"><img src="assets/images/card-stefan.jpg" alt="" /></div>
           <figcaption class="card__text">
             <span class="card__name">Stefan</span>
             <span class="card__role">SaaS founder, pre-product-market-fit</span>
@@ -208,7 +214,7 @@
           </figcaption>
         </figure>
         <figure class="card">
-          <div class="card__photo"><img src="assets/images/card-anna.jpg" alt="Anna" /></div>
+          <div class="card__photo"><img src="assets/images/card-anna.jpg" alt="" /></div>
           <figcaption class="card__text">
             <span class="card__name">Anna</span>
             <span class="card__role">Florist scaling to a second location</span>
@@ -239,26 +245,26 @@
           <div class="who-list who-list--for">
             <span class="who-list__label">The Three is for</span>
             <ul class="who-list__items">
-              <li><svg class="check" viewBox="0 0 24 22"><path d="M 2 11.5 C 3 13.5 6 15.5 9 18 C 12 15 16.5 9 22 3.5" /></svg>Early-stage founders &mdash; past the idea or deep in it, not yet scaling</li>
-              <li><svg class="check" viewBox="0 0 24 22"><path d="M 2 11.5 C 3 13.5 6 15.5 9 18 C 12 15 16.5 9 22 3.5" /></svg>In it seriously &mdash; full-time, or building toward it</li>
-              <li><svg class="check" viewBox="0 0 24 22"><path d="M 2 11.5 C 3 13.5 6 15.5 9 18 C 12 15 16.5 9 22 3.5" /></svg>Doing the work week to week, not just thinking about it</li>
-              <li><svg class="check" viewBox="0 0 24 22"><path d="M 2 11.5 C 3 13.5 6 15.5 9 18 C 12 15 16.5 9 22 3.5" /></svg>Here for the truth, not reassurance</li>
+              <li><svg class="check" viewBox="0 0 24 22" aria-hidden="true" focusable="false"><path d="M 2 11.5 C 3 13.5 6 15.5 9 18 C 12 15 16.5 9 22 3.5" /></svg>Early-stage founders &mdash; past the idea or deep in it, not yet scaling</li>
+              <li><svg class="check" viewBox="0 0 24 22" aria-hidden="true" focusable="false"><path d="M 2 11.5 C 3 13.5 6 15.5 9 18 C 12 15 16.5 9 22 3.5" /></svg>In it seriously &mdash; full-time, or building toward it</li>
+              <li><svg class="check" viewBox="0 0 24 22" aria-hidden="true" focusable="false"><path d="M 2 11.5 C 3 13.5 6 15.5 9 18 C 12 15 16.5 9 22 3.5" /></svg>Doing the work week to week, not just thinking about it</li>
+              <li><svg class="check" viewBox="0 0 24 22" aria-hidden="true" focusable="false"><path d="M 2 11.5 C 3 13.5 6 15.5 9 18 C 12 15 16.5 9 22 3.5" /></svg>Here for the truth, not reassurance</li>
             </ul>
           </div>
           <div class="who-list who-list--not">
             <span class="who-list__label">The Three is not for</span>
             <ul class="who-list__items">
-              <li><span class="x-mark">&times;</span>Coaches and mentors-for-hire</li>
-              <li><span class="x-mark">&times;</span>Anyone prospecting for sales leads</li>
-              <li><span class="x-mark">&times;</span>MLM, crypto schemes, get-rich-quick</li>
-              <li><span class="x-mark">&times;</span>Anyone here to talk about building, not do it</li>
+              <li><span class="x-mark" aria-hidden="true">&times;</span>Coaches and mentors-for-hire</li>
+              <li><span class="x-mark" aria-hidden="true">&times;</span>Anyone prospecting for sales leads</li>
+              <li><span class="x-mark" aria-hidden="true">&times;</span>MLM, crypto schemes, get-rich-quick</li>
+              <li><span class="x-mark" aria-hidden="true">&times;</span>Anyone here to talk about building, not do it</li>
             </ul>
           </div>
         </div>
       </div>
       <div class="who-bottom">
         <p class="who-bound">The room works because everyone&rsquo;s roughly in the same place &mdash; from first idea to first hires and early growth. Past that &mdash; scaling an established team, raising your Series A and beyond &mdash; you&rsquo;re out of the early years this is built for.</p>
-        <p class="who-close">Saw yourself on the left? You&rsquo;ll <span class="ul">fit right in.<svg class="underline" viewBox="0 0 220 24" preserveAspectRatio="none"><path pathLength="1" d="M 6,16 C 54,9 108,20 158,12 C 188,7 207,14 215,8" /></svg></span></p>
+        <p class="who-close">Saw yourself on the left? You&rsquo;ll <span class="ul">fit right in.<svg class="underline" viewBox="0 0 220 24" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path pathLength="1" d="M 6,16 C 54,9 108,20 158,12 C 188,7 207,14 215,8" /></svg></span></p>
       </div>
     </section>
 
@@ -275,17 +281,17 @@
         <div class="why-block">
           <span class="why-block__vs">vs LinkedIn</span>
           <p class="why-block__alt">Performing success for an audience.</p>
-          <p class="why-block__us"><svg class="why-arrow" viewBox="0 0 26 20"><path pathLength="1" d="M 1 12.5 C 6 11 14 14 22 11.5 M 16 6 L 22 11.5 L 17 17.5" /></svg>The Three: honest feedback, in private.</p>
+          <p class="why-block__us"><svg class="why-arrow" viewBox="0 0 26 20" aria-hidden="true" focusable="false"><path pathLength="1" d="M 1 12.5 C 6 11 14 14 22 11.5 M 16 6 L 22 11.5 L 17 17.5" /></svg>The Three: honest feedback, in private.</p>
         </div>
         <div class="why-block">
           <span class="why-block__vs">vs mastermind groups</span>
           <p class="why-block__alt">&pound;8,000 a year, and mostly post-success founders.</p>
-          <p class="why-block__us"><svg class="why-arrow" viewBox="0 0 26 20"><path pathLength="1" d="M 1 12.5 C 6 11 14 14 22 11.5 M 16 6 L 22 11.5 L 17 17.5" /></svg>The Three: founding price from &pound;20 a month, founders building right now.</p>
+          <p class="why-block__us"><svg class="why-arrow" viewBox="0 0 26 20" aria-hidden="true" focusable="false"><path pathLength="1" d="M 1 12.5 C 6 11 14 14 22 11.5 M 16 6 L 22 11.5 L 17 17.5" /></svg>The Three: founding price from &pound;20 a month, founders building right now.</p>
         </div>
         <div class="why-block">
           <span class="why-block__vs">vs coaches &amp; mentors</span>
           <p class="why-block__alt">One person&rsquo;s advice. &pound;200 an hour. Often outdated.</p>
-          <p class="why-block__us"><svg class="why-arrow" viewBox="0 0 26 20"><path pathLength="1" d="M 1 12.5 C 6 11 14 14 22 11.5 M 16 6 L 22 11.5 L 17 17.5" /></svg>The Three: two peers in the same trenches as you.</p>
+          <p class="why-block__us"><svg class="why-arrow" viewBox="0 0 26 20" aria-hidden="true" focusable="false"><path pathLength="1" d="M 1 12.5 C 6 11 14 14 22 11.5 M 16 6 L 22 11.5 L 17 17.5" /></svg>The Three: two peers in the same trenches as you.</p>
         </div>
       </div>
       <p class="why-close">Same problems. A tenth of the price. People who actually get it.</p>
@@ -297,10 +303,11 @@
          ======================================================== -->
     <section id="join" class="screen screen--cta">
       <div class="cta">
-        <h2 class="cta-title">The <span class="ul">first 100<svg class="cta-line" viewBox="0 0 220 24" preserveAspectRatio="none"><path pathLength="1" d="M 6,16 C 54,9 108,20 158,12 C 188,7 207,14 215,8" /></svg></span> set the tone.</h2>
+        <h2 class="cta-title">The <span class="ul">first 100<svg class="cta-line" viewBox="0 0 220 24" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path pathLength="1" d="M 6,16 C 54,9 108,20 158,12 C 188,7 207,14 215,8" /></svg></span> set the tone.</h2>
         <p class="cta-sub">Founding members lock in the lowest price The Three will ever offer &mdash; and help shape what it becomes.</p>
         <form class="cta-form" onsubmit="return false">
-          <input class="waitlist__input" type="email" placeholder="Your email" />
+          <label class="visually-hidden" for="cta-email">Email address</label>
+          <input class="waitlist__input" id="cta-email" name="email" type="email" placeholder="Your email" autocomplete="email" aria-required="true" />
           <button class="waitlist__btn" type="button">Join</button>
         </form>
         <p class="form-feedback" role="status" aria-live="polite" hidden></p>
@@ -322,7 +329,7 @@
     until its CSS-driven roll-up animation completes at t=5.3s.
     See styles/sections/intro.css + scripts/app.js for the timeline.
   -->
-  <div class="intro">
+  <div class="intro" aria-hidden="true">
     <video src="assets/video/the.mp4" autoplay muted loop playsinline></video>
     <div class="title">
       <span class="word word--the">The</span>
@@ -356,8 +363,8 @@
 
         <!-- Stage (cards, single-select) — bold heading + always-visible muted description -->
         <div class="field">
-          <span class="field__label">Where are you right now?</span>
-          <div class="choices" role="radiogroup" aria-label="Stage">
+          <span class="field__label" id="modal-stage-label">Where are you right now?</span>
+          <div class="choices" role="radiogroup" aria-labelledby="modal-stage-label">
             <button type="button" class="choice" data-name="stage" data-value="early" role="radio" aria-checked="false">
               <span class="choice__title">Early days</span>
               <span class="choice__desc">Still setting it up &mdash; testing the idea, first clients, not fully launched yet</span>
@@ -416,8 +423,8 @@
 
         <!-- Source (pills, single-select, optional) -->
         <div class="field">
-          <span class="field__label">How did you find us? <span class="field__optional">(optional)</span></span>
-          <div class="pills" role="radiogroup" aria-label="Source">
+          <span class="field__label" id="modal-source-label">How did you find us? <span class="field__optional">(optional)</span></span>
+          <div class="pills" role="radiogroup" aria-labelledby="modal-source-label">
             <button type="button" class="pill" data-name="source" data-value="social"    role="radio" aria-checked="false">Social media</button>
             <button type="button" class="pill" data-name="source" data-value="friend"    role="radio" aria-checked="false">A friend</button>
             <button type="button" class="pill" data-name="source" data-value="search"    role="radio" aria-checked="false">Search</button>
