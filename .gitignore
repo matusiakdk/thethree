@@ -4,6 +4,7 @@
 
 # Local backups — never ship to production
 backups/
+*-original-backup.*
 
 # Work-in-progress media in repo root (large PNG/MP4 exports from
 # design iteration, not referenced by index.html). Keep production
