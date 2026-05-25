@@ -559,6 +559,15 @@
     // insertEmail calls (and two welcome mails) while we're awaiting
     // the DB response.
     var isSubmitting = false;
+    var originalBtnText = btn.textContent;
+
+    function setSubmittingState(submitting) {
+      isSubmitting = submitting;
+      btn.disabled = submitting;
+      // Swap the label so the user has explicit feedback during the
+      // ~200ms DB roundtrip instead of staring at a frozen button.
+      btn.textContent = submitting ? "Checking…" : originalBtnText;
+    }
 
     function attemptOpen() {
       if (isSubmitting) return;
@@ -578,13 +587,11 @@
       // Single source of truth: ask Supabase whether this email is new.
       // Doing this BEFORE pushToLoops avoids re-triggering the welcome
       // transactional for someone who's already on the list. ~200ms
-      // roundtrip — button stays disabled during the await.
-      isSubmitting = true;
-      btn.disabled = true;
+      // roundtrip — button shows "Checking…" during the await.
+      setSubmittingState(true);
 
       insertEmail(email).then(function (wasNew) {
-        isSubmitting = false;
-        btn.disabled = false;
+        setSubmittingState(false);
 
         // wasNew === false → email is already in Supabase. Show the
         // confirmation message, do NOT open the modal, do NOT re-fire
