@@ -68,6 +68,24 @@
     });
   }
 
+  // ============================================================
+  // LOOPS (welcome email + audience sync)
+  // ============================================================
+  // Hits our own Pages Function (/api/loops) — which holds the
+  // Loops API key in a Cloudflare env var. The browser never sees
+  // the key. Upsert: first call fires the "Contact added" workflow
+  // (welcome email), follow-up call after enrichment fills in name
+  // and other fields for future campaigns.
+  function pushToLoops(payload) {
+    fetch("/api/loops", {
+      method:  "POST",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify(payload)
+    }).catch(function (err) {
+      console.error("[waitlist] pushToLoops failed", err);
+    });
+  }
+
   var modal = document.getElementById("signup-modal");
   if (!modal) return;
 
@@ -527,6 +545,8 @@
       // The modal is enrichment-only — even if the user dismisses
       // it or closes the tab, the email is already on the list.
       insertEmail(email);
+      // Mirror into Loops so the welcome workflow fires immediately.
+      pushToLoops({ email: email });
       // Already engaged with the modal once? Don't show it again, but
       // do confirm the user is on the list so the click isn't silent.
       if (hasSeenModal()) {
@@ -563,7 +583,20 @@
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       var email = modal.dataset.email;
-      if (email) enrichEmail(email, collectModalFields());
+      if (email) {
+        var fields = collectModalFields();
+        enrichEmail(email, fields);
+        // Update the Loops contact with the enrichment fields so
+        // future campaigns can personalize / segment.
+        pushToLoops({
+          email:     email,
+          firstName: fields.firstName,
+          stage:     fields.stage,
+          industry:  fields.industry,
+          country:   fields.country,
+          howFound:  fields.source
+        });
+      }
       showSuccessThenClose();
     });
   }
