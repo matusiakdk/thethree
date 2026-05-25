@@ -169,14 +169,12 @@
      it lands inside the visible area when the section first
      scrolls into view on portrait phones. */
   .card { width: 60vw; flex: 0 0 auto; }
-}
 
-/* Carousel arrows: only meaningful when the .cards row is in scrollable
-   mode (mobile breakpoint) AND the user has a mouse — touch users get
-   the peek+swipe affordance and don't need buttons. Outside this gate
-   the arrows stay display:none from session.css. */
-@media (max-width: 760px) and (hover: hover) {
-  .cards-arrow { display: grid; }
+  /* --- session card text (name / role / week / quote) ---
+     Must live in the unconditional mobile block (NOT under
+     `hover: hover`) so touch phones — which don't match hover:hover
+     — also pick up these sizes. Without this, phones inherited
+     desktop card text sizes scaled to a 60vw card width = unreadable. */
   .card__name { font-size: 4.4vw; }
   .card__role { font-size: 3.4vw; }
   .card__week-label { font-size: 2.8vw; }
@@ -186,7 +184,9 @@
   /* --- modal ---
      Tested against 380×667. Vertical spacing is compressed so the five
      fields + actions fit within ~1.2 viewport heights (a short scroll,
-     never an endless one). Touch targets ≥ 44px for X, pills, Skip. */
+     never an endless one). Touch targets ≥ 44px for X, pills, Skip.
+     Lives in the unconditional mobile block (touch phones don't match
+     hover:hover — the previous nesting hid all of this from phones). */
   .modal { padding: 3vh 3.5vw; }
   .modal__panel { padding: 4.4vh 6vw; max-width: 100%; }
   .modal__close {
@@ -234,4 +234,12 @@
   .modal__success-check { width: 14vw; height: 14vw; margin-bottom: 2.4vh; }
   .modal__success-title { font-size: 6.4vw; }
   .modal__success-sub { font-size: 3.6vw; }
+}
+
+/* Carousel arrows: only meaningful when the .cards row is in scrollable
+   mode (mobile breakpoint) AND the user has a mouse — touch users get
+   the peek+swipe affordance and don't need buttons. Outside this gate
+   the arrows stay display:none from session.css. */
+@media (max-width: 760px) and (hover: hover) {
+  .cards-arrow { display: grid; }
 }
