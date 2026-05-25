@@ -47,6 +47,11 @@
   //   null  → old SQL (returns void) or network error — caller should
   //           "fail open" and treat as new (better to let a duplicate
   //           through than to block a legit signup).
+  //
+  // PostgREST returns scalar boolean as a bare JSON literal (true/false).
+  // We also handle [true]/[false] (array wrap) and {add_to_waitlist:true}
+  // (object wrap) defensively, in case Supabase changes the shape in the
+  // future or the SQL function is redefined as SETOF/TABLE.
   function insertEmail(email) {
     return fetch(SUPABASE_URL + "/rest/v1/rpc/add_to_waitlist", {
       method: "POST",
@@ -57,8 +62,27 @@
         console.error("[waitlist] insertEmail HTTP error", res.status);
         return null;
       }
-      // RPC returns boolean directly (new SQL) or null (old void SQL).
-      return res.json().catch(function () { return null; });
+      return res.text().then(function (text) {
+        if (!text) return null; // old void-returning SQL
+        var data;
+        try { data = JSON.parse(text); }
+        catch (e) { return null; }
+        if (data === true || data === false) return data;
+        if (Array.isArray(data) && data.length > 0) {
+          var first = data[0];
+          if (first === true || first === false) return first;
+          if (first && typeof first === "object" && "add_to_waitlist" in first) {
+            return first.add_to_waitlist === true ? true
+                 : first.add_to_waitlist === false ? false : null;
+          }
+        }
+        if (data && typeof data === "object" && "add_to_waitlist" in data) {
+          return data.add_to_waitlist === true ? true
+               : data.add_to_waitlist === false ? false : null;
+        }
+        console.warn("[waitlist] unexpected insertEmail response shape:", data);
+        return null;
+      });
     }).catch(function (err) {
       console.error("[waitlist] insertEmail failed", err);
       return null;
@@ -337,55 +361,14 @@
 
   modal.querySelectorAll(".combobox").forEach(setupCombobox);
 
-  // ---------- "Seen" tracking (per-email, in localStorage) ----------
-  // We track which *emails* have already gone through the modal on this
-  // browser — not a single browser-wide boolean. This unblocks the
-  // shared-device case (two founders on the same laptop, different
-  // emails) which a global flag silently broke: the second friend would
-  // hit "you're already in" even though their email had never been
-  // submitted.
-  //
-  // Skip, submit, X, Esc, backdrop click — all count as "seen" for the
-  // current email. Set on close (not on open) so the email has to
-  // actually have been *engaged with* to count.
-  //
-  // Storage shape: JSON array of lowercased trimmed emails.
-  // localStorage limits (~5MB) are far above what this can ever fill.
-  var STORAGE_KEY = "thethree:modal:seenEmails";
-
-  function normalizeEmail(email) {
-    return (email || "").toLowerCase().trim();
-  }
-
-  function getSeenEmails() {
-    try {
-      var raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return [];
-      var parsed = JSON.parse(raw);
-      return Array.isArray(parsed) ? parsed : [];
-    } catch (e) {
-      return [];
-    }
-  }
-
-  function hasEmailBeenSeen(email) {
-    var normalized = normalizeEmail(email);
-    if (!normalized) return false;
-    return getSeenEmails().indexOf(normalized) !== -1;
-  }
-
-  function markEmailAsSeen(email) {
-    var normalized = normalizeEmail(email);
-    if (!normalized) return;
-    try {
-      var emails = getSeenEmails();
-      if (emails.indexOf(normalized) !== -1) return;
-      emails.push(normalized);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(emails));
-    } catch (e) { /* localStorage may be blocked (private mode, etc.) — no-op */ }
-  }
-
   // ---------- Open / close ----------
+  // Note: there is intentionally NO localStorage-based "seen" cache.
+  // Supabase is the single source of truth for waitlist membership.
+  // Earlier versions kept a localStorage flag for fast feedback on
+  // repeat clicks, but it drifted from the DB (admin removes a row,
+  // local cache still says "seen") and made testing confusing. The
+  // ~200ms DB roundtrip on every JOIN click is an acceptable cost for
+  // correctness.
 
   var lastFocus  = null;
   var closeTimer = null;  // pending 3.5s auto-close after Done; cleared on any manual close
@@ -406,9 +389,6 @@
     modal.classList.remove("is-open");
     modal.setAttribute("aria-hidden", "true");
     document.documentElement.style.overflow = "";
-    // Mark THIS email as seen — not the browser globally. Lets the next
-    // friend on the same laptop with a different email actually sign up.
-    markEmailAsSeen(modal.dataset.email);
     if (lastFocus && typeof lastFocus.focus === "function") {
       lastFocus.focus();
     }
@@ -595,17 +575,10 @@
         return;
       }
 
-      // Fast path: we already saw this email on this browser — show the
-      // confirmation immediately without hitting the network.
-      if (hasEmailBeenSeen(email)) {
-        showFb("You’re already in. We’ll email you the moment The Three opens.", "success");
-        return;
-      }
-
-      // Source-of-truth check: ask Supabase whether this email is new.
+      // Single source of truth: ask Supabase whether this email is new.
       // Doing this BEFORE pushToLoops avoids re-triggering the welcome
-      // transactional for someone who's already on the list (e.g. typed
-      // their email on a new device with empty localStorage).
+      // transactional for someone who's already on the list. ~200ms
+      // roundtrip — button stays disabled during the await.
       isSubmitting = true;
       btn.disabled = true;
 
@@ -613,17 +586,17 @@
         isSubmitting = false;
         btn.disabled = false;
 
-        // wasNew === false → email is already in Supabase: show the
-        // confirmation, cache locally so future attempts skip the call,
-        // do NOT re-send the welcome mail.
+        // wasNew === false → email is already in Supabase. Show the
+        // confirmation message, do NOT open the modal, do NOT re-fire
+        // the welcome transactional.
         if (wasNew === false) {
-          markEmailAsSeen(email);
           showFb("You’re already in. We’ll email you the moment The Three opens.", "success");
           return;
         }
 
-        // wasNew === true (newly inserted) OR null (old void SQL /
-        // network error — fail open). Open modal and fire welcome.
+        // wasNew === true (newly inserted) OR null (network error —
+        // fail open, better to allow a duplicate than block a signup).
+        // Open the modal + fire the welcome.
         modal.dataset.email = email;
         pushToLoops({ email: email, welcome: true });
         clearFb();
