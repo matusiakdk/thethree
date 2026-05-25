@@ -160,9 +160,13 @@
    ============================================================ */
 @media (max-width: 760px) {
   .privacy__back {
-    font-size: 3vw;
-    top: 3vh;
-    left: 5vw;
+    /* This is the ONLY way back to the homepage from here — needs a real
+       tap area. Was a 30px text node before; padding gets it to 44px. */
+    font-size: 3.4vw;
+    top: 2.2vh;
+    left: 4vw;
+    padding: 0.7em 0.6em;
+    display: inline-block;
   }
 
   .privacy {
@@ -178,7 +182,9 @@
   }
 
   .privacy__updated {
-    font-size: 2.6vw;
+    /* 2.6vw resolved to ~9.9px on a 380px phone — under the 12px floor.
+       Bumped to 3vw (~11.4px) — small but readable secondary info. */
+    font-size: 3vw;
   }
 
   .privacy__h2 {
@@ -197,6 +203,9 @@
   }
 
   .privacy__back-bottom {
-    font-size: 3vw;
+    font-size: 3.4vw;
+    padding: 0.6em 0;
+    display: inline-block;
+    min-height: 44px;
   }
 }

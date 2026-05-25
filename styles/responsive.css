@@ -17,11 +17,19 @@
   /* --- typography primitives --- */
   .headline { font-size: 9.5vw; }
 
-  /* --- nav + logo --- */
-  .logo { font-size: 3.6vw; }
-  .nav { font-size: 3vw; gap: 5.5vw; top: 3vh; }
+  /* --- nav + logo ---
+     Tap targets: anchor text nodes alone are sub-30px tall; add padding +
+     min-height so the actual tap area meets the 44px guideline. Reduced
+     gap compensates for the new horizontal padding on each link. */
+  .logo { font-size: 3.2vw; }
+  .nav { font-size: 3vw; gap: 3vw; top: 3vh; }
   .nav-full { display: none; }
   .nav-short { display: inline; }
+  .nav a {
+    display: inline-block;
+    padding: 1.1em 0.4em;
+    min-height: 44px;
+  }
 
   /* --- hero (screen 1) --- */
   .screen--1 { padding-top: 12vh; }
@@ -91,7 +99,7 @@
   }
   .who-top { flex-direction: column; align-items: flex-start; gap: 5vh; }
   .who-lists { flex-direction: column; gap: 5vh; }
-  .who-list__label { font-size: 3vw; }
+  .who-list__label { font-size: 3.2vw; }
   .who-list--for li { font-size: 4vw; }
   .who-list--not li { font-size: 3.4vw; }
   .who-bottom { margin-left: 0; }
@@ -111,11 +119,17 @@
   .cta-form { width: 100%; max-width: none; }
   .cta-count { font-size: 3.4vw; }
   .site-footer {
-    font-size: 3vw;
+    font-size: 3.4vw;
     gap: 3vw;
     flex-wrap: wrap;
     justify-content: center;
     text-align: center;
+  }
+  /* Tap targets — footer links were sub-20px tall before. */
+  .footer-link {
+    display: inline-block;
+    padding: 0.6em 0.4em;
+    min-height: 44px;
   }
 
   /* --- session / screen 2 --- */
@@ -200,9 +214,9 @@
   .modal__title { font-size: 7vw; }
   .modal__subtitle { font-size: 3.7vw; margin-top: 1.4vh; }
   .field { margin-bottom: 2.4vh; }
-  .field__label { font-size: 2.9vw; margin-bottom: 1vh; }
+  .field__label { font-size: 3.2vw; margin-bottom: 1vh; }
   .field__input { font-size: 3.8vw; padding: 0.9em 1.1em; }
-  .pills { gap: 2vw; }
+  .pills { gap: 2.5vw; }
   .pill {
     font-size: 3.6vw;
     padding: 1.05em 1.2em; /* ~44px tap height at this font size */

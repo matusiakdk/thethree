@@ -60,7 +60,10 @@
   font-family: "Neue Montreal", sans-serif;
   font-size: 1vw;
   line-height: 1.5;
-  color: rgba(161, 148, 138, 0.6);
+  /* Bumped from 0.6 → 0.78 alpha. Old value gave ~3.1:1 contrast on the
+     warm-brown bg — below WCAG AA's 4.5:1 floor for body text. Matches
+     .who-list--not's tone (also a secondary "alt" voice). */
+  color: rgba(161, 148, 138, 0.78);
 }
 
 .why-block__us {
