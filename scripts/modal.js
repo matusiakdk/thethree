@@ -41,13 +41,27 @@
   // rule server-side. Fire-and-forget — the UI never blocks on the
   // network.
 
+  // Returns a Promise resolving to:
+  //   true  → email was newly inserted (first signup)
+  //   false → email already existed in waitlist
+  //   null  → old SQL (returns void) or network error — caller should
+  //           "fail open" and treat as new (better to let a duplicate
+  //           through than to block a legit signup).
   function insertEmail(email) {
-    fetch(SUPABASE_URL + "/rest/v1/rpc/add_to_waitlist", {
+    return fetch(SUPABASE_URL + "/rest/v1/rpc/add_to_waitlist", {
       method: "POST",
-      headers: supabaseHeaders("return=minimal"),
+      headers: supabaseHeaders("return=representation"),
       body: JSON.stringify({ p_email: email })
+    }).then(function (res) {
+      if (!res.ok) {
+        console.error("[waitlist] insertEmail HTTP error", res.status);
+        return null;
+      }
+      // RPC returns boolean directly (new SQL) or null (old void SQL).
+      return res.json().catch(function () { return null; });
     }).catch(function (err) {
       console.error("[waitlist] insertEmail failed", err);
+      return null;
     });
   }
 
@@ -561,7 +575,14 @@
       delete fb.dataset.state;
     }
 
+    // Guard so a double-click / Enter-spam can't fire two parallel
+    // insertEmail calls (and two welcome mails) while we're awaiting
+    // the DB response.
+    var isSubmitting = false;
+
     function attemptOpen() {
+      if (isSubmitting) return;
+
       var email = input.value.trim();
       if (!email) {
         showFb("Enter your email to join.", "info");
@@ -573,26 +594,41 @@
         input.focus();
         return;
       }
-      modal.dataset.email = email;
-      // Capture the email in Supabase the moment JOIN is clicked.
-      // The modal is enrichment-only — even if the user dismisses
-      // it or closes the tab, the email is already on the list.
-      insertEmail(email);
-      // Mirror into Loops + trigger the welcome via Transactional API.
-      // `welcome: true` tells /api/loops to fire the transactional send.
-      // Enrichment update below omits this flag so we don't double-mail.
-      pushToLoops({ email: email, welcome: true });
-      // This specific email already gone through the modal on this
-      // browser? Skip the modal but confirm the signup so the click
-      // isn't silent. A different email (e.g. a friend on the same
-      // laptop) gets the full modal — that's the whole point of
-      // tracking per-email instead of per-browser.
+
+      // Fast path: we already saw this email on this browser — show the
+      // confirmation immediately without hitting the network.
       if (hasEmailBeenSeen(email)) {
         showFb("You’re already in. We’ll email you the moment The Three opens.", "success");
         return;
       }
-      clearFb();
-      open();
+
+      // Source-of-truth check: ask Supabase whether this email is new.
+      // Doing this BEFORE pushToLoops avoids re-triggering the welcome
+      // transactional for someone who's already on the list (e.g. typed
+      // their email on a new device with empty localStorage).
+      isSubmitting = true;
+      btn.disabled = true;
+
+      insertEmail(email).then(function (wasNew) {
+        isSubmitting = false;
+        btn.disabled = false;
+
+        // wasNew === false → email is already in Supabase: show the
+        // confirmation, cache locally so future attempts skip the call,
+        // do NOT re-send the welcome mail.
+        if (wasNew === false) {
+          markEmailAsSeen(email);
+          showFb("You’re already in. We’ll email you the moment The Three opens.", "success");
+          return;
+        }
+
+        // wasNew === true (newly inserted) OR null (old void SQL /
+        // network error — fail open). Open modal and fire welcome.
+        modal.dataset.email = email;
+        pushToLoops({ email: email, welcome: true });
+        clearFb();
+        open();
+      });
     }
 
     btn.addEventListener("click", attemptOpen);
