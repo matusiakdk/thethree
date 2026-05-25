@@ -31,30 +31,60 @@ export async function onRequestPost(context) {
     return json({ error: "missing_api_key" }, 500);
   }
 
-  const body = { email, userGroup: "Waitlist", source: payload.source || "website" };
-  if (payload.firstName) body.firstName = payload.firstName;
-  if (payload.stage)     body.stage     = payload.stage;
-  if (payload.industry)  body.industry  = payload.industry;
-  if (payload.country)   body.country   = payload.country;
-  if (payload.howFound)  body.howFound  = payload.howFound;
+  // ---- 1. Upsert the contact in the audience.
+  // Runs for both initial signup AND later enrichment. Adds to Loops audience
+  // so future campaigns can target by stage/industry/etc.
+  const contactBody = { email, userGroup: "Waitlist", source: payload.source || "website" };
+  if (payload.firstName) contactBody.firstName = payload.firstName;
+  if (payload.stage)     contactBody.stage     = payload.stage;
+  if (payload.industry)  contactBody.industry  = payload.industry;
+  if (payload.country)   contactBody.country   = payload.country;
+  if (payload.howFound)  contactBody.howFound  = payload.howFound;
 
-  let loopsRes;
+  let contactRes;
   try {
-    loopsRes = await fetch("https://app.loops.so/api/v1/contacts/update", {
+    contactRes = await fetch("https://app.loops.so/api/v1/contacts/update", {
       method: "POST",
       headers: {
         "Content-Type":  "application/json",
         "Authorization": "Bearer " + apiKey
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(contactBody)
     });
   } catch (e) {
     return json({ error: "loops_unreachable" }, 502);
   }
 
-  const text = await loopsRes.text();
+  // ---- 2. Send the welcome via Transactional API (only on initial signup).
+  // Gmail treats transactional sends as user-triggered (higher Primary
+  // placement) vs workflow-triggered Audience sends (often Promotions).
+  // The `welcome: true` flag is set only on the first JOIN click in modal.js;
+  // enrichment updates omit it, so we don't double-send. The corresponding
+  // Loops Workflow ("Contact added" → Send email) MUST stay paused — that
+  // workflow + this transactional would double-mail every signup.
+  const transactionalId = context.env.LOOPS_TRANSACTIONAL_ID;
+  if (payload.welcome && transactionalId) {
+    try {
+      await fetch("https://app.loops.so/api/v1/transactional", {
+        method: "POST",
+        headers: {
+          "Content-Type":  "application/json",
+          "Authorization": "Bearer " + apiKey
+        },
+        body: JSON.stringify({
+          transactionalId: transactionalId,
+          email: email
+        })
+      });
+    } catch (e) {
+      // Silent — contact is in Loops audience, can be welcomed manually if needed.
+      // Supabase still has the row so the signup itself is preserved.
+    }
+  }
+
+  const text = await contactRes.text();
   return new Response(text, {
-    status: loopsRes.status,
+    status: contactRes.status,
     headers: { "Content-Type": "application/json" }
   });
 }

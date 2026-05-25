@@ -578,8 +578,10 @@
       // The modal is enrichment-only — even if the user dismisses
       // it or closes the tab, the email is already on the list.
       insertEmail(email);
-      // Mirror into Loops so the welcome workflow fires immediately.
-      pushToLoops({ email: email });
+      // Mirror into Loops + trigger the welcome via Transactional API.
+      // `welcome: true` tells /api/loops to fire the transactional send.
+      // Enrichment update below omits this flag so we don't double-mail.
+      pushToLoops({ email: email, welcome: true });
       // This specific email already gone through the modal on this
       // browser? Skip the modal but confirm the signup so the click
       // isn't silent. A different email (e.g. a friend on the same
