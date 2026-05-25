@@ -75,7 +75,8 @@
     // No intro animation to wait on — make the waitlist visible right away.
     revealWaitlist();
   } else {
-    setTimeout(revealWaitlist, 10400);
+    var isDesktop = window.matchMedia && window.matchMedia("(min-width: 761px)").matches;
+    setTimeout(revealWaitlist, isDesktop ? 8900 : 10400);
     setTimeout(function () {
       window.addEventListener("wheel", revealWaitlist, { once: true, passive: true });
       window.addEventListener("touchmove", revealWaitlist, { once: true, passive: true });
