@@ -27,25 +27,20 @@
   to { transform: translateY(-100%); }
 }
 
-/* Note: scoped to <video> globally — only the intro uses <video> currently.
-   The earlier min-width/min-height trick was put in to dodge an old
-   iOS object-fit bug, but on modern iOS Safari it has its own failure
-   mode — when the intrinsic landscape video is sized into a portrait
-   viewport, the `width:auto` computation can stop at the intrinsic
-   width and leave sage `.intro` background showing as bands on top
-   and bottom. Verified on iOS 17 (screenshot from a 390×844 phone).
-   The fix is the modern, reliable form: pin the <video> element to
-   the viewport box (100vw × 100vh, plus 100dvh for the iOS Safari
-   toolbar dance) and let `object-fit: cover` crop the overflow.
-   The title layer is unaffected because it's a separate absolute
-   child of .intro. */
-video {
+/* Pin the <video> to its .intro parent (which is itself fixed-inset:0
+   = always exactly the viewport box, regardless of iOS Safari toolbar
+   state). Using `100%` of the parent — not 100vh/100dvh — sidesteps
+   every quirk where iOS Safari computes those units differently
+   depending on URL-bar visibility, scroll lock, or PWA mode.
+   `object-fit: cover` then crops the 1366×768 landscape source so it
+   fills a portrait phone viewport without bands. Scoped to `.intro video`
+   so it never collides with any future <video> elsewhere on the page. */
+.intro video {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  height: 100dvh;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   display: block;
 }

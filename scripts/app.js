@@ -34,6 +34,26 @@
     }, 4800);
   }
 
+  // ---------- 1b. Intro video — explicit play + diagnostic ----------
+  // The <video> has autoplay/muted/playsinline, which SHOULD be enough
+  // for iOS Safari to autoplay. But Low Power Mode, Data Saver, slow
+  // connection on the 16MB file, or unmet user-gesture heuristics can
+  // all leave it paused at frame 1. Explicitly calling .play() — and
+  // catching the rejection — surfaces failures in DevTools instead of
+  // silently showing a static frame as if it were a poster image.
+  var introVideo = document.querySelector(".intro video");
+  if (introVideo && !reduceMotion) {
+    // iOS sometimes needs muted set via property (the attribute alone
+    // doesn't always count toward the "muted media autoplay" allowance).
+    introVideo.muted = true;
+    var playPromise = introVideo.play();
+    if (playPromise && typeof playPromise.then === "function") {
+      playPromise.catch(function (err) {
+        console.warn("[intro] video autoplay blocked:", err && err.name, err && err.message);
+      });
+    }
+  }
+
   // ---------- 2. Section reveals via IntersectionObserver ----------
   // Named `revealIO` (not `io`) to avoid clashing with the carousel
   // IntersectionObserver further down. Both used to be `var io` in
