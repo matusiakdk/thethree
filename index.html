@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>the three</title>
+  <title>The Three — Private peer board for founders, every two weeks</title>
   <meta name="description" content="For founders in the hard early years: every two weeks, an honest hour with two others. Cross-industry. Starting in Dubai." />
 
   <!--
@@ -43,6 +43,43 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png" />
+
+  <!--
+    JSON-LD structured data. Tells Google explicitly that "The Three"
+    is an Organization with this URL/logo/description. Helps with the
+    knowledge panel long term and lets the site name show as
+    "The Three" instead of the domain in search results.
+    Two schemas in one block: Organization + WebSite.
+  -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://thethree.club/#organization",
+        "name": "The Three",
+        "url": "https://thethree.club",
+        "logo": "https://thethree.club/assets/images/og-image.png",
+        "description": "Private peer board for early-stage founders. Cross-industry calls, every two weeks. Starting in Dubai.",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "London",
+          "addressCountry": "GB"
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://thethree.club/#website",
+        "url": "https://thethree.club",
+        "name": "The Three",
+        "description": "Private peer board for founders, every two weeks.",
+        "publisher": { "@id": "https://thethree.club/#organization" },
+        "inLanguage": "en"
+      }
+    ]
+  }
+  </script>
 
   <!--
     Font preloads. Order doesn't matter (all crossorigin, parallel),

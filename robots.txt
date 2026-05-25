@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Pages Functions return JSON — no point indexing them.
+Disallow: /api/
+
+Sitemap: https://thethree.club/sitemap.xml
