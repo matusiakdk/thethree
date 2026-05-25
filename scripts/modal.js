@@ -90,17 +90,22 @@
   }
 
   function enrichEmail(email, fields) {
+    // keepalive: true lets the request survive the page unload that
+    // happens ~3.5s after submit (modal closes, user clicks footer link,
+    // tab backgrounded on mobile). Without it, mobile Safari can cancel
+    // the request and lose the enrichment data.
     fetch(SUPABASE_URL + "/rest/v1/rpc/enrich_waitlist", {
-      method: "POST",
-      headers: supabaseHeaders("return=minimal"),
-      body: JSON.stringify({
+      method:    "POST",
+      headers:   supabaseHeaders("return=minimal"),
+      body:      JSON.stringify({
         p_email:      email,
         p_first_name: fields.firstName || null,
         p_stage:      fields.stage     || null,
         p_industry:   fields.industry  || null,
         p_country:    fields.country   || null,
         p_source:     fields.source    || null
-      })
+      }),
+      keepalive: true
     }).catch(function (err) {
       console.error("[waitlist] enrichEmail failed", err);
     });
@@ -115,10 +120,14 @@
   // (welcome email), follow-up call after enrichment fills in name
   // and other fields for future campaigns.
   function pushToLoops(payload) {
+    // keepalive: same reasoning as enrichEmail. The welcome transactional
+    // fires from /api/loops; if the page unloads before the request
+    // completes the user never gets their welcome mail.
     fetch("/api/loops", {
-      method:  "POST",
-      headers: { "Content-Type": "application/json" },
-      body:    JSON.stringify(payload)
+      method:    "POST",
+      headers:   { "Content-Type": "application/json" },
+      body:      JSON.stringify(payload),
+      keepalive: true
     }).catch(function (err) {
       console.error("[waitlist] pushToLoops failed", err);
     });
@@ -342,6 +351,12 @@
       if (!combobox.contains(e.target)) closeList();
     });
 
+    // Expose a close-only handle so modal close() can dismiss any open
+    // listbox panel. Without this, a user who opened the country/industry
+    // dropdown, then dismissed the modal via Esc/backdrop, would re-open
+    // the modal with the panel still expanded.
+    combobox._close = closeList;
+
     // Expose a reset for the form's resetForm() to call between sessions.
     combobox._reset = function (defaultValue) {
       var opts = options();
@@ -372,6 +387,9 @@
 
   var lastFocus  = null;
   var closeTimer = null;  // pending 3.5s auto-close after Done; cleared on any manual close
+  var resetTimer = null;  // pending 4.1s post-close reset; MUST also be cleared on
+                          // manual close, otherwise it can wipe a new in-progress
+                          // session if the user re-opens the modal within ~4s.
 
   function open() {
     lastFocus = document.activeElement;
@@ -386,6 +404,12 @@
 
   function close() {
     if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
+    if (resetTimer) { clearTimeout(resetTimer); resetTimer = null; }
+    // Force any open combobox listbox shut — otherwise a re-open would
+    // surface the panel still expanded with last highlight intact.
+    modal.querySelectorAll(".combobox").forEach(function (cb) {
+      if (typeof cb._close === "function") cb._close();
+    });
     modal.classList.remove("is-open");
     modal.setAttribute("aria-hidden", "true");
     document.documentElement.style.overflow = "";
@@ -408,8 +432,14 @@
                  + ' [tabindex]:not([tabindex="-1"])';
     return Array.prototype.slice.call(modal.querySelectorAll(selector))
       .filter(function (el) {
-        // Drop hidden elements (e.g. the success block when not active)
-        return !el.hidden && el.offsetParent !== null;
+        // Drop hidden / display:none / inside a [hidden] subtree. Using
+        // getClientRects() instead of offsetParent — offsetParent is
+        // null for position:fixed elements (modal panel + its children),
+        // which would incorrectly drop the entire modal from the tab
+        // ring including the X close button.
+        if (el.hidden) return false;
+        if (el.closest("[hidden]")) return false;
+        return el.getClientRects().length > 0;
       });
   }
 
@@ -621,7 +651,12 @@
     });
     // Any keystroke clears a stale feedback message so the user isn't
     // looking at outdated text while they're correcting their input.
-    input.addEventListener("input", clearFb);
+    // Skip during an in-flight submit — otherwise typing one character
+    // mid-roundtrip wipes the "Checking…" or upcoming "already on the
+    // list" feedback before the user sees it.
+    input.addEventListener("input", function () {
+      if (!isSubmitting) clearFb();
+    });
   });
 
   function isValidEmail(value) {
@@ -681,7 +716,14 @@
     // Reset slightly after close so the modal's fade-out doesn't reveal
     // a flicker of the form returning. resetForm is harmless if called
     // after the modal has been removed.
-    setTimeout(resetForm, 4100);
+    //
+    // Tracked via resetTimer so close() can cancel it — otherwise this
+    // timer can fire ~600ms after a manual close, wiping the form a
+    // newly re-opened second session is mid-way through filling.
+    resetTimer = setTimeout(function () {
+      resetTimer = null;
+      resetForm();
+    }, 4100);
   }
 
   function resetForm() {

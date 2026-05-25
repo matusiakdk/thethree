@@ -82,11 +82,12 @@ export async function onRequestPost(context) {
     }
   }
 
-  const text = await contactRes.text();
-  return new Response(text, {
-    status: contactRes.status,
-    headers: { "Content-Type": "application/json" }
-  });
+  // Don't proxy Loops' raw response back to the browser — it may include
+  // internal error details, plan-limit messages, or contact metadata
+  // that has no business surfacing in a frontend DevTools console.
+  // The frontend treats this as fire-and-forget anyway, so a minimal
+  // ack is enough.
+  return json({ ok: contactRes.ok }, contactRes.ok ? 200 : 502);
 }
 
 function json(obj, status) {

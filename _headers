@@ -14,7 +14,16 @@
 /styles/*
   Cache-Control: public, max-age=0, must-revalidate
 
-/functions/*
+# Cloudflare Pages glob /* matches greedy segments — but list the
+# subfolder explicitly so the CSS files under styles/sections never
+# silently revert to long cache if glob semantics change.
+/styles/sections/*
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Pages Functions are invoked at the routes they export (not at the
+# /functions/* source path). Loops POSTs return JSON that's specific to
+# a single submit — never cache them.
+/api/*
   Cache-Control: no-store
 
 /assets/*
