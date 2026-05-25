@@ -323,21 +323,52 @@
 
   modal.querySelectorAll(".combobox").forEach(setupCombobox);
 
-  // ---------- "Seen" flag (localStorage) ----------
-  // Once the user has opened the modal, we don't show it again — even on
-  // return visits or a second JOIN click in the same session. Skip,
-  // submit, X, Esc, backdrop click all count as "seen". The flag is set
-  // when the modal closes, not when it opens — they have to actually see
-  // it to be considered done with it.
-  var STORAGE_KEY = "thethree:modal:seen";
+  // ---------- "Seen" tracking (per-email, in localStorage) ----------
+  // We track which *emails* have already gone through the modal on this
+  // browser — not a single browser-wide boolean. This unblocks the
+  // shared-device case (two founders on the same laptop, different
+  // emails) which a global flag silently broke: the second friend would
+  // hit "you're already in" even though their email had never been
+  // submitted.
+  //
+  // Skip, submit, X, Esc, backdrop click — all count as "seen" for the
+  // current email. Set on close (not on open) so the email has to
+  // actually have been *engaged with* to count.
+  //
+  // Storage shape: JSON array of lowercased trimmed emails.
+  // localStorage limits (~5MB) are far above what this can ever fill.
+  var STORAGE_KEY = "thethree:modal:seenEmails";
 
-  function hasSeenModal() {
-    try { return localStorage.getItem(STORAGE_KEY) === "1"; }
-    catch (e) { return false; }
+  function normalizeEmail(email) {
+    return (email || "").toLowerCase().trim();
   }
-  function markModalSeen() {
-    try { localStorage.setItem(STORAGE_KEY, "1"); }
-    catch (e) { /* localStorage may be blocked (private mode, etc.) — no-op */ }
+
+  function getSeenEmails() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return [];
+      var parsed = JSON.parse(raw);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function hasEmailBeenSeen(email) {
+    var normalized = normalizeEmail(email);
+    if (!normalized) return false;
+    return getSeenEmails().indexOf(normalized) !== -1;
+  }
+
+  function markEmailAsSeen(email) {
+    var normalized = normalizeEmail(email);
+    if (!normalized) return;
+    try {
+      var emails = getSeenEmails();
+      if (emails.indexOf(normalized) !== -1) return;
+      emails.push(normalized);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(emails));
+    } catch (e) { /* localStorage may be blocked (private mode, etc.) — no-op */ }
   }
 
   // ---------- Open / close ----------
@@ -361,7 +392,9 @@
     modal.classList.remove("is-open");
     modal.setAttribute("aria-hidden", "true");
     document.documentElement.style.overflow = "";
-    markModalSeen();
+    // Mark THIS email as seen — not the browser globally. Lets the next
+    // friend on the same laptop with a different email actually sign up.
+    markEmailAsSeen(modal.dataset.email);
     if (lastFocus && typeof lastFocus.focus === "function") {
       lastFocus.focus();
     }
@@ -547,9 +580,12 @@
       insertEmail(email);
       // Mirror into Loops so the welcome workflow fires immediately.
       pushToLoops({ email: email });
-      // Already engaged with the modal once? Don't show it again, but
-      // do confirm the user is on the list so the click isn't silent.
-      if (hasSeenModal()) {
+      // This specific email already gone through the modal on this
+      // browser? Skip the modal but confirm the signup so the click
+      // isn't silent. A different email (e.g. a friend on the same
+      // laptop) gets the full modal — that's the whole point of
+      // tracking per-email instead of per-browser.
+      if (hasEmailBeenSeen(email)) {
         showFb("You’re already in. We’ll email you the moment The Three opens.", "success");
         return;
       }
