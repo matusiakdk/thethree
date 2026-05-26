@@ -1,30 +1,19 @@
 # Cloudflare Pages cache control.
-# Default Pages cache for static assets is generous, which means a deploy
-# of scripts/*.js or styles/*.css can take hours to reach a browser that
-# already has the old file cached. Force revalidation so every page load
-# re-checks freshness (ETag returns 304 when nothing changed — cheap).
 #
-# HTML is left to Pages' defaults (always revalidated by Cloudflare).
-# Assets in /assets (fonts, video, images) keep long cache because they
-# are large and rarely change; bump their filename if you need to bust.
+# Earlier rules with `/styles/*` + `/scripts/*` + explicit
+# `/styles/sections/*` failed silently — the CDN kept serving 4-hour
+# cache headers, so a CSS deploy could sit invisible for hours. Switched
+# to the simplest possible model: catch-all force-revalidate, then a
+# single override for the only path that really should cache long.
+#
+# More specific paths win, so /assets/* still gets its long cache,
+# /api/* (Pages Functions) is explicitly no-store.
 
-/scripts/*
+/*
   Cache-Control: public, max-age=0, must-revalidate
-
-/styles/*
-  Cache-Control: public, max-age=0, must-revalidate
-
-# Cloudflare Pages glob /* matches greedy segments — but list the
-# subfolder explicitly so the CSS files under styles/sections never
-# silently revert to long cache if glob semantics change.
-/styles/sections/*
-  Cache-Control: public, max-age=0, must-revalidate
-
-# Pages Functions are invoked at the routes they export (not at the
-# /functions/* source path). Loops POSTs return JSON that's specific to
-# a single submit — never cache them.
-/api/*
-  Cache-Control: no-store
 
 /assets/*
-  Cache-Control: public, max-age=604800
+  Cache-Control: public, max-age=604800, immutable
+
+/api/*
+  Cache-Control: no-store
