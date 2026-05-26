@@ -43,6 +43,30 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  /* The intro video is decorative — when autoplay succeeds you see
+     motion behind the title; when it fails (iOS Low Power Mode, slow
+     4G, Data Saver, etc.) the sage `.intro` background + animated
+     title carry the splash on their own. Block all user interaction
+     so a tap on the playing video does nothing surprising. */
+  pointer-events: none;
+}
+
+/* Kill every browser-injected video chrome that can surface when
+   autoplay is blocked. Without this, iOS Safari overlays a giant
+   center play-triangle on the frozen first frame (reported in the
+   wild) and Android Chrome shows a smaller equivalent. We never
+   want the user to manually play — better the splash falls back
+   silently to the sage background than show an ugly play button. */
+.intro video::-webkit-media-controls,
+.intro video::-webkit-media-controls-enclosure,
+.intro video::-webkit-media-controls-panel,
+.intro video::-webkit-media-controls-play-button,
+.intro video::-webkit-media-controls-start-playback-button {
+  display: none !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 
 .title {
