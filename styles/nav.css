@@ -15,7 +15,12 @@
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--ink);
-  text-decoration: none;
+  /* !important is paranoia, not specificity — defensive against any
+     UA stylesheet or browser-extension injection that might re-add a
+     default anchor underline. The element is a logo, the line never
+     belongs here. */
+  text-decoration: none !important;
+  border-bottom: none;
   cursor: pointer;
   transition: color 200ms ease;
   opacity: 0;
