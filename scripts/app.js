@@ -56,6 +56,27 @@
     }
   }
 
+  // ---------- 1c. Logo click → smooth scroll to top ----------
+  // The .logo is an <a href="#"> so it stays keyboard-focusable and
+  // works as a fallback if JS fails (browser jumps to top on empty
+  // fragment). With JS we override the jump for a smooth scroll, and
+  // wipe any leftover hash from the URL so the address bar stays
+  // clean. Honours prefers-reduced-motion: those users get an instant
+  // jump instead of an animated scroll.
+  var logoEl = document.querySelector(".logo");
+  if (logoEl) {
+    logoEl.addEventListener("click", function (e) {
+      e.preventDefault();
+      window.scrollTo({
+        top: 0,
+        behavior: reduceMotion ? "auto" : "smooth"
+      });
+      if (window.location.hash) {
+        history.replaceState(null, "", window.location.pathname);
+      }
+    });
+  }
+
   // ---------- 2. Section reveals via IntersectionObserver ----------
   // Named `revealIO` (not `io`) to avoid clashing with the carousel
   // IntersectionObserver further down. Both used to be `var io` in
