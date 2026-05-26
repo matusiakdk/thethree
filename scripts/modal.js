@@ -599,8 +599,22 @@
       btn.textContent = submitting ? "Checking…" : originalBtnText;
     }
 
+    // Honeypot field — invisible to humans, but spam bots populate
+    // every input by name. If this is filled at submit time, we fake a
+    // success state (so the bot moves on and doesn't retry from a
+    // different IP) and never write the email to Supabase or Loops.
+    var honeypot = f.querySelector(".hp-field");
+
     function attemptOpen() {
       if (isSubmitting) return;
+
+      // Silent bot trap. Fake success keeps the bot from learning the
+      // honeypot is there and adapting.
+      if (honeypot && honeypot.value) {
+        showFb("You’re on the list. Look out for an email shortly.", "success");
+        input.value = "";
+        return;
+      }
 
       var email = input.value.trim();
       if (!email) {

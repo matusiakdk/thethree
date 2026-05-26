@@ -122,3 +122,18 @@
 .form-feedback[data-state="success"] {
   color: var(--accent);
 }
+
+/* Honeypot — invisible field that traps spam bots. Off-screen
+   positioning (not display:none) so bot scrapers still see it in the
+   DOM and dutifully fill it. pointer-events:none + tabindex=-1 (on
+   the element) keep humans from ever interacting with it. */
+.hp-field {
+  position: absolute !important;
+  left: -10000px !important;
+  top: auto !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}

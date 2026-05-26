@@ -173,6 +173,12 @@
           <label class="waitlist__label" for="hero-email">Join the waitlist</label>
           <form class="waitlist__form" onsubmit="return false">
             <input class="waitlist__input" id="hero-email" name="email" type="email" placeholder="Your email" autocomplete="email" aria-required="true" />
+            <!-- Honeypot — hidden from humans (off-screen + aria-hidden +
+                 tabindex -1 + autocomplete off), but spam bots typically
+                 fill every input by name. If this field has any value at
+                 submit time, the JS treats it as a bot and silently fakes
+                 success without writing to Supabase or Loops. -->
+            <input class="hp-field" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
             <button class="waitlist__btn" type="button">Join</button>
           </form>
           <p class="form-feedback" role="status" aria-live="polite" hidden></p>
@@ -352,6 +358,8 @@
         <form class="cta-form" onsubmit="return false">
           <label class="visually-hidden" for="cta-email">Email address</label>
           <input class="waitlist__input" id="cta-email" name="email" type="email" placeholder="Your email" autocomplete="email" aria-required="true" />
+          <!-- Honeypot — see hero form for the full rationale. -->
+          <input class="hp-field" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
           <button class="waitlist__btn" type="button">Join</button>
         </form>
         <p class="form-feedback" role="status" aria-live="polite" hidden></p>
