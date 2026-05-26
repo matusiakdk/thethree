@@ -75,7 +75,13 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 4.6vh;
+  /* Tightened from 4.6vh — the previous gap broke the visual rhythm
+     between the three numbered steps, making each feel like its own
+     unrelated section rather than a 3-step process. 2vh keeps clear
+     separation but pulls 02 + 03 close enough that the eye reads them
+     as a continuous list. The hand-drawn .how-line height is 82% of
+     this container so it scales down with the new gap. */
+  gap: 2vh;
   padding-left: 3.2vw;
 }
 
