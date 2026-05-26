@@ -107,7 +107,9 @@
 /* ---------- Inline form feedback ----------
    Used by both the hero waitlist form AND the closing cta form to show
    transient messages: empty email, invalid format, or "you're already
-   on the list" when the user has signed up before (localStorage flag).
+   on the list" (checked against Supabase via insertEmail — the
+   localStorage fast-path was removed; Supabase is the only source of
+   truth for waitlist membership).
    Hidden by default via [hidden] attribute; revealed by scripts/modal.js
    which clears it on the next keystroke. */
 

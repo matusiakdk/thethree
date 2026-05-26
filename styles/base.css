@@ -113,8 +113,8 @@ main:focus-visible {
    Users with vestibular disorders, migraines, attention sensitivity,
    or just personal preference can request reduced motion at the OS
    level. We respect that:
-   - The 4.7s intro splash is skipped entirely — no roll-up, no
-     auto-playing video, no scroll lock. Page content is reachable
+   - The intro splash (ends t=4.7s) is skipped entirely — no roll-up,
+     no auto-playing video, no scroll lock. Page content is reachable
      from the first paint.
    - The hero waitlist appears immediately (CSS rule + JS sets the
      .wl-revealed class on load when reduced-motion is requested).

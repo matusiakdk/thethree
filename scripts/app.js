@@ -12,9 +12,11 @@
       modifier added here; nothing animates until then.
 
    The hero is special: its `wl-revealed` class is added either on
-   first scroll intent (wheel/touch/scroll) or after a 10.4s timer,
-   whichever comes first. Scroll listeners attach at t=6.5s so
-   they don't catch the intro's own programmatic motion.
+   first scroll intent (wheel/touch/scroll) or after a fallback timer
+   (8.9s desktop / 10.4s mobile — desktop opens earlier because
+   typical desktop users don't scroll until prompted, mobile users
+   reach the CTA via touch quickly). Scroll listeners attach at
+   t=6.5s so they don't catch the intro's own programmatic motion.
    ============================================================ */
 
 (function () {

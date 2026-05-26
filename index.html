@@ -100,7 +100,12 @@
     slow connections. Hinting it here lets the browser start the
     download in parallel with the CSS/fonts.
   -->
-  <link rel="preload" href="assets/video/the.mp4" as="video" type="video/mp4" />
+  <!-- Skip the preload for reduced-motion users — they never see the intro
+       (the .intro element is display:none under that media query), so
+       pre-fetching the 1.8MB video is wasted bandwidth on metered
+       connections / accessibility profiles. -->
+  <link rel="preload" href="assets/video/the.mp4" as="video" type="video/mp4"
+        media="(prefers-reduced-motion: no-preference)" />
 
   <!--
     Stylesheets are loaded in cascade order. Do not reshuffle:
@@ -369,7 +374,7 @@
       <footer class="site-footer">
         <a href="mailto:hello@thethree.club" class="footer-link">hello@thethree.club</a>
         <span class="footer-dot">&middot;</span>
-        <span>&copy; The Three 2025</span>
+        <span>&copy; The Three 2026</span>
         <span class="footer-dot">&middot;</span>
         <a href="privacy.html" class="footer-link">Privacy</a>
       </footer>
