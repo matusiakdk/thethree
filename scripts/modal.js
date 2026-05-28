@@ -641,7 +641,7 @@
         // confirmation message, do NOT open the modal, do NOT re-fire
         // the welcome transactional.
         if (wasNew === false) {
-          showFb("You’re already in. We’ll email you the moment The Three opens.", "success");
+          showFb("You’re already in. I’ll email you the moment The Three opens.", "success");
           return;
         }
 

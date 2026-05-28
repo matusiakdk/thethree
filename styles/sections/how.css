@@ -20,7 +20,7 @@
      -padded slab with big empty bands top and bottom. With min-height
      removed the section sizes naturally to content + padding. */
   min-height: 0;
-  padding: 5vh 6vw;
+  padding: 7vh 6vw;
   border-top: 1px solid rgba(243, 237, 230, 0.09);
 }
 
@@ -39,6 +39,10 @@
 /* Per-section vertical anchor overrides */
 .screen--how .sec-head { margin-top: 4vh; }
 .screen--who .sec-head { margin-top: 5vh; }
+
+/* More air between the sub ("Three founders…") and the note ("No
+   curriculum…") in the How left column so they read as two beats. */
+.screen--how .sec-note { margin-top: 6vh; }
 
 .sec-title {
   margin: 0;
@@ -81,7 +85,7 @@
      separation but pulls 02 + 03 close enough that the eye reads them
      as a continuous list. The hand-drawn .how-line height is 82% of
      this container so it scales down with the new gap. */
-  gap: 2vh;
+  gap: 3vh;
   padding-left: 3.2vw;
 }
 
@@ -193,14 +197,16 @@
   max-width: 32em;
 }
 
-/* Italic V1-honesty footnote — used under step 04. Dimmer than .step__desc
-   so it reads as a caveat, not a promise. */
+/* Italic V1-honesty footnote — used under step 04. Set in Newsreader
+   italic (a real italic face the site already ships, not faux-obliqued
+   Neue Montreal) so it reads unmistakably as an aside, and given a clear
+   top margin so it separates from the step body instead of trailing it. */
 .step__note {
-  margin: 1.2vh 0 0;
-  font-family: "Neue Montreal", sans-serif;
+  margin: 3vh 0 0;
+  font-family: "Newsreader", serif;
   font-style: italic;
-  font-size: 0.92vw;
+  font-size: 1vw;
   line-height: 1.5;
-  color: rgba(243, 237, 230, 0.4);
+  color: rgba(243, 237, 230, 0.45);
   max-width: 32em;
 }
