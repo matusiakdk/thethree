@@ -120,9 +120,12 @@
     transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* The .how-line SVG is .how-steps' first child, so the steps are
+   nth-child 2..5. Stagger each step's reveal a beat after the last. */
 .how-steps.revealed .step { opacity: 1; transform: none; }
 .how-steps.revealed .step:nth-child(3) { transition-delay: 0.18s; }
 .how-steps.revealed .step:nth-child(4) { transition-delay: 0.36s; }
+.how-steps.revealed .step:nth-child(5) { transition-delay: 0.54s; }
 
 /* Middle step is indented slightly for a hand-laid feel */
 .step--offset { gap: 4.6vw; }
@@ -190,28 +193,14 @@
   max-width: 32em;
 }
 
-/* Footer note under the steps block */
-.how-extra {
-  margin: 6vh 0 0 40%;
-  padding-top: 3.4vh;
-  border-top: 1px solid rgba(243, 237, 230, 0.13);
+/* Italic V1-honesty footnote — used under step 04. Dimmer than .step__desc
+   so it reads as a caveat, not a promise. */
+.step__note {
+  margin: 1.2vh 0 0;
   font-family: "Neue Montreal", sans-serif;
-  font-size: 0.96vw;
+  font-style: italic;
+  font-size: 0.92vw;
   line-height: 1.5;
-  color: var(--muted);
-  max-width: 30em;
-}
-
-/* The leading question is styled as a mini-label — same uppercase /
-   tracked / muted treatment as .waitlist__label in the hero — so the
-   sage call-to-action below reads as the action that answers it.
-   Pattern mirrors the [LABEL] → [form/action] block in the hero. */
-.how-extra__q {
-  display: block;
-  margin-bottom: 1.4em;
-  font-family: "Neue Montreal", sans-serif;
-  font-size: 0.86vw;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: var(--muted);
+  color: rgba(243, 237, 230, 0.4);
+  max-width: 32em;
 }
