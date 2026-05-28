@@ -97,11 +97,6 @@
   animation: rise-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) 6.5s forwards;
 }
 
-.hero-audience__dot {
-  margin: 0 0.5em;
-  color: var(--accent);
-}
-
 .tagline {
   margin: 3vh 0 0;
   max-width: 30em;
