@@ -196,17 +196,3 @@
   color: var(--muted);
   max-width: 32em;
 }
-
-/* Italic V1-honesty footnote — used under step 04. Set in Newsreader
-   italic (a real italic face the site already ships, not faux-obliqued
-   Neue Montreal) so it reads unmistakably as an aside, and given a clear
-   top margin so it separates from the step body instead of trailing it. */
-.step__note {
-  margin: 3vh 0 0;
-  font-family: "Newsreader", serif;
-  font-style: italic;
-  font-size: 1vw;
-  line-height: 1.5;
-  color: rgba(243, 237, 230, 0.45);
-  max-width: 32em;
-}
