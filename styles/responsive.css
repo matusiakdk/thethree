@@ -33,10 +33,13 @@
 
   /* --- hero (screen 1) --- */
   .screen--1 { padding-top: 12vh; }
-  /* Hide "Cross-industry · Dubai" kicker on mobile — context already
-     conveyed in the headline and the dedicated Who/Why sections; on a
-     narrow screen this label fights the headline for top space. */
-  .kicker { display: none; }
+  /* Kicker now carries the cohort + "Forming now" framing — too important
+     to hide on mobile (it's what reframes the page from "future maybe" to
+     "real event"). Kept small so it doesn't fight the headline for top space. */
+  .kicker { font-size: 2.9vw; margin-bottom: 2.5vw; }
+  /* Audience qualifier ("who it's for") — the single most important line on
+     the page, so it stays visible and legible on mobile. */
+  .hero-audience { font-size: 3.3vw; margin-top: 3.5vw; letter-spacing: 0.03em; }
   /* H2 (.tagline) was 5vw — too close to H1 (9.5vw) on mobile, the two
      read as the same weight and the hierarchy flattened. 4vw opens a real
      gap so the eye gets H1 (large) → tagline (mid) → sub (small). */

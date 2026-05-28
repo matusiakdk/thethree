@@ -81,6 +81,27 @@
   animation: rise-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) 5.05s forwards;
 }
 
+/* Audience qualifier — sits between the headline and the tagline.
+   Its job is to lock "who this is for" in one read. Animates in on the
+   beat after the hand-drawn circle (6.05s) and before the tagline (6.9s).
+   Unlike .kicker, this one stays visible on mobile (see responsive.css). */
+.hero-audience {
+  margin: 2.6vh 0 0;
+  font-family: "Neue Montreal", sans-serif;
+  font-weight: 400;
+  font-size: 1.15vw;
+  letter-spacing: 0.05em;
+  color: var(--ink);
+  opacity: 0;
+  transform: translateY(14px);
+  animation: rise-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) 6.5s forwards;
+}
+
+.hero-audience__dot {
+  margin: 0 0.5em;
+  color: var(--accent);
+}
+
 .tagline {
   margin: 3vh 0 0;
   max-width: 30em;

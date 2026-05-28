@@ -146,7 +146,7 @@
   color: var(--ink);
 }
 
-/* Inline circled phrase inside step 3 — "return the favor" */
+/* Inline circled phrase inside step 3 — "return the favour" */
 .step__circ {
   position: relative;
   display: inline-block;
@@ -155,7 +155,7 @@
 .step-circle {
   position: absolute;
   /* Geometry tuned so the oval has clear breathing room around the
-     "return the favor" text AND doesn't reach up into the previous
+     "return the favour" text AND doesn't reach up into the previous
      line ("Bring your question,") when the phrase wraps onto its
      own line on mobile. -15/130 horizontally = 15% gutter each side;
      -20/140 vertically = 20% above/below, well inside the line gap. */
