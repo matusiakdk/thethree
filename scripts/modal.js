@@ -677,56 +677,6 @@
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
   }
 
-  // ============================================================
-  // SEAT COUNTER — live "N seats left" on the founding-100 note
-  // ============================================================
-  // The waitlist table isn't readable with the anon key under RLS, so
-  // the count comes from a SECURITY DEFINER `waitlist_count()` RPC that
-  // returns only an aggregate (no emails leak). If that RPC isn't present
-  // yet, or the call fails, we leave the static note text exactly as
-  // authored — never invent a number. Any element with [data-seat-counter]
-  // gets " · N seats left" appended once the real count lands.
-  var FOUNDING_TOTAL = 100;
-
-  function fetchWaitlistCount() {
-    return fetch(SUPABASE_URL + "/rest/v1/rpc/waitlist_count", {
-      method:  "POST",
-      headers: supabaseHeaders("return=representation"),
-      body:    "{}"
-    }).then(function (res) {
-      if (!res.ok) return null;
-      return res.text().then(function (text) {
-        if (!text) return null;
-        var data;
-        try { data = JSON.parse(text); }
-        catch (e) { return null; }
-        if (typeof data === "number") return data;
-        if (Array.isArray(data) && typeof data[0] === "number") return data[0];
-        if (data && typeof data === "object" && typeof data.waitlist_count === "number") {
-          return data.waitlist_count;
-        }
-        return null;
-      });
-    }).catch(function () { return null; });
-  }
-
-  function renderSeatsLeft() {
-    var notes = document.querySelectorAll("[data-seat-counter]");
-    if (!notes.length) return;
-    fetchWaitlistCount().then(function (count) {
-      if (count === null || isNaN(count)) return;
-      var left = Math.max(0, FOUNDING_TOTAL - count);
-      if (left <= 0) return; // founding 100 full — keep the static note
-      notes.forEach(function (el) {
-        var base = el.dataset.seatBase || el.textContent;
-        el.dataset.seatBase = base;
-        el.textContent = base + " · " + left + (left === 1 ? " seat left" : " seats left");
-      });
-    });
-  }
-
-  renderSeatsLeft();
-
   // ---------- Form submit ----------
   // Done → show success state for 3.5s → auto-close. X remains available
   // for immediate close at any point (the click handler calls close()
