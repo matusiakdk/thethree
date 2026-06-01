@@ -25,7 +25,7 @@
 
 .waitlist__label {
   font-family: "Neue Montreal", sans-serif;
-  font-size: 0.86vw;
+  font-size: clamp(0.7rem, 0.86vw, 0.95rem);
   text-transform: uppercase;
   letter-spacing: 0.2em;
   color: var(--muted);
@@ -46,7 +46,7 @@
   border-right: none;
   color: var(--ink);
   font-family: "Neue Montreal", sans-serif;
-  font-size: 1.02vw;
+  font-size: clamp(0.85rem, 1.02vw, 1.1rem);
   padding: 1.05em 1.2em;
 }
 
@@ -63,7 +63,7 @@
   color: var(--bg);
   border: 1px solid var(--ink);
   font-family: "Gordita", sans-serif;
-  font-size: 1.02vw;
+  font-size: clamp(0.85rem, 1.02vw, 1.1rem);
   text-transform: uppercase;
   letter-spacing: 0.1em;
   padding: 1.05em 2.2vw;
@@ -79,7 +79,7 @@
 .waitlist__note {
   margin: 1.5vh 0 0;
   font-family: "Neue Montreal", sans-serif;
-  font-size: 0.96vw;
+  font-size: clamp(0.8rem, 0.96vw, 1.05rem);
   letter-spacing: 0.01em;
   color: var(--accent);
 }
@@ -88,7 +88,7 @@
 .waitlist__legal {
   margin: 0.9vh 0 0;
   font-family: "Neue Montreal", sans-serif;
-  font-size: 0.78vw;
+  font-size: clamp(0.65rem, 0.78vw, 0.85rem);
   letter-spacing: 0.01em;
   color: rgba(243, 237, 230, 0.38);
   line-height: 1.5;
@@ -116,7 +116,7 @@
 .form-feedback {
   margin: 1.4vh 0 0;
   font-family: "Neue Montreal", sans-serif;
-  font-size: 0.96vw;
+  font-size: clamp(0.8rem, 0.96vw, 1.05rem);
   letter-spacing: 0.01em;
   color: var(--ink);
 }

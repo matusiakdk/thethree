@@ -32,7 +32,10 @@
   text-align: right;
   font-family: "Gordita", sans-serif;
   font-weight: 300;
-  font-size: 3.3vw;
+  /* Fluid-but-capped: vw scales smoothly on standard widths, then stops
+     so the panel doesn't balloon on ultrawide. The mobile responsive
+     block hides this element entirely (<=760px), so no min concerns. */
+  font-size: clamp(1.2rem, 3.3vw, 3rem);
   line-height: 1.16;
   letter-spacing: 0.004em;
   color: var(--ink);
@@ -71,7 +74,7 @@
 .kicker {
   display: block;
   font-family: "Neue Montreal", sans-serif;
-  font-size: 0.95vw;
+  font-size: clamp(0.72rem, 0.95vw, 1rem);
   text-transform: uppercase;
   letter-spacing: 0.22em;
   color: var(--muted);
@@ -89,7 +92,7 @@
   margin: 2.6vh 0 0;
   font-family: "Neue Montreal", sans-serif;
   font-weight: 400;
-  font-size: 1.15vw;
+  font-size: clamp(0.85rem, 1.15vw, 1.2rem);
   letter-spacing: 0.05em;
   color: var(--ink);
   opacity: 0;
@@ -102,7 +105,7 @@
   max-width: 30em;
   font-family: "Role Serif", "Newsreader", serif;
   font-weight: 400;
-  font-size: 1.6vw;
+  font-size: clamp(1rem, 1.6vw, 1.8rem);
   line-height: 1.46;
   letter-spacing: 0;
   color: var(--ink);
@@ -115,7 +118,9 @@
   margin: 0;
   font-family: "Gordita", sans-serif;
   font-weight: 300;
-  font-size: 6vw;
+  /* Fluid up to ~1867px viewport (where 6vw == 7rem), capped after so
+     the headline doesn't ballon to 120px+ on ultrawide. */
+  font-size: clamp(2.4rem, 6vw, 7rem);
   line-height: 1.04;
   letter-spacing: 0.004em;
   text-transform: uppercase;
@@ -199,7 +204,7 @@
   max-width: 40em;
   font-family: "Neue Montreal", sans-serif;
   font-weight: 400;
-  font-size: 1.05vw;
+  font-size: clamp(0.85rem, 1.05vw, 1.15rem);
   line-height: 1.62;
   color: var(--muted);
   opacity: 0;
