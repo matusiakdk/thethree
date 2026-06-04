@@ -15,7 +15,11 @@
 
 @media (max-width: 760px) {
   /* --- typography primitives --- */
-  .headline { font-size: 9.5vw; }
+  /* Was 9.5vw — at that size "YOUR PRIVATE BOARD" couldn't fit on one
+     line, wrapping to YOUR/PRIVATE/BOARD (3 sub-lines) + "OF three" =
+     4 visual lines total. 8vw fits the phrase on one line on every
+     phone width from ~360px up, giving a clean 2-line H1. */
+  .headline { font-size: 8vw; }
 
   /* --- nav + logo ---
      Tap targets: anchor text nodes alone are sub-30px tall; add padding +
@@ -43,8 +47,15 @@
   /* H2 (.tagline) was 5vw — too close to H1 (9.5vw) on mobile, the two
      read as the same weight and the hierarchy flattened. 4vw opens a real
      gap so the eye gets H1 (large) → tagline (mid) → sub (small). */
-  .tagline { font-size: 4vw; margin-top: 4vw; }
+  /* Bigger top margin (was 4vw) so the audience qualifier above and the
+     subhead read as two separate beats, not one wall of text. */
+  .tagline { font-size: 4vw; margin-top: 7vw; }
   .sub { font-size: 3.7vw; max-width: 92%; margin-top: 5vw; }
+  /* The body's middle sentence ("Unfiltered feedback from peers in the
+     same trenches.") restates what the tagline already says on mobile,
+     where both blocks sit cheek-to-jowl. Drop it on narrow screens; keep
+     it on desktop where the two blocks have room to breathe. */
+  .sub__wide { display: none; }
   /* Hero's bottom-right "Different industries..." block was the diagonal
      companion to the headline on desktop. On mobile the diagonal layout
      collapses into a vertical stack and the block becomes a redundant
@@ -59,12 +70,17 @@
        waiting. The 10.4s desktop timer feels broken on mobile. */
     opacity: 1;
     transition: none;
+    /* Bigger gap from the body paragraph above so the form label has
+       room to breathe — desktop's 5vh felt cramped on a 6-inch screen. */
+    margin-top: 8vh;
   }
   .waitlist__label { font-size: 3.5vw; }
   .waitlist__form { width: 100%; max-width: none; }
   .waitlist__input { font-size: 3.7vw; }
   .waitlist__btn { font-size: 3.7vw; padding: 1.05em 5vw; }
-  .waitlist__note { font-size: 3.4vw; }
+  /* Tighter to the form than desktop's 1.5vh — keeps the price line
+     visually attached to the input it modifies. */
+  .waitlist__note { font-size: 3.4vw; margin-top: 1vh; }
   .waitlist__legal { font-size: 2.9vw; }
   .form-feedback { font-size: 3.4vw; }
 
