@@ -182,8 +182,7 @@
   var PINNED_COUNTRIES = [
     "United Kingdom",
     "United States",
-    "United Arab Emirates",
-    "Poland"
+    "United Arab Emirates"
   ];
 
   function populateCountries() {
