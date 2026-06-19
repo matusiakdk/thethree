@@ -374,6 +374,19 @@
   color: var(--accent);
 }
 
+/* Separator between pinned countries and the alphabetical list —
+   non-interactive divider, skipped by keyboard nav in modal.js. */
+.combobox__option--separator {
+  cursor: default;
+  pointer-events: none;
+  color: rgba(243, 237, 230, 0.18);
+  font-size: 0.7em;
+  letter-spacing: 0.2em;
+  padding: 0.4em 1.2em;
+  border-top: 1px solid rgba(243, 237, 230, 0.08);
+  border-bottom: 1px solid rgba(243, 237, 230, 0.08);
+}
+
 /* ---------- Actions ---------- */
 
 .modal__actions {

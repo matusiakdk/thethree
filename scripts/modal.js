@@ -176,6 +176,16 @@
     "Zambia","Zimbabwe"
   ];
 
+  // Pinned at the top of the list — the markets we expect most
+  // founders to come from. Order is intentional (UK first), then a
+  // visual separator, then the rest of the world alphabetically.
+  var PINNED_COUNTRIES = [
+    "United Kingdom",
+    "United States",
+    "United Arab Emirates",
+    "Poland"
+  ];
+
   function populateCountries() {
     var countryCombo = modal.querySelector('[data-name="country"]');
     if (!countryCombo) return;
@@ -183,6 +193,12 @@
     if (!list) return;
 
     var html = "";
+    PINNED_COUNTRIES.forEach(function (c, i) {
+      html += '<li class="combobox__option" role="option" id="country-pin-' + i + '"'
+            + ' data-value="' + c + '">' + c + '</li>';
+    });
+    html += '<li class="combobox__option--separator" role="presentation">'
+          + '———</li>';
     COUNTRIES.forEach(function (c, i) {
       html += '<li class="combobox__option" role="option" id="country-opt-' + i + '"'
             + ' data-value="' + c + '">' + c + '</li>';
