@@ -374,18 +374,6 @@
   color: var(--accent);
 }
 
-/* Separator under UAE in the country list — non-interactive divider */
-.combobox__option--separator {
-  cursor: default;
-  pointer-events: none;
-  color: rgba(243, 237, 230, 0.18);
-  font-size: 0.7em;
-  letter-spacing: 0.2em;
-  padding: 0.4em 1.2em;
-  border-top: 1px solid rgba(243, 237, 230, 0.08);
-  border-bottom: 1px solid rgba(243, 237, 230, 0.08);
-}
-
 /* ---------- Actions ---------- */
 
 .modal__actions {

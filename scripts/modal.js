@@ -140,9 +140,8 @@
   var successEl   = modal.querySelector(".modal__success");
 
   // ---------- Country list ----------
-  // UAE pinned at top (project's launch market), then alphabetical.
-  // Stored here, not in HTML, to keep markup compact and the list
-  // easy to maintain.
+  // Full alphabetical list. Stored here, not in HTML, to keep markup
+  // compact and the list easy to maintain.
   var COUNTRIES = [
     "Afghanistan","Albania","Algeria","Andorra","Angola","Antigua and Barbuda",
     "Argentina","Armenia","Australia","Austria","Azerbaijan","Bahamas","Bahrain",
@@ -171,9 +170,10 @@
     "Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka",
     "Sudan","Suriname","Sweden","Switzerland","Syria","Taiwan","Tajikistan",
     "Tanzania","Thailand","Timor-Leste","Togo","Tonga","Trinidad and Tobago",
-    "Tunisia","Turkey","Turkmenistan","Tuvalu","Uganda","Ukraine","United Kingdom",
-    "United States","Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela",
-    "Vietnam","Yemen","Zambia","Zimbabwe"
+    "Tunisia","Turkey","Turkmenistan","Tuvalu","Uganda","Ukraine",
+    "United Arab Emirates","United Kingdom","United States","Uruguay",
+    "Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Yemen",
+    "Zambia","Zimbabwe"
   ];
 
   function populateCountries() {
@@ -182,27 +182,12 @@
     var list = countryCombo.querySelector(".combobox__list");
     if (!list) return;
 
-    // UAE pinned (project launch market), then a non-interactive separator,
-    // then the rest of the world alphabetically.
-    var html = '<li class="combobox__option" role="option" id="country-opt-ae"'
-             + ' data-value="United Arab Emirates" aria-selected="true">'
-             + 'United Arab Emirates</li>';
-    html += '<li class="combobox__option--separator" role="presentation">'
-          + '———</li>';
+    var html = "";
     COUNTRIES.forEach(function (c, i) {
       html += '<li class="combobox__option" role="option" id="country-opt-' + i + '"'
             + ' data-value="' + c + '">' + c + '</li>';
     });
     list.innerHTML = html;
-
-    // Mirror the default into the visible value + hidden input.
-    var valueEl = countryCombo.querySelector(".combobox__value");
-    var hidden  = countryCombo.querySelector('input[type="hidden"]');
-    if (valueEl) {
-      valueEl.textContent = "United Arab Emirates";
-      valueEl.classList.remove("is-placeholder");
-    }
-    if (hidden) hidden.value = "United Arab Emirates";
   }
 
   populateCountries();
@@ -750,10 +735,10 @@
       el.classList.remove("is-selected");
       el.setAttribute("aria-checked", "false");
     });
-    // Reset each custom dropdown to its default (UAE for country, blank for industry).
+    // Reset each custom dropdown to blank.
     var countryCb  = modal.querySelector('[data-name="country"]');
     var industryCb = modal.querySelector('[data-name="industry"]');
-    if (countryCb  && countryCb._reset)  countryCb._reset("United Arab Emirates");
+    if (countryCb  && countryCb._reset)  countryCb._reset(null);
     if (industryCb && industryCb._reset) industryCb._reset(null);
   }
 })();
